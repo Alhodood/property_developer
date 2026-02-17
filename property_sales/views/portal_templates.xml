@@ -1,0 +1,335 @@
+<odoo>
+  <template id="portal_lead_register" name="Lead Registration Form">
+  <t t-call="website.layout">
+    <div class="container my-5">
+
+      <!-- Page Header -->
+      <div class="text-center mb-5">
+        <h2 class="fw-bold" style="color:#1D3557; letter-spacing:1px;">Lead Registration</h2>
+        <p class="text-secondary" style="font-size:1.1rem;">Fill the form below and upload your documents</p>
+      </div>
+
+      <div class="card shadow p-5" style="border-radius:20px; background: #f8f9fa; border: 1px solid #e0e0e0;">
+
+        <form id="lead_form" action="/lead/register/submit" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+          <input type="hidden" name="token" t-att-value="token"/>
+
+          <!-- Basic Info -->
+          <div class="row g-3 mb-4">
+
+            <div class="col-md-12">
+              <label class="form-label fw-bold text-dark">Name <span class="text-danger">*</span></label>
+              <input class="form-control" name="name" type="text"
+                     required="required"
+                     placeholder="Enter Name"
+                     t-att-value="lead and lead.name or ''"/>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-bold text-dark">Email <span class="text-danger">*</span></label>
+              <input class="form-control" name="email" type="email"
+                     required="required"
+                     pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"
+                     placeholder="example@mail.com"
+                     t-att-value="lead and lead.email or ''"/>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-bold text-dark">Phone <span class="text-danger">*</span></label>
+              <input class="form-control" name="phone" type="tel"
+                     required="required"
+                     pattern="^[+]?[\d\s\-()]{6,20}$"
+                     placeholder="Enter Phone Number"
+                     t-att-value="lead and lead.phone or ''"/>
+            </div>
+
+          </div>
+
+          <!-- Address -->
+          <h4 class="fw-bold mt-4 text-primary">Address</h4>
+          <div class="row g-3 mt-2">
+
+            <div class="col-md-6">
+              <label class="form-label">Street</label>
+              <input class="form-control" name="street" type="text" placeholder="Street" t-att-value="lead and lead.street or ''"/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Street 2</label>
+              <input class="form-control" name="street2" type="text" placeholder="Street2" t-att-value="lead and lead.street2 or ''"/>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">City</label>
+              <input class="form-control" name="city" type="text" placeholder="City" t-att-value="lead and lead.city or ''"/>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">ZIP</label>
+              <input class="form-control" name="zip" type="text" placeholder="ZIP" t-att-value="lead and lead.zip or ''"/>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">State</label>
+              <select class="form-select" name="state_id" id="state_id" required="required">
+                <option value="">Select State</option>
+                <t t-foreach="states" t-as="s">
+                  <option t-att-value="s.id"
+                          t-att-data-country="s.country_id.id"
+                          t-att-selected="lead and lead.state_id and lead.state_id.id == s.id">
+                    <t t-esc="s.name"/>
+                  </option>
+                </t>
+              </select>
+            </div>
+
+            <div class="col-md-12">
+              <label class="form-label">Country</label>
+              <select class="form-select" name="country_id" id="country_id" required="required">
+                <option value="">Select Country</option>
+                <t t-foreach="countries" t-as="c">
+                  <option t-att-value="c.id"
+                          t-att-selected="lead and lead.country_id and lead.country_id.id == c.id">
+                    <t t-esc="c.name"/>
+                  </option>
+                </t>
+              </select>
+            </div>
+
+          </div>
+
+          <!-- Documents -->
+          <h4 class="fw-bold mt-4 text-success">Documents</h4>
+          <div class="mt-3">
+
+            <!-- Passport -->
+            <div class="border rounded p-3 my-3 bg-white shadow-sm">
+                <label class="fw-semibold text-dark">Passport</label>
+                <div class="row g-3 mt-2">
+                    <!-- Issue Date -->
+                    <div class="col-md-6">
+                        <label class="mb-1">Issue Date:</label>
+                        <input class="form-control" type="date" name="passport_issue_date"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="mb-1">Expiry:</label>
+                        <input class="form-control expiry-field" type="date" name="expiry_passport"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="mb-1">Passport No:</label>
+                        <input class="form-control" type="text" name="passport_no"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="mb-1">Document:</label>
+                        <input class="form-control" type="file" name="doc_passport" multiple="multiple"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emirates ID -->
+            <div class="border rounded p-3 my-3 bg-white shadow-sm">
+                <label class="fw-semibold text-dark">Emirates ID</label>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        <label class="mb-1">Issue Date:</label>
+                        <input class="form-control" type="date" name="emirates_issue_date"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="mb-1">Expiry:</label>
+                        <input class="form-control expiry-field" type="date" name="expiry_emirates_id"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="mb-1">Emirates ID:</label>
+                        <input class="form-control" type="text" name="emirates_no"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="mb-1">Document:</label>
+                        <input class="form-control" type="file" name="doc_emirates_id" multiple="multiple"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+          <!-- Extra Documents -->
+          <h4 class="fw-bold mt-4 text-warning">Extra Document</h4>
+          <div id="extra_docs_container" class="p-3 border rounded bg-white shadow-sm mb-4">
+            <div class="row g-3 extra_doc_row">
+              <div class="col-md-4">
+                <input class="form-control" type="text" name="extra_doc_name_1" placeholder="Document Name"/>
+              </div>
+              <div class="col-md-4 d-flex align-items-center">
+                <label class="me-2 mb-0">Expiry:</label>
+                <input class="form-control expiry-field" type="date" name="extra_doc_expiry_1"/>
+              </div>
+              <div class="col-md-4">
+                <input class="form-control" type="file" name="extra_doc_file_1" multiple="multiple"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional Comments -->
+          <h4 class="fw-bold mt-4 text-info">Additional Comments</h4>
+          <div class="mt-2">
+            <textarea class="form-control" name="description" rows="4" minlength="5"
+                      placeholder="Write additional notes here..."
+                      style="border-radius:12px; padding:14px; border:1px solid #ced4da;"></textarea>
+          </div>
+
+          <!-- Submit -->
+          <div class="text-center mt-4">
+            <button class="btn btn-gradient-primary px-5 py-2 fw-bold"
+                    style="border-radius:10px; background: linear-gradient(90deg, #0074D9 0%, #00BFFF 100%); color:white;">
+              Submit
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+      <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const countrySelect = document.getElementById('country_id');
+    const stateSelect = document.getElementById('state_id');
+
+    function filterStates() {
+        const selectedCountry = countrySelect.value;
+        const options = stateSelect.querySelectorAll('option');
+        options.forEach(option => {
+            if (!option.value) return; // keep "Select State" option
+            option.style.display = (option.dataset.country === selectedCountry) ? 'block' : 'none';
+            if (option.dataset.country !== selectedCountry) {
+                option.selected = false;
+            }
+        });
+    }
+
+    countrySelect.addEventListener('change', filterStates);
+
+    // initial filter on page load
+    filterStates();
+});
+</script>
+  </t>
+</template>
+
+
+
+
+  <template id="portal_lead_thanks" name="Thank You">
+    <t t-call="website.layout">
+        <section class="py-5" style="background:#f6f9fc;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8">
+
+                        <div style="
+                            background:white;
+                            border-radius:16px;
+                            padding:40px;
+                            box-shadow:0 4px 20px rgba(0,0,0,0.08);
+                            text-align:center;
+                        ">
+                            <!-- Success Icon -->
+                            <div style="
+                                width:80px;
+                                height:80px;
+                                background:#28a745;
+                                border-radius:50%;
+                                display:flex;
+                                justify-content:center;
+                                align-items:center;
+                                margin:0 auto 20px auto;
+                                color:white;
+                                font-size:40px;
+                                font-weight:bold;
+                                box-shadow:0 4px 10px rgba(0,0,0,0.15);
+                            ">
+                                ✓
+                            </div>
+
+                            <h2 style="
+                                font-size:32px;
+                                font-weight:600;
+                                color:#333;
+                                margin-bottom:15px;
+                            ">
+                                Thank you <t t-esc="lead.name"/>
+                            </h2>
+
+                            <p style="
+                                font-size:18px;
+                                color:#555;
+                                margin-bottom:25px;
+                                line-height:1.6;
+                            ">
+                                Your registration has been successfully submitted.<br/>
+                                Our team will review it and contact you shortly.
+                            </p>
+
+                            <a href="/" class="btn btn-primary btn-lg" style="
+                                padding:12px 30px;
+                                border-radius:50px;
+                                font-size:16px;
+                            ">
+                                Back to Home
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </t>
+</template>
+
+
+    <template id="portal_already_submitted" name="Already Submitted">
+    <t t-call="website.layout">
+        <section style="
+            padding: 60px 0;
+            background: linear-gradient(135deg, #E8F0FF 0%, #FFFFFF 100%);
+        ">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-8">
+
+                        <div style="
+                            background: #fff;
+                            border-radius: 18px;
+                            padding: 40px;
+                            text-align: center;
+                            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+                        ">
+
+                            <h2 style="font-weight: 600; color: #2a4d8f; margin-bottom: 15px;">
+                                Registration Already Completed
+                            </h2>
+
+                            <p style="font-size: 17px; color: #555;">
+                                Hello <span style="font-weight:600; color:#222;">
+                                    <t t-esc="lead.name"/>
+                                </span>,
+                                your registration has been successfully submitted.
+                            </p>
+
+                            <a href="/" class="btn btn-primary mt-4"
+                               style="
+                                    padding: 10px 25px;
+                                    border-radius: 8px;
+                                    font-size: 15px;
+                                    background: #2a73ff;
+                                    border: none;
+                               ">
+                                Go to Home
+                            </a>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </t>
+</template>
+
+</odoo>

@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_snagging_unit_form" model="ir.ui.view">
+        <field name="name">snagging.unit.form.view</field>
+        <field name="model">snagging.unit</field>
+        <field name="arch" type="xml">
+            <form string="Snagging Unit">
+                <style>
+                    .card-header {
+                    display: flex;
+                    align-items: center;
+                    cursor: pointer;
+                    font-size:14px;
+                    }
+
+                    .card-header .arrow {
+                    transition: transform 0.3s ease;
+                    font-size: 16px;
+                    }
+
+                    /* Rotate when open */
+                    .card-header.collapsed .arrow {
+                    transform: rotate(-90deg);
+                    }
+                    .strong_tab{
+                    margin-left:1%;
+                    }
+                    .card{
+                    margin-bottom:1%;
+                    }
+                    .strong_gap{
+                    display:inline-block;
+                    min-width:140px;
+                    }
+                </style>
+                <header>
+                    <field name="status" widget="statusbar" readonly="1"
+                           options="{'clickable': '0'}"/>
+                    <button name='action_complete_snagging'
+                            type="object"
+                            string="Complete Snagging"
+                            class="btn btn-primary"
+                            groups="property_sales.group_property_sales_crm_manager"
+                            invisible="status != 'review_completed' or maintenance_create == True"
+                    />
+
+                    <button name='action_create_maintenance'
+                            type="object"
+                            string="Create Maintenance"
+                            class="btn btn-primary"
+                            groups="property_sales.group_property_sales_crm_manager"
+                            invisible="status != 'review_completed' or maintenance_create == True"
+                    />
+
+                     <button name='action_revisit'
+                            type="object"
+                            string="Revisit"
+                            class="btn btn-primary"
+                             groups="property_sales.group_property_sales_crm_manager"
+                            invisible="status != 'review_completed'"
+                    />
+
+
+                     <button name='action_complete_reviewing'
+                            type="object"
+                            string="Complete Reviewing"
+                            class="btn btn-primary"
+                            invisible="status != 'review_snagging' or is_manager == False"
+                    />
+
+                     <button name='action_review_snagging'
+                            type="object"
+                            string="Request For Review"
+                            class="btn btn-primary"
+                            invisible="status != 'assign_snagging'"
+                    />
+
+                     <button name='action_assign_snagging'
+                            type="object"
+                            string="Assign Snagging"
+                            class="btn btn-primary"
+                            invisible="status != 'draft'"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="sequence" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="oqood" invisible="1"/>
+                        </group>
+                        <group>
+                              <field name="crm_user_id" readonly="1"/>
+                              <field name="maintenance_id" readonly="1"/>
+                              <field name="maintenance_create" readonly="1"/>
+                              <field name="spa_id" invisible="1"/>
+                              <field name="is_manager" invisible="1"/>
+                              <field name="key_created" invisible="1"/>
+                        </group>
+                    </group>
+                      <notebook>
+                        <page string="Property DETAILS" name="project_details">
+                            <div class="card">
+                                <div class="card-header"
+                                     data-bs-toggle="collapse"
+                                     data-bs-target="#prjdetail-section"
+                                     aria-expanded="true">
+                                    <span class="arrow">▼</span>
+                                    <strong class="strong_tab">PROPERTY DETAILS
+                                    </strong>
+                                </div>
+                                <div id="prjdetail-section"
+                                     class="collapse show">
+                                    <div class="card-body"
+                                         style="display: flex; justify-content: space-between; gap: 40px;">
+                                        <div style="flex: 1;">
+                                             <p>
+                                                <strong class="strong_gap">
+                                                    Property :
+                                                </strong>
+                                                <field name="property_project_id" readonly="status != 'draft'"/>
+                                            </p>
+                                            <p>
+                                                <strong class="strong_gap">
+                                                    Property Manager:
+                                                </strong>
+                                                <field name="property_manager_id" readonly="status != 'draft'"/>
+                                            </p>
+                                             <p>
+                                                <strong class="strong_gap">
+                                                    Company:
+                                                </strong>
+                                                <field name="company_id" readonly="status != 'draft'"/>
+                                            </p>
+                                            <p>
+                                                <strong class="strong_gap">
+                                                    Currency:
+                                                </strong>
+                                                <field name="currency_id"/>
+                                            </p>
+                                             <p invisible="1">
+                                                <strong class="strong_gap">
+                                                    Agent:
+                                                </strong>
+                                                <field name="lead_agent_id"/>
+                                            </p>
+                                             <p>
+                                                <strong class="strong_gap">
+                                                    Unit:
+                                                </strong>
+                                                <field name="property_unit_id" readonly="status != 'draft'"
+                                                       required="1"/>
+                                            </p>
+
+
+                                        </div>
+                                        <div style="flex: 1;">
+                                             <p>
+                                                <strong class="strong_gap">
+                                                   Snagging Date
+                                                </strong>
+                                                <field name="snagging_date" required="1" readonly="status != 'draft'"
+                                                       style="padding-left:2%;"/>
+                                            </p>
+                                            <p>
+                                                <strong class="strong_gap">
+                                                    Project Name Ar(إســم
+                                                    الـمشروع):
+                                                </strong>
+                                                <field name="project_name_arabic"
+                                                       style="padding-left:2%;"/>
+                                            </p>
+                                            <p>
+                                                <strong class="strong_gap">
+                                                    Company Arabic:
+                                                </strong>
+                                                <field name="company_arabic"
+                                                       style="padding-left:2%;"/>
+                                            </p>
+                                            <p invisible="1">
+                                                <strong class="strong_gap">
+                                                    Sales Person:
+                                                </strong>
+                                                <field name="user_id"
+                                                       readonly="1"/>
+                                            </p>
+
+                                             <p invisible="1">
+                                                <strong class="strong_gap">Booking:
+                                                </strong>
+                                                <field name="offer_booking"/>
+                                            </p>
+                                            <p invisible="1">
+                                                <strong class="strong_gap">Inquiry:
+                                                </strong>
+                                                <field name="crm_id"/>
+                                            </p>
+                                            <p invisible="1">
+                                                <strong class="strong_gap">Offer:
+                                                </strong>
+                                                <field name="sale_id"/>
+                                            </p>
+                                            <p>
+                                                <strong class="strong_gap">Property Owner:
+                                                </strong>
+                                                <field name="property_owner" readonly="status != 'draft'"/>
+                                            </p>
+                                            <p>
+                                                <strong class="strong_gap">Snagging Towards:
+                                                </strong>
+                                                <field name="snagging_towards" readonly="status != 'draft'"/>
+                                            </p>
+                                            <p>
+                                                <strong class="strong_gap">Buyer:
+                                                </strong>
+                                                <field name="partner_id" readonly="status != 'draft'"/>
+                                            </p>
+                                             <p>
+                                                <strong class="strong_gap">Allocated Person:
+                                                </strong>
+                                                <field name="allocated_person" readonly="status != 'draft'"/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                               <div class="card">
+                                <div class="card-header collapsed"
+                                     data-bs-toggle="collapse"
+                                     data-bs-target="#system-section"
+                                     aria-expanded="false">
+                                    <span class="arrow">▼</span>
+                                    <strong class="strong_tab">System
+                                        Information
+                                    </strong>
+                                </div>
+                                <div id="system-section" class="collapse">
+                                    <div class="card-body"
+                                         style="display: flex; justify-content: space-between; gap: 40px;">
+
+                                        <!-- First Column -->
+                                        <div style="flex: 1;">
+                                            <p>
+                                                <strong class="strong_gap">
+                                                    Created
+                                                    By:
+                                                </strong>
+                                                <field name="create_uid"/>
+                                                <field name="create_date"
+                                                       style="margin-left:1%;"/>
+                                            </p>
+                                        </div>
+
+                                        <!-- Second Column -->
+                                        <div style="flex: 1;">
+                                            <p>
+                                                <strong class="strong_gap">Last
+                                                    Modified By:
+                                                </strong>
+                                                <field name="write_uid"/>
+                                                <field name="write_date"
+                                                       style="margin-left:1%;"/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </page>
+                          <page name="inspection_attachment_ids" string="Snagging Attachment">
+                        <field name="snagging_attachment_ids" widget="one2many" readonly="status not in ['draft','assign_snagging']">
+                            <list string="Inspection" editable="bottom">
+                                <field name="snagging_id" column_invisible="1"/>
+                                <field name="is_manager" column_invisible="1"/>
+                                <field name="description"/>
+                                <field name="images" widget="image"/>
+                                <field name="status" widget="badge"
+                                       decoration-info="status == 'pending'"
+                                       decoration-danger="status == 'rejected'"
+                                       decoration-success="status == 'approved'"/>
+                                  <field name="reject_reason" readonly="1"/>
+                                 <button name='action_approve'
+                                        type="object"
+                                        string="Approve"
+                                        class="btn btn-success"
+                                        invisible="status != 'pending' or is_manager == False"
+                                />
+
+                                 <button name='action_reject'
+                                        type="object"
+                                        string="Reject"
+                                        class="btn btn-danger"
+                                        invisible="status != 'pending' or is_manager == False"
+                                />
+
+                            </list>
+                        </field>
+                    </page>
+                    </notebook>
+                </sheet>
+                 <chatter/>
+            </form>
+        </field>
+    </record>
+     <record id="view_snagging_unit_tree" model="ir.ui.view">
+        <field name="name">snagging.unit.tree.view</field>
+        <field name="model">snagging.unit</field>
+        <field name="arch" type="xml">
+            <list string="Snagging Unit" create="1" delete="1">
+                <field name="sequence" readonly="1"/>
+                <field name="property_project_id" readonly="1"/>
+                <field name="property_unit_id" readonly="1"/>
+                <field name="company_id" readonly="1"/>
+                <field name="activity_ids" optional="hide" widget="list_activity"/>
+                <field name="activity_user_id" optional="hide" string="Activity by" widget="many2one_avatar_user"/>
+                <field name="status" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_snagging_unit_line_search" model="ir.ui.view">
+        <field name="name">snagging.unit.search.view</field>
+        <field name="model">snagging.unit</field>
+        <field name="arch" type="xml">
+            <search string="Snagging Unit">
+                 <field name="sequence"/>
+                <field name="property_project_id"/>
+                <field name="property_unit_id" />
+                <field name="company_id"/>
+                <field name="status" />
+
+                <!-- Filters -->
+
+                 <filter string="Pending"
+                        name="snagging_pending"
+                        domain="[('status', '=', 'draft')]"/>
+                <filter string="Snagging Completed"
+                        name="snagging_completed"
+                        domain="[('status', '=', 'snagging_complete')]"/>
+                <filter string="Sales Manager Approved"
+                        name="sales_manager_approved"
+                        domain="[('status', '=', 'sales_manager_approved')]"/>
+
+                 <filter string="Finance Manager Approved"
+                        name="finance_manager_approved"
+                        domain="[('status', '=', 'finance_manager_approved')]"/>
+
+                <filter string="General Manager Approved"
+                        name="general_manager_approved"
+                        domain="[('status', '=', 'general_manager_approved')]"/>
+
+                <!-- Group By -->
+                <group>
+                    <filter string="Project" name="group_project"
+                            context="{'group_by':'property_project_id'}"/>
+                    <filter string="Unit" name="group_unit"
+                            context="{'group_by':'property_unit_id'}"/>
+                    <filter string="Status" name="group_status"
+                            context="{'group_by':'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+      <record id="action_snagging_unit_state" model="ir.actions.act_window">
+        <field name="name">Snagging Unit</field>
+        <field name="res_model">snagging.unit</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_snagging_unit_tree"/>
+        <field name="search_view_id" ref="view_snagging_unit_line_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p>
+                Create and manage your Property Snagging Unit
+            </p>
+        </field>
+    </record>
+
+     <menuitem id="menu_property_snagging_unit"
+              name="Snagging Unit"
+              action="action_snagging_unit_state"
+              parent="property_sales.menu_property_sales_management_root"
+               groups="property_sales.group_property_snagging_user,property_sales.group_property_snagging_manager"
+              sequence="15"/>
+
+
+     <menuitem id="menu_property_snagging_unit_main"
+                name="Snagging"
+                 web_icon="property_sales,static/description/icons.png"
+               groups="property_sales.group_property_snagging_user,property_sales.group_property_snagging_manager"
+              sequence="15">
+         <menuitem  id="menu_propert_snagging_sub_menu"
+                    name="Snagging"
+                    action="action_snagging_unit_state"
+                    groups="property_sales.group_property_snagging_user,property_sales.group_property_snagging_manager"
+              sequence="15"/>
+     </menuitem>
+</odoo>

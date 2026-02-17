@@ -1,0 +1,140 @@
+<odoo>
+  <record id="view_reg_agent_tree" model="ir.ui.view">
+    <field name="name">reg.agent.tree</field>
+    <field name="model">reg.agent</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="sequence_code"/>
+        <field name="agent_reference"/>
+          <field name="registration_type"/>
+        <field name="name"/>
+        <field name="email"/>
+        <field name="phone"/>
+        <field name="status"/>
+        <field name="salesman_id"/>
+        <field name="is_company"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_reg_agent_form" model="ir.ui.view">
+    <field name="name">reg.agent.form</field>
+    <field name="model">reg.agent</field>
+    <field name="arch" type="xml">
+      <form>
+          <header>
+              <button name="action_approve" string="Approve" type="object" class="btn-success" invisible="status != 'submitted'"/>
+              <button name="action_reject" string="Reject" type="object" class="btn-danger" invisible="status != 'submitted'"/>
+              <button name="action_approve" string="Approve" type="object" class="btn-success" invisible="status != 'draft' or registration_type!='manual'"/>
+              <button name="action_reject" string="Reject" type="object" class="btn-danger" invisible="status != 'draft' or registration_type!='manual'"/>
+              <field name="status" widget="statusbar" readonly="1" statusbar_visible="draft,approved,rejected"/>
+          </header>
+        <sheet>
+            <div class="oe_button_box" name="button_box">
+
+                <!-- SMART BUTTON -->
+                <button type="object"
+                        class="oe_stat_button"
+                        name="action_view_documents"
+                        invisible="documents_cont==0"
+                        icon="fa-file">
+                    <div class="o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="documents_cont"/>
+                        </span>
+                        <span class="o_stat_text">Documents</span>
+                    </div>
+                </button>
+
+            </div>
+            <label for="sequence_code"/>
+            <h1>
+                <field name="sequence_code"/>
+            </h1>
+          <group>
+              <group>
+                <field name="name" readonly="registration_type=='link' or status!='draft'" required="registration_type=='manual'"/>
+                <field name="phone" readonly="registration_type=='link' or status!='draft'" required="registration_type=='manual'"/>
+                <field name="email" readonly="registration_type=='link' or status!='draft'" required="registration_type=='manual'"/>
+                  <field name="agent_reference" readonly="status in ['approved','rejected']"/>
+                  <field name="salesman_id" readonly="status in ['approved','rejected']"/>
+                  <field name="is_company" readonly="registration_type=='link' or status!='draft'"/>
+                  <field name="person_company_id" readonly="registration_type=='link' or status!='draft'" invisible="is_company" string="Person Company"/>
+              </group>
+              <group>
+                  <field name="registration_type" readonly="1"/>
+                  <field name="street" readonly="status not in ['draft','submitted']"/>
+                    <field name="street2" readonly="status not in ['draft','submitted']"/>
+                    <field name="city" readonly="status not in ['draft','submitted']"/>
+                    <field name="state_id" readonly="status not in ['draft','submitted']"/>
+                    <field name="zip" readonly="status not in ['draft','submitted']"/>
+                    <field name="country_id" readonly="status not in ['draft','submitted']"/>
+              </group>
+          </group>
+          <notebook>
+            <page string="Documents">
+              <field name="document_ids" readonly="registration_type=='link' or status!='draft'">
+                <list editable="bottom">
+                  <field name="name" readonly="parent.registration_type=='link' or parent.status!='draft' or verified!='pending'" required="1"/>
+                    <field name="file" filename="file_name" readonly="parent.registration_type=='link' or parent.status!='draft' or verified!='pending'" required="1"/>
+                  <field name="expiry_date" readonly="parent.registration_type=='link' or parent.status!='draft' or verified!='pending'" required="1"/>
+                  <field name="doc_type_id" readonly="parent.registration_type=='link' or parent.status!='draft' or verified!='pending'" required="1"/>
+                  <field name="verified" readonly="1"/>
+                    <button name="action_approve" string="Approve" type="object" class="btn-primary" invisible="verified !='pending' or parent.status=='rejected'"/>
+                    <button name="action_reject" string="Reject" type="object" class="btn-secondary" invisible="verified !='pending' or parent.status=='rejected'"/>
+                  <field name="reason" readonly="1" invisible="verified !='rejected'"/>
+                </list>
+              </field>
+            </page>
+              <page string="Agent Description">
+                  <field name="agent_description" readonly="registration_type=='link' or status!='draft'" placeholder="Agent Description"/>
+              </page>
+              <page string="Reject Reason" invisible="status !='rejected'">
+                  <field name="reject_reason" readonly="1" placeholder="Reject Reason"/>
+              </page>
+          </notebook>
+        </sheet>
+          <chatter/>
+      </form>
+    </field>
+  </record>
+
+
+    <record id="view_reg_agent_search" model="ir.ui.view">
+    <field name="name">reg.agent.search</field>
+    <field name="model">reg.agent</field>
+    <field name="arch" type="xml">
+        <search string="Search Agents">
+
+            <!-- 🔍 Quick Search -->
+            <field name="name" string="Agent Name"/>
+            <field name="agent_reference"/>
+            <field name="email"/>
+            <field name="phone"/>
+
+            <!-- ⭐ Filters -->
+            <filter name="filter_received" string="Received" domain="[('status','=','received')]" />
+            <filter name="filter_approved" string="Approved" domain="[('status','=','approved')]" />
+            <filter name="filter_rejected" string="Rejected" domain="[('status','=','rejected')]" />
+
+            <!-- 📁 Group By -->
+            <group>
+                <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+                <filter name="group_salesman" string="Salesman" context="{'group_by': 'salesman_id'}"/>
+            </group>
+
+        </search>
+    </field>
+</record>
+
+
+  <record id="action_reg_agent" model="ir.actions.act_window">
+    <field name="name">Agents</field>
+    <field name="res_model">reg.agent</field>
+    <field name="view_mode">list,form</field>
+      <field name="search_view_id" ref="time_agent_broker_reg.view_reg_agent_search"/>
+  </record>
+
+    <menuitem id="menu_reg_root" name="Agent Register" sequence="10" web_icon="time_agent_broker_reg,static/images/agent.png" groups="group_agent_reg"/>
+    <menuitem id="menu_reg_agent_reg" name="Agent Register" parent="menu_reg_root" action="action_reg_agent"/>
+</odoo>

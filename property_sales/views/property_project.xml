@@ -1,0 +1,974 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_form_project_property_state" model="ir.ui.view">
+        <field name="name">project.property.state.form.view</field>
+        <field name="model">project.property.state</field>
+        <field name="arch" type="xml">
+            <form string="Property State">
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                    </div>
+                    <field name="sequence" invisible="1"/>
+                </sheet>
+                <chatter reload_on_post="True"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_project_property_state_tree" model="ir.ui.view">
+        <field name="name">project.property.state.tree.view</field>
+        <field name="model">project.property.state</field>
+        <field name="arch" type="xml">
+            <list string="Property State" create="1" delete="1">
+                <field name="sequence" widget="handle"/>
+                <field name="name" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_project_property_state" model="ir.actions.act_window">
+        <field name="name">Project Stage</field>
+        <field name="res_model">project.property.state</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_project_property_state_tree"/>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p>
+                Create and manage your property project stage
+            </p>
+        </field>
+    </record>
+
+        <record id="view_form_property_project_type" model="ir.ui.view">
+        <field name="name">property.project.type.form.view</field>
+        <field name="model">property.project.type</field>
+        <field name="arch" type="xml">
+            <form string="Property Type">
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                    <field name="category_id"/>
+                    <field name="sequence" invisible="1"/>
+                            </group>
+                        <group></group>
+                    </group>
+                </sheet>
+                <chatter reload_on_post="True"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_property_project_type_tree" model="ir.ui.view">
+        <field name="name">property.project.type.tree.view</field>
+        <field name="model">property.project.type</field>
+        <field name="arch" type="xml">
+            <list string="Property Type" create="1" delete="1">
+                <field name="sequence" widget="handle"/>
+                <field name="name" readonly="1"/>
+                 <field name="category_id" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_property_project_type" model="ir.actions.act_window">
+        <field name="name">Property Type</field>
+        <field name="res_model">property.project.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_property_project_type_tree"/>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p>
+                Create and manage your Property Type
+            </p>
+        </field>
+    </record>
+
+    <record id="view_property_near_by_form" model="ir.ui.view">
+        <field name="name">property.near.by.form.view</field>
+        <field name="model">property.near.by</field>
+        <field name="arch" type="xml">
+            <form string="Property Near By">
+                <header>
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="name" required="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="image" widget='image'/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter reload_on_post="True"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_property_near_by_tree" model="ir.ui.view">
+        <field name="name">property.near.by.tree.view</field>
+        <field name="model">property.near.by</field>
+        <field name="arch" type="xml">
+            <list string="Property Near By" create="1" delete="1">
+                <field name="name" required="1"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_property_near_by" model="ir.actions.act_window">
+        <field name="name">Property Near By</field>
+        <field name="res_model">property.near.by</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_property_near_by_tree"/>
+        <field name="help" type="html">
+            <p>
+                Create and manage your property near by
+            </p>
+        </field>
+    </record>
+
+
+    <record id="view_form_property_project" model="ir.ui.view">
+        <field name="name">property.project.form.view</field>
+        <field name="model">property.project</field>
+        <field name="arch" type="xml">
+            <form string="Property Project">
+                <header>
+                    <field name="state" widget="statusbar"
+                           options="{'clickable': '1'}"/>
+                    <button name="action_open_price_update_wizard"
+                            type="object"
+                            class="btn btn-primary"
+                            icon="fa-money"
+                            groups="property_sales.group_property_sales_manager"
+                            string="Price Update">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Price Update</span>
+                        </div>
+                </button>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_map_location" type="object"
+                                class="oe_stat_button" icon="fa-map-marker"
+                                string="Map Location">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Map Location</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button"
+                                name="action_document_view"
+                                type="object" icon="fa-list-ol">
+                            <field string="Documents Validation"
+                                   name="document_count"
+                                   widget="statinfo"/>
+                        </button>
+
+                        <button name="action_view_blocking_request"
+                                type="object"
+                                class="oe_stat_button" icon="fa-times-circle-o"
+                                string="Blocking Request">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Blocking Request
+                                </span>
+                            </div>
+                        </button>
+                        <button name="action_view_property_offer"
+                                type="object"
+                                class="oe_stat_button" icon="fa-edit"
+                                string="Offer">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Offer
+                                </span>
+                            </div>
+                        </button>
+
+                        <button name="action_view_property_leads"
+                                type="object"
+                                class="oe_stat_button" icon="fa-filter"
+                                string="Leads">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Leads
+                                </span>
+                            </div>
+                        </button>
+                         <button name="action_view_add_payment_plan"
+                                type="object"
+                                class="oe_stat_button" icon="fa-credit-card"
+                                string="Offer">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Payment Plan
+                                </span>
+                            </div>
+                        </button>
+                    </div>
+                    <field name="property_image" widget='image'
+                           class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                    </div>
+                    <group string="Property Information">
+                        <group>
+                            <label for="street1" string="Address"></label>
+                            <div class="o_address_format">
+                                <field name="street1" no_label="1"
+                                       placeholder="Street..."
+                                       class="o_address_street" required="1"/>
+                                <field name="street2" no_label="1"
+                                       class="o_address_street"
+                                       placeholder="Street 2..."/>
+                                <field name="town_ship" no_label="1"
+                                       class="o_address_street"
+                                       placeholder="Township...."/>
+                                <field name="city" placeholder="City"
+                                       class="o_address_city" required="1"/>
+                                <field name="state_id" placeholder="State"
+                                       class="o_address_state"
+                                       options="{'no_open': True, 'no_quick_create': True}"
+                                       required="1"/>
+                                <field name="zip" placeholder="ZIP"
+                                       class="o_address_zip"/>
+                                <div name="property_address_country"
+                                     class="d-flex justify-content-between">
+                                    <field name="country_id"
+                                           placeholder="Country"
+                                           class="o_address_country"
+                                           options='{"no_open": True, "no_create": True}'
+                                           required="1"/>
+                                </div>
+                            </div>
+                            <field name="location_url" widget="url"
+                                   placeholder="e.g. https://www.odoo.com"/>
+                            <field name="property_type_id" required="1"/>
+                            <field name="project_con_id" invisible="1"/>
+                            <field name="company_id"/>
+                            <field name="agent_commission"/>
+                            <field name="sales_commission"/>
+                            <field name="property_manager_id"/>
+                            <field name="property_owner_partner_id"
+                                   required="1"/>
+                            <field name="latitude"
+                                   readonly="state == 'available'"/>
+                            <field name="longitude"
+                                   readonly="state == 'available'"/>
+                            <div name="geo_localize_button">
+                                <button invisible="latitude != 0 or longitude != 0"
+                                        icon="fa-gear" string="Compute based on address" title="Compute Localization"
+                                        name="geo_localize" type="object" class="btn btn-link p-0"/>
+                                <button invisible="latitude == 0 and longitude == 0"
+                                        icon="fa-refresh" string="Refresh" title="Refresh Localization"
+                                        name="geo_localize" type="object" class="btn btn-link p-0"/>
+                            </div>
+                                   
+                        </group>
+                        <group>
+                            <field name="project_sequence" readonly="1"/>
+                            <field name="project_name_arabic"/>
+                            <field name="expected_hand_over_date"/>
+                            <field name="plot_size"/>
+                            <field name="property_owner_id" invisible="1"/>
+                            <field name="project_register_name"/>
+                            <field name="plot_no"/>
+                            <field name="amenity_ids" widget="many2many_tags"/>
+                            <field name="master_develop_name"/>
+                            <field name="master_develop_name_arabic"/>
+                            <field name="master_community"/>
+                            <field name="master_community_arabic"/>
+                            <field name="register_type"/>
+                            <field name="currency_id"/>
+                            <field name="is_created_from_pr" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Other Details" name="bank_details">
+                            <group string="Bank Details">
+                                <group>
+                                     <field name="bank_name"/>
+                                    <field name="bank_address"/>
+                                </group>
+                                <group>
+                                      <field name="branch"/>
+                                      <field name="iban_number"/>
+                                </group>
+                                <group>
+                                      <field name="swift"/>
+                                      <field name="account_name"/>
+                                      <field name="account_no"/>
+                                </group>
+                            </group>
+
+                             <group string="Escrow Details">
+                                <group>
+                                     <field name="escrow_acc_name"/>
+                                     <field name="swift_escrow"/>
+                                     <field name="iban_number_escrow"/>
+                                </group>
+                                <group>
+                                      <field name="escrow_acc_number"/>
+                                      <field name="bank_name_escrow"/>
+                                      <field name="branch_escrow"/>
+                                </group>
+                            </group>
+
+                             <group string="System Information">
+                                <group>
+                                    <field name="create_uid"/>
+                                    <field name="create_date"/>
+                                </group>
+                                <group>
+                                      <field name="write_uid"/>
+                                    <field name="write_date"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Other Fees" name="other_fees">
+                            <field name="other_fees_line_ids"
+                                   widget="one2many">
+                                <list string="Other Fees" editable="bottom"
+                                      delete="1" create="1">
+                                    <field name="property_id"
+                                           column_invisible="1"/>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id" required="1"
+                                           context="{'default_other_fee_property': True}"/>
+                                    <field name="name" required="1"/>
+                                    <field name="is_oqood"/>
+                                    <field name="is_title_deed"/>
+                                    <field name="percentage"/>
+                                    <field name="fixed_amount"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Payment Plan" name="payment_plans">
+                            <field name="payment_plan_ids"
+                                   widget="one2many">
+                                <list string="Payment Plan" editable="top"
+                                      delete="1" create="1">
+                                    <field name="property_project_id"
+                                           column_invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="before_percentage"/>
+                                    <field name="after_percentage"/>
+                                    <button name="action_view_payment_plans"
+                                            type="object"
+                                            string="View Plan"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Discount Configure" name="discount_configure_page" groups="property_sales.group_client_discount_configure">
+                            <group>
+                                <field name="discount_approvers_ids" widget="many2many_tags" string="Discount Approvers"/>
+                            </group>
+                            <group string="Discount Structure For Indirect Clients">
+<!--                              <separator string="Discount Structure For Indirect Clients"/>-->
+                                <group string="Down Payment" class="mw-100">
+<!--                             <separator string="Down Payment"/>-->
+                                    <field name="in_direct_down_payment_ids" nolabel="1"  colspan="2">
+                                        <list string="Down Payment" editable="bottom" delete="1" create="1">
+                                             <field name="sequence" widget="handle"/>
+                                            <field name="property_project_id"
+                                                   column_invisible="1"/>
+                                            <field name="down_payment" />
+                                            <field name="allowed_percentage" />
+                                        </list>
+                                    </field>
+                                </group>
+<!--                             <separator string="Payment Plan"/>-->
+                                <group string="Payment Plan" class="mw-100">
+                                     <field name="in_direct_payment_plan_ids" nolabel="1"  colspan="2">
+                                        <list string="Payment Plan" editable="bottom"
+                                              delete="1" create="1">
+                                            <field name="property_project_id" column_invisible="1"/>
+                                            <field name="allowed_payment_plan_ids" widget="many2many_tags" column_invisible="1"/>
+                                            <field name="payment_plan_id" width="50%"/>
+                                            <field name="allowed_percentage" width="50%"/>
+                                        </list>
+                                    </field>
+                                </group>
+                            </group>
+<!--                            <separator string="Discount Structure For Direct Clients"/>-->
+                            <group string="Discount Structure For Direct Clients">
+<!--                             <separator string="Down Payment"/>-->
+                                <group string="Down Payment" class="mw-100">
+                                    <field name="direct_down_payment_ids" nolabel="1" colspan="2">
+                                        <list string="Down Payment" editable="bottom" delete="1" create="1">
+                                             <field name="sequence" widget="handle"/>
+                                            <field name="property_project_id" column_invisible="1"/>
+                                            <field name="down_payment" />
+                                            <field name="allowed_percentage" />
+                                        </list>
+                                    </field>
+                                </group>
+<!--                             <separator string="Payment Plan"/>-->
+                                <group string="Payment Plan" class="mw-100">
+                                     <field name="direct_payment_plan_ids"  nolabel="1" colspan="2">
+                                        <list string="Payment Plan" editable="bottom"
+                                              delete="1" create="1">
+                                            <field name="property_project_id" column_invisible="1"/>
+                                            <field name="allowed_payment_plan_ids" column_invisible="1"/>
+                                            <field name="payment_plan_id" width="50%"/>
+                                            <field name="allowed_percentage" width="50%"/>
+                                        </list>
+                                    </field>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="About The Project" name="about_page">
+                            <field name="about"/>
+                        </page>
+                        <page string="Unit Summary" name="unit_summary">
+                            <field name="property_unit_summary_ids"
+                                   widget="one2many">
+                                <list string="Unit Summary" editable="bottom"
+                                      delete="1" create="1">
+                                    <field name="project_id"
+                                           column_invisible="1"/>
+                                    <field name="creation_done"
+                                           column_invisible="1"/>
+                                    <field name="type_id" required="1"/>
+                                    <field name="number_of_unit" required="1"
+                                           readonly="creation_done == True"/>
+                                    <field name="area_sqft"
+                                           readonly="creation_done == True"/>
+                                    <field name="total_property_units"
+                                           readonly="1"/>
+                                    <field name="available_units"
+                                           readonly="1"/>
+                                    <field name="total_area" readonly="1"/>
+                                    <button name="action_create_units"
+                                            type="object" string="Create Units"
+                                            class="btn-primary"
+                                            invisible="creation_done == True"/>
+                                    <button name="action_view_units"
+                                            type="object"
+                                            string="View Details"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Unit" name="units">
+                            <field name="property_unit_ids" widget="one2many">
+                                <list string="Units" editable="bottom"
+                                      delete="1" create="1">
+                                    <field name="project_id"
+                                           column_invisible="1"/>
+                                    <field name="name" required="1"/>
+                                    <field name="unit_code" readonly="1"/>
+                                    <field name="type_id" required="1"/>
+                                    <field name="php"/>
+                                    <field name="status" readonly="1"/>
+                                    <button name="action_view_units"
+                                            type="object" string="View"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Price Update History" name="price_update">
+                            <field name="price_update_ids" readonly="1"
+                                   widget="one2many">
+                                <list string="Price Update"
+                                      delete="0" create="0">
+                                    <field name="project_id"
+                                           column_invisible="1"/>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="user_id"/>
+                                    <field name="date_updated"/>
+                                    <field name="property_unit_ids" widget="many2many_tags"/>
+                                    <field name="price_type" optional="hide"/>
+                                    <field name="percentage_value"/>
+                                    <field name="fixed_value"/>
+                                     <field name="currency_id" optional="hide"/>
+                                     <field name="type_percentage" optional="hide"/>
+                                     <field name="property_unit_price" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Unit Blocking Request"
+                              name="blocking_request">
+                            <field name="property_blocking_request_ids"
+                                   readonly="1"
+                                   widget="one2many">
+                                <list string="Unit Blocking" editable="bottom"
+                                      delete="0" create="0">
+                                    <field name="property_project_id"
+                                           column_invisible="1"/>
+                                    <field name="sequence_code" readonly="1"/>
+                                    <field name="crm_id"
+                                           readonly="1"/>
+                                    <field name="property_unit_id"
+                                           readonly="1"/>
+                                    <field name="partner_id"
+                                           readonly="1"/>
+                                    <field name="start_date" readonly="1"/>
+                                    <field name="end_date"/>
+                                    <field name="no_of_days"/>
+                                    <field name="user_id" readonly="1"/>
+                                    <field name="status" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Offers" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_manager"
+                              name="blocking_Offers">
+                            <field name="sale_offer_ids"
+                                   readonly="1"
+                                   widget="one2many">
+                                <list string="Offers" editable="bottom"
+                                      delete="0" create="0">
+                                    <field name="property_project_id"
+                                           column_invisible="1"/>
+                                    <field name="name" readonly="1"/>
+                                    <field name="partner_id"
+                                           readonly="1"/>
+                                    <field name="property_unit_id"
+                                           readonly="1"/>
+                                    <field name="amount_total" readonly="1"/>
+                                    <field name="user_id" readonly="1"/>
+                                    <field name="state" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="invoices_ids_lines" string="Invoices"
+                              groups="property_sales.group_booking_finance_approval">
+                            <field name="invoices_ids" readonly="1"
+                                   widget="one2many">
+                                <list string="Invoices"
+                                      delete="0" create="0">
+                                    <field name="property_project_id"
+                                           column_invisible="1"/>
+                                    <field name="property_unit_id"
+                                           readonly="1"/>
+                                    <field name="name" readonly="1"/>
+                                    <field name="partner_id" readonly="1"/>
+                                    <field name="invoice_date" readonly="1"/>
+                                    <field name="invoice_date_due"
+                                           readonly="1"/>
+                                    <field name="amount_total_in_currency_signed"
+                                           readonly="1"/>
+                                    <field name="amount_residual_signed"
+                                           readonly="1"/>
+                                    <field name="status_in_payment"
+                                           readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="payment_lines" string="Payments"
+                              groups="property_sales.group_booking_finance_approval">
+                            <field name="payment_ids" readonly="1"
+                                   widget="one2many">
+                                <list string="Payments"
+                                      delete="0" create="0">
+                                    <field name="property_project_id"
+                                           column_invisible="1"/>
+                                    <field name="property_unit_id"
+                                           readonly="1"/>
+                                    <field name="name" readonly="1"/>
+                                    <field name="partner_id" readonly="1"/>
+                                    <field name="date" readonly="1"/>
+                                    <field name="amount" readonly="1"/>
+                                    <field name="state" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Property Images"
+                              name="property_details_ids">
+                            <field name="property_details_ids"
+                                   widget="one2many">
+                                <list string="Property Images"
+                                      editable="bottom" delete="1" create="1">
+                                    <field name="property_id"
+                                           column_invisible="1"/>
+                                    <field name="description" width="50%"/>
+                                    <field name="images" widget="image"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Map" name="map_view">
+                            <group string="Map Location">
+                                <field name="map_html" widget="html"
+                                       readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Near By" name="nearby_property_line">
+                            <field name="nearby_property_line_ids">
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="nearby" required="1"/>
+                                            <field name="images"  widget='image'/>
+                                            <field name="distance"
+                                                   required="1"/>
+                                        </group>
+                                        <group>
+                                            <field name="description"
+                                                   placeholder="Dubai Internation Airport.."/>
+                                        </group>
+                                    </group>
+                                </form>
+                                <kanban>
+                                    <field name="id"/>
+                                    <field name="distance"/>
+                                    <field name="images"/>
+                                    <field name="nearby"/>
+                                    <field name="description"/>
+                                    <templates>
+                                        <t t-name="card">
+                                            <div
+                                                    class="oe_kanban_global_click border-bottom rounded"
+                                                    style="width: 343px; height: auto;border: 0px; border-bottom: none !important;">
+                                                <div style="text-align:center;">
+                                                      <field name="images"  widget='image'/>
+                                                </div>
+                                                <br/>
+                                                <div style="text-align:center;">
+                                                    <h6>
+                                                        <field name="nearby"/>
+                                                    </h6>
+                                                    <h5 style="color:#00A09D;">
+                                                        <field name="description"/>
+                                                    </h5>
+                                                    <h2 style="color:#00A09D;">
+                                                        <strong>
+                                                            <field name="distance"/>
+                                                        </strong>
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+
+                        <page string="Booking" groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_manager"
+                              name="booking_offer_ids_page">
+                            <field name="booking_offer_ids"
+                                   readonly="1"
+                                   widget="one2many">
+                                <list string="Booking" editable="bottom"
+                                      delete="0" create="0">
+                                    <field name="property_project_id"
+                                           column_invisible="1"/>
+                                    <field name="sequence" readonly="1"/>
+                                    <field name="date_booking" readonly="1"/>
+                                    <field name="user_id" readonly="1"/>
+                                    <field name="activity_ids" optional="hide" widget="list_activity"/>
+                                    <field name="activity_user_id" optional="hide" string="Activity by" widget="many2one_avatar_user"/>
+                                    <field name="property_unit_id" readonly="1"/>
+                                    <field name="payment_plan_id" readonly="1"/>
+                                    <field name="company_id" readonly="1"/>
+                                    <field name="status" readonly="1"/>
+                                    <field name="sales_approved_type" readonly="1" widget="badge" decoration-info="1"/>
+                                    <field name="finance_approved_type" readonly="1" widget="badge" decoration-warning="1"/>
+                                    <field name="general_approved_type" readonly="1" widget="badge" decoration-success="1"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="SPA" groups="property_sales.group_property_sales_crm,property_sales.group_property_sales_crm_manager,property_sales.group_property_sales_manager,property_sales.group_booking_general_approval,property_sales.group_booking_finance_approval"
+                              name="sap_ids_page">
+                            <field name="spa_ids"
+                                   readonly="1"
+                                   widget="one2many">
+                                <list string="SPA" editable="bottom"
+                                      delete="0" create="0">
+                                    <field name="property_project_id"
+                                           column_invisible="1"/>
+                                    <field name="sequence" readonly="1"/>
+                                      <field name="property_unit_id"/>
+                                      <field name="offer_booking"/>
+                                      <field name="crm_id"/>
+                                      <field name="crm_user_id"/>
+                                      <field name="activity_ids" optional="hide" widget="list_activity"/>
+                                      <field name="activity_user_id" optional="hide" string="Activity by" widget="many2one_avatar_user"/>
+                                     <field name="status" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Oqood" groups="property_sales.group_property_sales_crm,property_sales.group_property_sales_crm_manager,property_sales.group_property_sales_manager,property_sales.group_booking_general_approval,property_sales.group_booking_finance_approval"
+                              name="oqood_ids_page">
+                            <field name="oqood_ids"
+                                   readonly="1"
+                                   widget="one2many">
+                                <list string="Oqood" editable="bottom"
+                                      delete="0" create="0">
+                                    <field name="property_project_id"
+                                           column_invisible="1"/>
+                                    <field name="sequence" readonly="1"/>
+                                    <field name="user_id" readonly="1"/>
+                                    <field name="activity_ids" optional="hide" widget="list_activity"/>
+                                    <field name="activity_user_id" optional="hide" string="Activity by" widget="many2one_avatar_user"/>
+                                    <field name="property_unit_id" readonly="1"/>
+                                    <field name="company_id" readonly="1"/>
+                                    <field name="status" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Snagging" groups="property_sales.group_property_snagging_user,property_sales.group_property_snagging_manager"
+                              name="snagging_unit_page">
+                            <field name="snagging_ids"
+                                   readonly="1"
+                                   widget="one2many">
+                                <list string="Snagging" editable="bottom"
+                                      delete="0" create="0">
+                                    <field name="property_project_id" column_invisible="1"/>
+                                   <field name="sequence" readonly="1"/>
+                                    <field name="property_unit_id" readonly="1"/>
+                                    <field name="company_id" readonly="1"/>
+                                    <field name="activity_ids" optional="hide" widget="list_activity"/>
+                                    <field name="activity_user_id" optional="hide" string="Activity by" widget="many2one_avatar_user"/>
+                                    <field name="status" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+
+                         <page string="Key Handover" groups="property_sales.group_property_sales_crm,property_sales.group_property_sales_crm_manager,property_sales.group_property_sales_manager,property_sales.group_booking_general_approval,property_sales.group_booking_finance_approval"
+                              name="key_handover_ids_page">
+                            <field name="key_handover_ids"
+                                   readonly="1"
+                                   widget="one2many">
+                                <list string="Key HandOver" editable="bottom"
+                                      delete="0" create="0">
+                                <field name="property_project_id" column_invisible="1"/>
+                                <field name="sequence" readonly="1"/>
+                                <field name="property_unit_id" readonly="1"/>
+                                <field name="snagging_id" readonly="1"/>
+                                <field name="oqood" column_invisible="1"/>
+                                <field name="spa_id" column_invisible="1"/>
+                                <field name="offer_booking" column_invisible="1"/>
+                                <field name="user_id" column_invisible="1"/>
+                                <field name="crm_id" column_invisible="1"/>
+                                <field name="activity_ids" optional="hide" widget="list_activity"/>
+                                <field name="activity_user_id" optional="hide" string="Activity by" widget="many2one_avatar_user"/>
+                                <field name="status" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Other Info" name="other_info">
+                            <group>
+                                <group>
+                                    <field name="analytic_account_id"
+                                           readonly="1"/>
+                                </group>
+                                <group>
+
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Terms and Condition" name="terms_description">
+                            <field name="terms_description" widget="html" placeholder="SPA Report Description"/>
+                        </page>
+                        <page string="Plot Rule" name="terms_description_two">
+                            <field name="terms_description_second_section" widget="html" placeholder="SPA Second Description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter reload_on_post="True"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_property_project_tree" model="ir.ui.view">
+        <field name="name">property.project.tree.view</field>
+        <field name="model">property.project</field>
+        <field name="arch" type="xml">
+            <list string="Property Project" create="1" delete="1">
+                <field name="name" readonly="1"/>
+                <field name="project_name_arabic" readonly="1"/>
+                <field name="project_sequence" readonly="1"/>
+                <field name="expected_hand_over_date" readonly="1"/>
+                <field name="property_owner_id" column_invisible="1"/>
+                <field name="property_owner_partner_id" readonly="1"/>
+                <field name="latitude" readonly="1" optional="hide"/>
+                <field name="longitude" readonly="1" optional="hide"/>
+                <field name="company_id" readonly="1"/>
+                <field name="currency_id" readonly="1"/>
+                <field name="state" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_property_project_pivot" model="ir.ui.view">
+        <field name="name">property.project.pivot.view</field>
+        <field name="model">property.project</field>
+        <field name="arch" type="xml">
+            <pivot string="Property Project" sample="1">
+                <field name="state" type="row"/>
+                <field name="project_name_arabic"/>
+                <field name="name"/>
+                <field name="property_owner_partner_id"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="property_project_map" model="ir.ui.view">
+        <field name="name">property.project.map</field>
+        <field name="model">property.project</field>
+        <field name="arch" type="xml">
+            <map res_partner="property_owner_partner_id" routing="true"
+                 hide_name="true">
+                <field name="property_owner_partner_id" string="Customer"/>
+            </map>
+        </field>
+    </record>
+
+    <record id="view_property_project_kanban" model="ir.ui.view">
+        <field name="name">property.project.kanban.view</field>
+        <field name="model">property.project</field>
+        <field name="arch" type="xml">
+            <kanban readonly="1" create="1" default_group_by="state" class="o_kanban_mobile"
+                    records_draggable="1">
+                <field name="state"/>
+                <field name="name"/>
+                <field name="project_name_arabic"/>
+                <field name="property_owner_partner_id"/>
+                <field name="property_image"/>
+                <field name="project_sequence"/>
+                <field name="expected_hand_over_date"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_details oe_kanban_global_click oe_kanban_content">
+                            <div class="o_kanban_card_header float-right">
+                                <strong>
+                                    <h5>
+                                        <field name="name"
+                                               style="color:green;"/>
+                                    </h5>
+                                </strong>
+                            </div>
+                            <div class="row property_image">
+                                <div class="col-md-4">
+                                    <span class="float-left">
+                                        <field name="property_image"
+                                               widget='image'
+                                               class="oe_avatar"/>
+                                    </span>
+                                </div>
+                                <div class="col-md-8">
+                                    <field name="street1"/>
+                                    <br></br>
+                                    <span>
+                                        <field name="city"/>
+                                    </span>
+                                    <span style="margin-left:5px;">
+                                        <field name="state_id"/>
+                                    </span>
+                                    <br></br>
+                                    <field name="zip"/>
+                                    <br></br>
+                                    <field name="country_id"/>
+                                </div>
+                            </div>
+
+                            <div class="address row">
+                                <div class="col">
+                                    <span>
+                                        <strong>Expected Hand Over Date:&amp;nbsp;</strong>
+                                        <field name="expected_hand_over_date"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <record id="view_property_project_search" model="ir.ui.view">
+        <field name="name">property.project.manage.search</field>
+        <field name="model">property.project</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="property_owner_partner_id"/>
+                <field name="project_name_arabic"/>
+                <field name="project_sequence"/>
+                <field name="expected_hand_over_date"/>
+                <field name="latitude"/>
+                <field name="longitude"/>
+                <field name="state"/>
+
+                <!--                 Group By Filters -->
+                <group>
+                    <filter string="Property Owner"
+                            name="group_by_property_owner_id"
+                            context="{'group_by':'property_owner_partner_id'}"/>
+                    <filter string="Company"
+                            name="group_by_company_id"
+                            context="{'group_by':'company_id'}"/>
+                    <filter string="Currency"
+                            name="group_by_currency_id"
+                            context="{'group_by':'currency_id'}"/>
+                    <filter string="Stage"
+                            name="group_by_stage"
+                            context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_property_project" model="ir.actions.act_window">
+        <field name="name">Property Project</field>
+        <field name="res_model">property.project</field>
+        <field name="view_mode">kanban,list,graph,pivot,form,map</field>
+        <field name="view_id" ref="view_property_project_kanban"/>
+        <field name="search_view_id" ref="view_property_project_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{'search_default_group_by_stage':1}</field>
+        <field name="help" type="html">
+            <p>
+                Create and manage your property project
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_property_sales_management_root"
+              name="Property Sales Management"
+              web_icon="property_sales,static/description/picon3.png"
+              groups="property_sales.group_property_sales"
+              active="True"
+              sequence="10">
+        <menuitem id="menu_properties_sales"
+                  name="Property"
+                  action="action_property_project"
+                  sequence="10"/>
+
+        <menuitem id="menu_properties_sales_configuration"
+                  name="Configuration"
+                  groups="property_sales.group_property_sales_manager"
+                  sequence="25">
+            <menuitem id="menu_property_sales_stage"
+                      name="Project Stage"
+                      action="action_project_property_state"
+                      sequence="5"/>
+            <menuitem id="menu_property_sales_type"
+                      name="Property Type"
+                      action="action_property_project_type"
+                      sequence="6"/>
+
+            <menuitem id="menu_property_near_by"
+                      name="Property Near By"
+                      action="action_property_near_by"
+                      sequence="7"/>
+        </menuitem>
+    </menuitem>
+
+</odoo>

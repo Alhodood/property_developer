@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--    Form view of hr_employee_document model-->
+    <record id='res_property_sales_document_view_form' model='ir.ui.view'>
+        <field name="name">property.sales.document.view.form</field>
+        <field name="model">property.sales.document</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,verify"/>
+                    <button name="action_verify_doc" string="Verify" type="object" invisible="state!='draft'"/>
+                    <button name="action_expire_doc" string="Expired" type="object" invisible="state!='verify' or not is_expiry"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="state!='draft'"/>
+                            <field name="property_id" string="Property" readonly="state!='draft'"/>
+                            <field name="document_type_id" readonly="state!='draft'"/>
+                            <field name="pdoc_attachment_ids"
+                                   widget="many2many_binary" class="oe_inline" readonly="state!='draft'"/>
+                        </group>
+                        <group>
+                            <field name="issue_date" readonly="state!='draft'"/>
+                            <field name="is_expiry" readonly="state!='draft'"/>
+                            <field name="expiry_date" readonly="state!='draft'" invisible="not is_expiry" required="1"/>
+                            <field name="notification_type" readonly="state!='draft'" invisible="not is_expiry"/>
+                            <field name="before_days"
+                                   invisible="notification_type == 'single' or not is_expiry" readonly="state!='draft'"/>
+                            <field name="notification_to" readonly="state!='draft'" invisible="not is_expiry"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Attachment">
+                            <field name="attachments_doc" widget="pdf_viewer" readonly="state!='draft'" filename="attachments_doc_filename"/>
+                        </page>
+                        <page string="Description">
+                            <field name="description" readonly="state!='draft'"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--    Tree view of hr_employee_document model-->
+    <record id='property_sales_document_tree_view' model='ir.ui.view'>
+        <field name="name">property.sales.document.view.tree</field>
+        <field name="model">property.sales.document</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="property_id" string="Employee"/>
+                <field name="document_type_id"/>
+                <field name="expiry_date"/>
+            </list>
+        </field>
+    </record>
+
+
+    <!--    Configures an action window for HR Employee Documents.-->
+    <record id="property_sales_document_action" model="ir.actions.act_window">
+        <field name="name">Property Sales Documents</field>
+        <field name="res_model">property.sales.document</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="property_sales_document_tree_view"/>
+        <field name="context">{'search_default_Property': 1}</field>
+    </record>
+
+
+    <!--    Creates a menu item for HR Employee Documents.-->
+    <menuitem id="property_sales_document_menu"
+              name="Documents"
+               sequence="7"
+              parent="property_sales.menu_properties_sales_configuration"
+              action="property_sales_document_action"
+             />
+</odoo>

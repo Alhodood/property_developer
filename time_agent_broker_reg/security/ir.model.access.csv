@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_reg_agent_user,access_reg_agent_user,model_reg_agent,base.group_user,1,1,1,0
+access_share_agent_reg_wizard,access_share_agent_reg_wizard,model_share_agent_reg_wizard,base.group_user,1,1,1,0
+access_reg_document_type_user,access_reg_document_type_user,model_reg_document_type,base.group_user,1,1,1,1
+access_reg_agent_document_user,access_reg_agent_document_user,model_reg_agent_document,base.group_user,1,1,1,0
+access_agent_document_reject_wizard_user,access_agent_document_reject_wizard_user,model_agent_document_reject_wizard,base.group_user,1,1,1,0

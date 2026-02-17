@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sales_discount_approval_request_form" model="ir.ui.view">
+        <field name="name">sales.discount.approval.request.form</field>
+        <field name="model">sale.discount.approval.request</field>
+        <field name="arch" type="xml">
+            <form string="Sales Discount Approval Request">
+                <header>
+                    <field name="approval_state" widget="statusbar"
+                           readonly="1"
+                           options="{'clickable': '1', 'fold_field': 'fold'}"/>
+                    <button name="action_approve"
+                            type="object"
+                            string="Approve"
+                            invisible="approval_state != 'waiting' or is_approver == False"
+                            class="btn btn-success"
+                            data-hotkey="a"
+                    />
+                    <button name="action_reject"
+                            type="object"
+                            string="Reject"
+                            invisible="approval_state != 'waiting' or is_approver == False"
+                            class="btn btn-danger"
+                            data-hotkey="r"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="sequence_code" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="is_approver" invisible="1"/>
+                            <field name="sale_order_id" readonly="1"/>
+                            <field name="approval_user_ids" readonly="1" widget="many2many_tags"/>
+                            <field name="discount_percent" readonly="1"/>
+                            <field name="currency_id" readonly="1"/>
+                            <field name="company_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="request_date" readonly="1"/>
+                            <field name="requested_by" readonly="1"/>
+                            <field name="approved_user" readonly="1"/>
+                            <field name="approval_state" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                     <field name="reason_for_request" readonly="1"/>
+                    </group>
+                    <group string="Other Details">
+                        <group>
+                             <field name="property_project_id" readonly="1"/>
+                             <field name="property_unit_id" readonly="1"/>
+                             <field name="client_type" readonly="1"/>
+                             <field name="partner_id" readonly="1"/>
+                             <field name="discount_based_on" readonly="1"/>
+                             <field name="payment_plan_id" readonly="1"/>
+                        </group>
+                    </group>
+
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_sale_discount_approval_request_tree_afasco"
+            model="ir.ui.view">
+        <field name="name">sale.discount.approval.request.list.view</field>
+        <field name="model">sale.discount.approval.request</field>
+        <field name="arch" type="xml">
+            <list string="Sales Discount Approval Request" create="0" delete="0">
+                <field name="sequence_code" readonly="1"/>
+                <field name="sale_order_id" readonly="1"/>
+                <field name="request_date" readonly="1"/>
+                <field name="requested_by" readonly="1"/>
+                <field name="approval_user_ids" readonly="1" widget="many2many_tags"/>
+                <field name="discount_percent" readonly="1"/>
+                <field name="company_id" readonly="1"/>
+                <field name="approved_user" readonly="1" optional="hide"/>
+                <field name="approval_state" readonly="1"/>
+                <field name="is_approver" column_invisible="1"/>
+                <field name="reason_for_request" optional="hide"/>
+                <button name="action_approve"
+                        type="object"
+                        string="Approve"
+                        invisible="approval_state != 'waiting' or is_approver == False"
+                        class="btn btn-success"
+                        data-hotkey="a"
+                />
+                <button name="action_reject"
+                        type="object"
+                        string="Reject"
+                        invisible="approval_state != 'waiting' or is_approver == False"
+                        class="btn btn-danger"
+                        data-hotkey="r"
+                />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_sale_discount_approval_request_search_mayoof"
+            model="ir.ui.view">
+        <field name="name">sale.discount.approval.request.search</field>
+        <field name="model">sale.discount.approval.request</field>
+        <field name="arch" type="xml">
+            <search string="Sales Discount Approval Request">
+                <field name="sequence_code"/>
+                <field name="sale_order_id"/>
+                <field name="requested_by"/>
+                <field name="payment_plan_id"/>
+                <field name="company_id"/>
+                <field name="approval_state"/>
+
+                <filter name="filter_waiting" string="Waiting Approval"
+                        domain="[('approval_state','=','waiting')]"
+                        help="Only show waiting requests"/>
+
+                <filter name="filter_approved" string="Approved"
+                        domain="[('approval_state','=','approved')]"/>
+
+                <filter name="filter_rejected" string="Rejected"
+                        domain="[('approval_state','=','rejected')]"/>
+
+                <group>
+                    <filter name="group_by_company" string="Company"
+                            context="{'group_by':'company_id'}"/>
+                    <filter name="group_by_approver" string="Approver"
+                            context="{'group_by':'approved_user'}"/>
+                    <filter name="group_by_requester" string="Requester"
+                            context="{'group_by':'requested_by'}"/>
+                    <filter name="group_by_state" string="Status"
+                            context="{'group_by':'approval_state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_sales_discount_approval_request"
+            model="ir.actions.act_window">
+        <field name="name">Sales Discount Approval Request</field>
+        <field name="res_model">sale.discount.approval.request</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_sale_discount_approval_request_tree_afasco"/>
+        <field name="search_view_id" ref="view_sale_discount_approval_request_search_mayoof"/>
+         <field name="context">{'search_default_filter_waiting': 1, 'create': False, 'delete': False}</field>
+        <field name="help" type="html">
+            <p>
+                Create and manage your Discount Approval
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+            name="Discount Request"
+            id="menu_parent_approval_sales"
+            parent="sale.sale_menu_root"
+            action="action_sales_discount_approval_request"
+            groups="property_sales.group_discount_user,property_sales.group_discount_approver,property_sales.group_discount_manager"
+            sequence="30"/>
+    <menuitem
+            name="Sales Discount Approval"
+            id="menu_sales_discount_approval_request"
+            action="action_sales_discount_approval_request"
+            parent="property_sales.menu_property_sales_management_root"
+            groups="property_sales.group_discount_user,property_sales.group_discount_approver,property_sales.group_discount_manager"
+            sequence="19"
+    />
+</odoo>

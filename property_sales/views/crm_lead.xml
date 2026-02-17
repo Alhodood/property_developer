@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="crm_case_form_view_oppor_inherited_property" model="ir.ui.view">
+        <field name="name">crm.lead.oppor.inherit.property</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='lead_info']" position="after">
+                <group>
+                <field name="reserve_property" invisible="1"/>
+                <field name="quote_created" invisible="1"/>
+                <field name="is_block_lead" invisible="1"/>
+                <field name="property_type"/>
+                <field name="property_project_id" widget="many2many_tags"
+                       invisible="property_type !='sell'"/>
+                <field name="property_unit_id" widget="many2many_tags"
+                       invisible="property_type !='sell'"/>
+                <label for="client_budget" string="Client Budget"
+                       invisible="property_type !='sell'"/>
+                <div name="client_budget" class="o_row"
+                     invisible="property_type !='sell'">
+                    Form
+                    <field name="client_budget"/>
+                    To
+                    <field name="client_budget_to" class="oe_inline"/>
+                </div>
+                 <field name="lead_agent_id"
+                        options="{'no_create_edit': True,'no_create': True, 'no_open': True}"
+                        invisible="property_type !='sell'"/>
+                </group>
+            </xpath>
+             <xpath expr="//widget[@name='web_ribbon']" position="after">
+                  <widget name="web_ribbon" title="Unit Blocked" bg_color="text-bg-info"
+                        invisible="is_block_lead == False"/>
+             </xpath>
+            <xpath expr="//button[@name='action_sale_quotations_new']"
+                   position="after">
+                <button string="Property Blocking"
+                        name="action_property_reservation"
+                        type="object"
+                        class="oe_highlight"
+                        data-hotkey="q"
+                        title="Reserve Property"
+                        invisible="1"/>
+            </xpath>
+            <xpath expr="//widget[@name='web_ribbon']" position="after">
+                <widget name="web_ribbon" title="Reserved"
+                        bg_color="text-bg-info"
+                        invisible="1"/>
+            </xpath>
+            <xpath expr="//page[@name='internal_notes']" position="after">
+                <page string="Tagged Units" name="tagged_units" invisible="property_type !='sell'">
+                    <field name="crm_property_tagged_ids"
+                           widget="one2many">
+                        <list string="Tagged Units" editable="bottom"
+                              delete="1" create="1">
+                            <field name="crm_id"
+                                   column_invisible="1"/>
+                            <field name="property_project_id"/>
+                            <field name="property_unit_id"/>
+                            <field name="type_id"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="total_size"/>
+                            <field name="php"/>
+                        </list>
+                    </field>
+                </page>
+                <page string="Unit Blocking Request" name="blocking_request"  invisible="1">
+                    <field name="property_blocking_request_ids" readonly="1"
+                           widget="one2many">
+                        <list string="Unit Blocking" editable="bottom"
+                              delete="0" create="0">
+                            <field name="crm_id"
+                                   column_invisible="1"/>
+                            <field name="sequence_code" readonly="1"/>
+                            <field name="property_project_id" readonly="1"/>
+                            <field name="property_unit_id" readonly="1"/>
+                            <field name="start_date" readonly="1"/>
+                            <field name="end_date"/>
+                            <field name="no_of_days"/>
+                            <field name="user_id" readonly="1"/>
+                            <field name="status" readonly="1"/>
+                        </list>
+                    </field>
+                </page>
+<!--                <page string="Offers"-->
+<!--                      name="sale_Offers"  invisible="property_type !='sell'">-->
+<!--                    <field name="sale_offer_ids"-->
+<!--                           readonly="1"-->
+<!--                           widget="one2many">-->
+<!--                        <list string="Offers" editable="bottom"-->
+<!--                              delete="0" create="0">-->
+<!--                            <field name="crm_lead_id" column_invisible="1"/>-->
+<!--                            <field name="property_project_id"-->
+<!--                                   readonly="1"/>-->
+<!--                            <field name="name" readonly="1"/>-->
+<!--                            <field name="partner_id"-->
+<!--                                   readonly="1"/>-->
+<!--                            <field name="property_unit_id"-->
+<!--                                   readonly="1"/>-->
+<!--                            <field name="amount_total" readonly="1"/>-->
+<!--                            <field name="user_id" readonly="1"/>-->
+<!--                            <field name="state" readonly="1"/>-->
+<!--                        </list>-->
+<!--                    </field>-->
+<!--                </page>-->
+            </xpath>
+            <xpath expr="//button[@name='action_view_sale_quotation']"
+                   position="after">
+                <button name="action_view_blocking_request" type="object"
+                        class="oe_stat_button" icon="fa-times-circle-o"
+                        invisible="property_type !='sell'"
+                        string="Blocking Request">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Blocking Request</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//button[@name='action_sale_quotations_new']"
+                   position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_sale_quotations_new']"
+                   position="after">
+                <button name="action_sale_order_creation"
+                        string="Create Offer" type="object"
+                        help="Create Offer" class="btn-primary"
+                        invisible="quote_created == True or property_type != 'sell'"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="crm_case_kanban_view_leads_inherited_times"
+            model="ir.ui.view">
+        <field name="name">crm.lead.kanban.lead.inherit.times</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+        <field name="arch" type="xml">
+           <xpath expr="//widget[@name='web_ribbon']" position="after">
+                  <widget name="web_ribbon" title="Blocked" bg_color="text-bg-info"
+                        invisible="is_block_lead == False"/>
+             </xpath>
+        </field>
+    </record>
+
+    <record id="view_crm_arm_inherit_search_times" model="ir.ui.view">
+        <field name="name">crm.lead.search.inherit.times</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+        <field name="arch" type="xml">
+             <xpath expr="//filter[@name='assigned_to_me']" position="after">
+                 <filter string="Unit Blocked" name="unit_blocked_request"
+                        domain="[('is_block_lead', '=', True)]"
+                        help="Unit Blocked"/>
+             </xpath>
+        </field>
+    </record>
+
+      <record id="crm_case_tree_view_oppor_inherit_property_sales" model="ir.ui.view">
+        <field name="name">crm.lead.view.list.inherit.property.sales</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="property_type" column_invisible="1" />
+                <field name="property_project_id" widget="many2many_tags" string="Selling Property"
+                       invisible="property_type !='sell'"  optional="hide"/>
+                <field name="property_unit_id" widget="many2many_tags" string="selling Unit"
+                       invisible="property_type !='sell'"  optional="hide"/>
+            </xpath>
+        </field>
+      </record>
+
+
+    <record id="action_view_crm_lead_property" model="ir.actions.act_window">
+        <field name="name">Leads</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">list,form,kanban,calendar,graph,pivot,activity</field>
+        <field name="view_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="domain">[('property_type', '=', 'sell')]</field>
+        <field name="context">{'default_property_type': 'sell'}</field>
+        <field name="search_view_id"
+               ref="crm.view_crm_case_opportunities_filter"/>
+        <field name="help" type="html">
+            <p>
+                Create and manage your Leads
+            </p>
+        </field>
+    </record>
+
+     <record id="view_property_unit_tree_crm" model="ir.ui.view">
+        <field name="name">property.unit.tree.view</field>
+        <field name="model">property.unit</field>
+        <field name="arch" type="xml">
+            <list string="Property Unit" create="0" delete="0" edit="0"
+                  decoration-warning="status=='reserved'"
+                  decoration-danger="status=='on_hold'"
+                  decoration-info="status=='booked'"
+                  decoration-muted="status=='sold'"
+                  decoration-success="status=='available'">
+                <field name="name" readonly="1"/>
+                <field name="unit_code" readonly="1"/>
+                <field name="status" readonly="1"/>
+                <field name="project_id" readonly="1"/>
+                <field name="type_id" readonly="1"/>
+                <field name="php" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+     <record id="action_property_unit_crm_view" model="ir.actions.act_window">
+        <field name="name">Property Unit</field>
+        <field name="res_model">property.unit</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="property_sales.view_property_unit_tree_crm"/>
+        <field name="search_view_id" ref="property_sales.view_property_unit_search"/>
+        <field name="domain">[]</field>
+         <field name="context">{'create': False,'delete': False,'edit':False}</field>
+        <field name="help" type="html">
+            <p>
+                Create and manage your Property Unit
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_crm_lead_view"
+              name="Leads"
+              action="action_view_crm_lead_property"
+              groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_manager"
+              parent="property_sales.menu_property_sales_management_root"
+              sequence="9"/>
+
+    <menuitem id="menu_property_units_in_crm"
+              name="Sale Property Unit"
+              action="action_property_unit_crm_view"
+              groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_manager"
+              parent="crm.crm_menu_root"
+              sequence="11"/>
+</odoo>

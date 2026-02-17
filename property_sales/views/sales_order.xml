@@ -1,0 +1,334 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="sale_order_form_view_inherited_property" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.property.sales</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="(//button[@name='action_confirm'])[2]"
+                   position="replace">
+                <button name="action_confirm" data-hotkey="q"
+                        class="oe_highlight"
+                        string="Confirm" type="object"
+                        context="{'validate_analytic': True}"
+                        invisible="state != 'accepted'"/>
+                <button name="action_sale_offer_pdf"
+                        type="object"
+                        class="btn-primary"
+                        string="Print Sale Offer"/>
+                <button name="action_revise_sale_offer"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state!='rejected'"
+                        string="Revise"/>
+            </xpath>
+              <xpath expr="//button[@name='sale.action_report_saleorder']"
+               position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="crm_lead_id"/>
+                <field name="client_type" required="1" readonly="discount_status =='approved'"/>
+                <field name="lead_agent_id"/>
+                <field name="discount_approved_percentage" invisible="1"/>
+                <field name="generate_line" invisible="1"/>
+                <field name="reserve_property" invisible="1"/>
+                <field name="is_block_lead" invisible="1"/>
+                <field name="block_type" invisible="1"/>
+                <field name="discount_status" readonly="1"
+                       widget="badge"
+                       decoration-success="discount_status == 'approved'"
+                       decoration-danger="discount_status == 'rejected'"
+                       decoration-info="discount_status == 'waiting'"/>
+            </xpath>
+            <xpath expr="(//button[@name='action_confirm'])[1]"
+                   position="replace">
+                <!--                <button name="action_confirm" id="action_confirm" data-hotkey="q"-->
+                <!--                    string="Confirm" class="btn-primary" type="object" context="{'validate_analytic': True}"-->
+                <!--                    invisible="state != 'sent'"/>-->
+            </xpath>
+
+            <xpath expr="(//button[@id='create_invoice'])" position="replace">
+                <!--                <button id="create_invoice" name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice"-->
+                <!--                    type="action" class="btn-primary" data-hotkey="q"-->
+                <!--                    invisible="invoice_status != 'to invoice'"/>-->
+            </xpath>
+             <xpath expr="//button[@name='action_view_invoice']" position="attributes">
+                   <attribute name="invisible">1</attribute>
+             </xpath>
+
+             <xpath expr="//button[@name='action_cancel']" position="attributes">
+                   <attribute name="invisible">state not in ['draft', 'sent', 'sale'] or not id or locked or booking == True</attribute>
+             </xpath>
+
+             <xpath expr="//button[@name='action_view_invoice']" position="after">
+                 <button name="action_view_booking_invoice"
+                        type="object"
+                        class="oe_stat_button"
+                         string="Invoice"
+                        icon="fa-pencil-square-o">
+                      <div class="o_stat_info">
+                                <span class="o_stat_text">Invoice</span>
+                            </div>
+                    </button>
+
+                 <button name="action_discount_request_view"
+                         type="object"
+                         class="oe_stat_button"
+                         groups="property_sales.group_discount_user,property_sales.group_discount_approver,property_sales.group_discount_manager"
+                         string="Discount Request"
+                        icon="fa-plus-square">
+                      <div class="o_stat_info">
+                                <span class="o_stat_text">Discount Request</span>
+                            </div>
+                    </button>
+             </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="property_type"/>
+                <field name="verify_line" invisible="1"/>
+                <field name="booking_id" readonly="1"/>
+                <field name="booking" invisible="1"/>
+                <field name="property_project_id"
+                       invisible="property_type != 'broker'"
+                       required="property_type == 'broker'"/>
+                <field name="property_unit_id"
+                       invisible="property_type != 'broker'"
+                       required="property_type == 'broker'"/>
+                <field name="php" invisible="property_type != 'broker'"
+                       required="property_type == 'broker'"/>
+                <field name="discount_approved" invisible="1"/>
+                <field name="request_for_approval" invisible="1"/>
+                <field name="discount_based_on" invisible="property_type != 'broker'" readonly="discount_status =='approved'"/>
+                <field name="discount_per" invisible="property_type != 'broker'" readonly="discount_status =='approved'"/>
+                <field name="discount_approval_need" invisible="1"/>
+                <field name="total_amount_unit_price" invisible="property_type != 'broker'"/>
+                <field name="allowed_payment_plan_ids" widget="many2many_tags"
+                       invisible="1"/>
+                <field name="payment_plan_id" readonly="discount_status =='approved'"
+                       invisible="property_type != 'broker'"/>
+                <field name="start_date"/>
+                <field name="period_of_installment"/>
+                <button name="on_generate_lines" string="Generate Lines"
+                        type="object" class="oe_highlight" data-hotkey="o"
+                        invisible="property_type != 'broker' or verify_line == True or state not in ['sent','draft','accepted']"
+                />
+                <button name="action_clear_lines" string="Clear lines"
+                        type="object" class="oe_highlight" data-hotkey="o"
+                        invisible="property_type != 'broker' or verify_line == True or state not in ['sent','draft','accepted']"
+                />
+            </xpath>
+             <xpath expr="//div[hasclass('rounded-pill')]" position="after">
+                 <div class="badge rounded-pill text-bg-warning float-end fs-6 border-0" invisible="discount_approval_need == False">
+                    <i class="fa fa-paper-plane"/>
+                   Please take discount approval from the manager.
+                </div>
+             </xpath>
+            <header position="inside">
+                <button name="action_client_accept"
+                        type="object"
+                        class="btn-primary"
+                        string="Client Accept" invisible="state != 'sent'"/>
+                <button name="action_client_reject"
+                        type="object"
+                        class="btn-primary"
+                        string="Client Reject" invisible="state != 'sent'"/>
+                <button name="action_sale_offer_pdf"
+                        type="object"
+                        class="btn-primary"
+                        string="Print Sale Offer"
+                        invisible="1"/>
+                <button name="action_sale_property_reservation"
+                        type="object"
+                        class="btn-primary"
+                        string="property Reservation"
+                        invisible="state not in ['sent','draft','accepted'] or is_block_lead == True"/>
+                 <button name="action_request_for_discount_approval" data-hotkey="q"
+                        class="oe_highlight"
+                        string="Request For Discount Approval" type="object"
+                        invisible="discount_approval_need == False or request_for_approval == True"/>
+            </header>
+            <xpath expr="//button[@name='action_quotation_send']"
+                   position="after">
+                <button name="action_verify_lines" string="Verify"
+                        type="object" class="oe_highlight" data-hotkey="o"
+                        invisible="property_type != 'broker' or verify_line == True or state != 'accepted'"
+                />
+                <button name="action_book_offer" string="Create Booking"
+                        type="object" class="oe_highlight" data-hotkey="o"
+                        invisible="property_type != 'broker' or state != 'sale' or booking == True"
+                />
+            </xpath>
+            <xpath expr="//div[hasclass('oe_button_box')]" position="after">
+                  <widget name="web_ribbon" title="Unit Blocked" bg_color="text-bg-info"
+                        invisible="is_block_lead == False"/>
+
+             </xpath>
+            <xpath expr="//page[@name='order_lines']" position="before">
+                <page string="Offer Lines" name="offer_lines"
+                      invisible="property_type != 'broker'">
+                    <field name="offer_quote_line_ids" widget="one2many" readonly="1">
+                        <list string="Offer Lines" editable="bottom">
+                            <field name="sale_order" column_invisible="1"/>
+                            <field name="product_line" column_invisible="1"/>
+                            <field name="sequence" widget="handle"/>
+                            <field name="product_id" required="1"/>
+                            <field name="name" required="1"/>
+                            <field name="basic_price"
+                                   readonly="product_line == True"
+                                   force_save="1" column_invisible="1"/>
+                            <field name="discount" column_invisible="1"/>
+                            <field name="discounted_amount"
+                                   sum="Total Amount"/>
+                        </list>
+                    </field>
+                </page>
+                <page string="Payment Summary" name="payment_summary"  invisible="property_type != 'broker'">
+                    <field name="payment_plan_summary_ids" widget="one2many" readonly="1">
+                        <list string="Payment Summary" editable="bottom">
+                            <field name="sale_order" column_invisible="1"/>
+                            <field name="payment_id" column_invisible="1"/>
+                            <field name="sequence" widget="handle"/>
+                            <field name="name" required="1"/>
+                            <field name="installment_month"/>
+                            <field name="percentage"/>
+                            <field name="period_covered"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="amount"/>
+                        </list>
+                    </field>
+                </page>
+                <page string="Payment Lines" name="payment_lines"
+                      invisible="property_type != 'broker'">
+                    <button name="action_export_plan_lines"
+                            type="object"
+                            string="Export"
+                            invisible="verify_line ==True or state not in ['sent','draft','accepted'] or discount_status =='approved'"
+                            class="btn-primary"/>
+                     <span style="margin-right:10px !important;"></span>
+                    <button name="action_import_plan_lines"
+                            type="object"
+                            string="Import"
+                             invisible="verify_line ==True or state not in ['sent','draft','accepted'] or discount_status =='approved'"
+                            class="btn-primary"/>
+                     <span style="margin-right:10px !important;"></span>
+                    <button name="action_edit_lines_offer"
+                            type="object"
+                            string="Edit"
+                            invisible="verify_line == True or state not in ['sent','draft','accepted'] or discount_status =='approved'"
+                            class="btn-primary"/>
+                    <field name="plan_lines_ids" widget="one2many" readonly="verify_line ==True">
+                        <list string="Payment Lines" editable="bottom" create="0" delete="0" limit="200">
+                            <field name="sale_order" column_invisible="1"/>
+                            <field name="payment_id" column_invisible="1"/>
+                            <field name="sequence" widget="handle"/>
+                            <field name="name" required="1"/>
+                            <field name="in_offer"/>
+                            <field name="inv_created" column_invisible="1"/>
+                            <field name="plan_date"/>
+                            <field name="percentage" sum="Total %" readonly="1"/>
+                            <field name="amount" sum="Total Amount" readonly="1"/>
+                            <field name="actual_amount" sum="Total Actual Amount" readonly="1" column_invisible="1"/>
+                            <field name="rounded_amount" sum="Total Rounded Amount" readonly="1"/>
+                            <field name="invoice_id" column_invisible="1"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="inv_status" column_invisible="1"/>
+                            <field name="pay_status" column_invisible="1"/>
+                            <field name="amount_residual"
+                                   column_invisible="1"/>
+                        </list>
+                    </field>
+                </page>
+                <page string="Unit Blocking Request" name="blocking_requests"  invisible="property_type !='broker'">
+                    <field name="property_blocking_request_ids" readonly="1"
+                           widget="one2many">
+                        <list string="Unit Blocking" editable="bottom"
+                              delete="0" create="0">
+                            <field name="sale_order"
+                                   column_invisible="1"/>
+                            <field name="sequence_code" readonly="1"/>
+                            <field name="property_project_id" readonly="1"/>
+                            <field name="property_unit_id" readonly="1"/>
+                            <field name="start_date" readonly="1"/>
+                            <field name="end_date"/>
+                            <field name="no_of_days"/>
+                            <field name="user_id" readonly="1"/>
+                            <field name="status" readonly="1"/>
+                        </list>
+                    </field>
+                </page>
+                <page name="client_reject_reason" string="Client Reject Reason">
+                    <field name="client_reject_reason"/>
+                </page>
+                 <page name="discount_reject_reason" string="Discount Approve/ Reject Reason">
+                       <field name="approved_reject_reason" readonly="1"/>
+                 </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_tree_view_inherited_property" model="ir.ui.view">
+        <field name="name">sale.order.tree.view.inherit.property.sales</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="after">
+                  <field name="property_type" column_invisible="1"/>
+                <field name="property_project_id"
+                       optional="show"
+                       invisible="property_type != 'broker'"
+                       required="property_type == 'broker'"/>
+                <field name="property_unit_id"
+                       invisible="property_type != 'broker'"
+                       optional="show"
+                       required="property_type == 'broker'"/>
+                <field name="block_type"
+                    decoration-info="block_type == 'blocked'"
+                    widget="badge"
+                    optional="show"/>
+                <field name="discount_status" readonly="1"
+                       widget="badge"
+                         optional="show"
+                       decoration-success="discount_status == 'approved'"
+                       decoration-danger="discount_status == 'rejected'"
+                       decoration-info="discount_status == 'waiting'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_quotations_with_onboarding_property_sale"
+            model="ir.actions.act_window">
+        <field name="name">Offer</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="view_mode">list,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="search_view_id"
+               ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="context">{'search_default_my_quotation': 1,'default_property_type':'broker'}
+        </field>
+        <field name="help" type="html">
+            <br/>
+            <h2>
+                Beat competitors with stunning quotations!
+            </h2>
+            <p>
+                Boost sales with online payments or signatures, upsells, and a
+                great customer portal.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_property_offer"
+              name="Offer"
+              action="action_quotations_with_onboarding_property_sale"
+              groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_manager"
+              parent="property_sales.menu_property_sales_management_root"
+              sequence="11"/>
+
+    <menuitem id="menu_property_units_in_sales"
+              name="Sales Property Unit"
+              action="property_sales.action_property_unit_crm_view"
+              groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_manager"
+              parent="sale.sale_menu_root"
+              sequence="25"/>
+</odoo>

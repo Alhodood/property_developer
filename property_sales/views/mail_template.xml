@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="custom_sale_order_mail_template" model="mail.template">
+        <field name="name">Sale Offer: Accept / Decline</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="subject">
+            <![CDATA[
+            Sale Offer ${object.name} - ₹ ${ctx.get('formatted_amount')}
+            ]]>
+        </field>
+
+        <field name="email_from">
+            ${object.user_id.email_formatted or object.company_id.email_formatted}
+        </field>
+
+        <field name="email_to">
+            ${object.partner_id.email}
+        </field>
+
+        <field name="auto_delete" eval="True"/>
+
+        <field name="body_html">
+            <![CDATA[
+            <div style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #333;">
+                <p>Hello ${object.partner_id.name},</p>
+
+                <p>
+                    We are pleased to share your <strong>Sale Offer</strong>
+                    <strong>${object.name}</strong> amounting to
+                    <strong>₹ ${ctx.get('formatted_amount')}</strong>.
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    <span style="color:${ctx.get('status_color')}; font-weight:bold;">
+                        ${ctx.get('offer_status')}
+                    </span>
+                </p>
+
+                <p>
+                    Please review the offer and let us know your decision by clicking below:
+                </p>
+
+                <div style="text-align:center; padding: 20px 0;">
+                    <a href="${ctx.get('accept_url')}"
+                       style="padding: 10px 22px;
+                              background-color: #28A745;
+                              color: #FFFFFF;
+                              text-decoration: none;
+                              border-radius: 6px;
+                              font-size: 14px;
+                              margin-right: 12px;
+                              display: inline-block;">
+                        ✅ Accept
+                    </a>
+
+                    <a href="${ctx.get('decline_url')}"
+                       style="padding: 10px 22px;
+                              background-color: #DC3545;
+                              color: #FFFFFF;
+                              text-decoration: none;
+                              border-radius: 6px;
+                              font-size: 14px;
+                              display: inline-block;">
+                        ❌ Decline
+                    </a>
+                </div>
+
+                <p>
+                    If you have any questions or need modifications, feel free to contact us.
+                </p>
+
+                <p style="margin-top: 20px;">
+                    Best regards,<br/>
+                    <strong>${object.user_id.name or 'Sales Team'}</strong><br/>
+                    ${object.company_id.name}
+                </p>
+            </div>
+            ]]>
+        </field>
+    </record>
+</odoo>

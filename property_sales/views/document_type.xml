@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="property_sales_document_type_view_form" model="ir.ui.view">
+        <field name="name">property.sales.document.type.view.form</field>
+        <field name="model">property.sales.document.type</field>
+        <field name="arch" type="xml">
+            <form string="Document Name">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!--    Tree view of document_type model.-->
+    <record id='property_sales_document_type_view_tree' model='ir.ui.view'>
+        <field name="name">property.sales.document.type.view.tree</field>
+        <field name="model">property.sales.document.type</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <!--   Action of document type model.-->
+    <record id="property_sales_document_type_action" model="ir.actions.act_window">
+        <field name="name">Property Sales Document Types</field>
+        <field name="res_model">property.sales.document.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <menuitem id="property_sales_document_type_menu"
+              name="Property Sales Document Types"
+              parent="property_sales.menu_properties_sales_configuration"
+              sequence="6"
+              action="property_sales_document_type_action"/>
+</odoo>

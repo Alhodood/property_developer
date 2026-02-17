@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+     <!-- ========================================================= -->
+    <!-- Privilege Category for Discount Management -->
+    <!-- ========================================================= -->
+    <record model="res.groups.privilege" id="res_groups_privilege_client_discount">
+        <field name="name">Discount Management</field>
+        <field name="sequence">20</field>
+        <field name="category_id" ref="base.module_category_administration"/>
+    </record>
+
+
+     <!-- ========================================================= -->
+    <!-- Discount User Group -->
+    <!-- ========================================================= -->
+    <record id="group_discount_user" model="res.groups">
+        <field name="name">Discount User</field>
+        <field name="comment">Can view their discount request.</field>
+        <field name="privilege_id" ref="res_groups_privilege_client_discount"/>
+    </record>
+
+    <!-- ========================================================= -->
+    <!-- Discount Approver Group -->
+    <!-- ========================================================= -->
+    <record id="group_discount_approver" model="res.groups">
+        <field name="name">Discount Approver</field>
+        <field name="comment">Full access to all their records.</field>
+        <field name="privilege_id" ref="res_groups_privilege_client_discount"/>
+    </record>
+
+      <!-- ========================================================= -->
+    <!-- Discount Manager Group -->
+    <!-- ========================================================= -->
+    <record id="group_discount_manager" model="res.groups">
+        <field name="name">Discount Manager</field>
+        <field name="comment">Full access to all discount  configurations and records.</field>
+        <field name="privilege_id" ref="res_groups_privilege_client_discount"/>
+    </record>
+
+
+
+    <record model="res.groups" id="group_property_blocking">
+        <field name="name">Finance Approver</field>
+    </record>
+
+      <record model="res.groups" id="group_admin_blocking">
+        <field name="name">Admin Approver</field>
+    </record>
+
+      <record model="res.groups" id="group_unblock_property_unit">
+        <field name="name">UnBlock Unit</field>
+    </record>
+
+    <record model="res.groups" id="group_booking_sales_approval">
+        <field name="name">Booking Sales Approver</field>
+    </record>
+
+    <record model="res.groups" id="group_spa_terms_modifier">
+        <field name="name">SPA Terms Modifier</field>
+    </record>
+
+     <record model="res.groups" id="group_booking_finance_approval">
+        <field name="name">Booking Finance Approver</field>
+    </record>
+
+     <record model="res.groups" id="group_booking_general_approval">
+        <field name="name">Booking General Approver</field>
+    </record>
+
+     <record model="res.groups" id="group_property_sales">
+        <field name="name">Property Sales</field>
+    </record>
+
+    <record model="res.groups" id="group_sales_dashboard">
+        <field name="name">Sales Dashboard</field>
+    </record>
+
+    <record model="res.groups" id="group_property_sales_manager">
+        <field name="name">Property Sales Admin</field>
+    </record>
+
+     <record model="res.groups" id="group_property_sales_crm">
+        <field name="name">Property Sales Crm User</field>
+    </record>
+
+     <record model="res.groups" id="group_property_sales_crm_manager">
+        <field name="name">Property Sales Crm Manager</field>
+    </record>
+
+     <record model="res.groups" id="group_property_snagging_user">
+        <field name="name">Snagging User</field>
+    </record>
+
+     <record model="res.groups" id="group_property_snagging_manager">
+        <field name="name">Snagging Manager</field>
+    </record>
+
+      <record model="res.groups" id="group_client_discount_configure">
+        <field name="name">Discount Configure</field>
+    </record>
+
+
+
+      <record id="property_project_company_rule" model="ir.rule">
+        <field name="name">Sales Project: Multi Company</field>
+        <field name="model_id" ref="model_property_project"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="property_project_unit_company_rule" model="ir.rule">
+        <field name="name">Sales Project Unit: Multi Company</field>
+        <field name="model_id" ref="model_property_unit"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+      <record id="property_payment_voucher_company_rule" model="ir.rule">
+        <field name="name">Payment Voucher: Multi Company</field>
+        <field name="model_id" ref="model_payment_voucher"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="blocking_request_company_rule" model="ir.rule">
+        <field name="name">Blocking Request: Multi Company</field>
+        <field name="model_id" ref="model_blocking_request"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="offer_booking_rule_salesman_own" model="ir.rule">
+        <field name="name">Offer Booking: Salesman Own Records</field>
+        <field name="model_id" ref="model_offer_booking"/>
+        <field name="domain_force">
+            [('user_id', '=', user.id),('company_id', 'in', company_ids + [False])]
+        </field>
+        <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+    </record>
+
+    <record id="offer_booking_rule_manager_all" model="ir.rule">
+        <field name="name">Offer Booking: Manager / All Leads</field>
+        <field name="model_id" ref="model_offer_booking"/>
+        <field name="domain_force">[('company_id', 'in',company_ids + [False])]</field>
+        <field name="groups"
+        eval="[(4, ref('sales_team.group_sale_salesman_all_leads')),(4, ref('sales_team.group_sale_manager'))]"/>
+    </record>
+
+
+      <record id="spa_rule_sales_user_own" model="ir.rule">
+        <field name="name">Spa: Crm User Own Records</field>
+        <field name="model_id" ref="model_spa_book"/>
+        <field name="domain_force">
+            [('crm_user_id', '=', user.id),('company_id', 'in', company_ids + [False])]
+        </field>
+        <field name="groups" eval="[(4, ref('property_sales.group_property_sales_crm'))]"/>
+    </record>
+
+     <record id="spa_rule_manager_all" model="ir.rule">
+        <field name="name">Spa Manager: Manager / All Records</field>
+        <field name="model_id" ref="model_spa_book"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        <field name="groups" eval="[(4, ref('property_sales.group_property_sales_crm_manager')),(4, ref('property_sales.group_property_sales_manager')),(4, ref('property_sales.group_booking_finance_approval')),(4, ref('property_sales.group_booking_general_approval'))]"/>
+    </record>
+
+       <record id="oqood_rule_sales_user_own" model="ir.rule">
+        <field name="name">Oqood: Crm User Own Records</field>
+        <field name="model_id" ref="model_oqood_registration"/>
+        <field name="domain_force">
+            [('crm_user_id', '=', user.id),('company_id', 'in', company_ids + [False])]
+        </field>
+        <field name="groups" eval="[(4, ref('property_sales.group_property_sales_crm'))]"/>
+    </record>
+
+     <record id="oqood_rule_manager_all" model="ir.rule">
+        <field name="name">Oqood Manager: Manager / All Records</field>
+        <field name="model_id" ref="model_oqood_registration"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        <field name="groups" eval="[(4, ref('property_sales.group_property_sales_crm_manager')),(4, ref('property_sales.group_property_sales_manager')),(4, ref('property_sales.group_booking_finance_approval')),(4, ref('property_sales.group_booking_general_approval'))]"/>
+    </record>
+
+    <record id="payment_schedule_spa_line_rule_manager_all" model="ir.rule">
+        <field name="name">Payment Schedule Manager: Manager / All Records</field>
+        <field name="model_id" ref="model_payment_schedule_spa_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        <field name="groups" eval="[(4, ref('property_sales.group_property_sales_crm_manager')),(4, ref('property_sales.group_property_sales_manager')),(4, ref('property_sales.group_booking_finance_approval')),(4, ref('property_sales.group_booking_general_approval'))]"/>
+    </record>
+
+
+     <record id="snagging_rule_sales_user_own" model="ir.rule">
+        <field name="name">Snagging:  User Own Records</field>
+        <field name="model_id" ref="model_snagging_unit"/>
+        <field name="domain_force">
+            ['|',
+            ('allocated_person', '=', user.id),
+            ('property_manager_id', '=', user.id),('company_id', 'in', company_ids + [False])]
+        </field>
+        <field name="groups" eval="[(4, ref('property_sales.group_property_snagging_user'))]"/>
+    </record>
+
+     <record id="snagging_rule_manager_all" model="ir.rule">
+        <field name="name">Snagging Manager: Manager / All Records</field>
+        <field name="model_id" ref="model_snagging_unit"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        <field name="groups" eval="[(4, ref('property_sales.group_property_snagging_manager')),(4, ref('property_sales.group_booking_finance_approval')),(4, ref('property_sales.group_booking_general_approval'))]"/>
+    </record>
+
+      <record id="title_deed_rule_sales_user_own" model="ir.rule">
+        <field name="name">Title Deed: Crm User Own Records</field>
+        <field name="model_id" ref="model_title_deed"/>
+        <field name="domain_force">
+            [('crm_user_id', '=', user.id),('company_id', 'in', company_ids + [False])]
+        </field>
+        <field name="groups" eval="[(4, ref('property_sales.group_property_sales_crm'))]"/>
+    </record>
+
+     <record id="title_deed_rule_manager_all" model="ir.rule">
+        <field name="name">Title Deed Manager: Manager / All Records</field>
+        <field name="model_id" ref="model_title_deed"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        <field name="groups" eval="[(4, ref('property_sales.group_property_sales_crm_manager')),(4, ref('property_sales.group_property_sales_manager')),(4, ref('property_sales.group_booking_finance_approval')),(4, ref('property_sales.group_booking_general_approval'))]"/>
+    </record>
+
+      <record id="pre_title_deed_rule_sales_user_own" model="ir.rule">
+        <field name="name">Pre Title Deed: Crm User Own Records</field>
+        <field name="model_id" ref="model_pre_title_deed"/>
+        <field name="domain_force">
+            [('crm_user_id', '=', user.id),('company_id', 'in', company_ids + [False])]
+        </field>
+        <field name="groups" eval="[(4, ref('property_sales.group_property_sales_crm'))]"/>
+    </record>
+
+     <record id="pre_title_deed_rule_manager_all" model="ir.rule">
+        <field name="name">Pre Title Deed Manager: Manager / All Records</field>
+        <field name="model_id" ref="model_pre_title_deed"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        <field name="groups" eval="[(4, ref('property_sales.group_property_sales_crm_manager')),(4, ref('property_sales.group_property_sales_manager')),(4, ref('property_sales.group_booking_finance_approval')),(4, ref('property_sales.group_booking_general_approval'))]"/>
+    </record>
+
+    <record id="key_handoverrule_sales_user_own" model="ir.rule">
+        <field name="name">Key Handover: Crm User Own Records</field>
+        <field name="model_id" ref="model_key_handover"/>
+        <field name="domain_force">
+            [('crm_user_id', '=', user.id),('company_id', 'in', company_ids + [False])]
+        </field>
+        <field name="groups" eval="[(4, ref('property_sales.group_property_sales_crm'))]"/>
+    </record>
+
+     <record id="key_handover_rule_manager_all" model="ir.rule">
+        <field name="name">Key Handover Manager: Manager / All Records</field>
+        <field name="model_id" ref="model_key_handover"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        <field name="groups" eval="[(4, ref('property_sales.group_property_sales_crm_manager')),(4, ref('property_sales.group_property_sales_manager')),(4, ref('property_sales.group_booking_finance_approval')),(4, ref('property_sales.group_booking_general_approval'))]"/>
+    </record>
+
+
+    <record id="termination_handling_rule_sales_user_own" model="ir.rule">
+        <field name="name">Termination Request: Crm User Own Records</field>
+        <field name="model_id" ref="model_termination_request"/>
+        <field name="domain_force">
+            [('user_id', '=', user.id),('company_id', 'in', company_ids + [False])]
+        </field>
+        <field name="groups" eval="[(4, ref('property_sales.group_property_sales_crm'))]"/>
+    </record>
+
+     <record id="termination_request_rule_manager_all" model="ir.rule">
+        <field name="name">Termination Request Manager: Manager / All Records</field>
+        <field name="model_id" ref="model_termination_request"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        <field name="groups" eval="[(4, ref('property_sales.group_property_sales_crm_manager')),(4, ref('property_sales.group_property_sales_manager')),(4, ref('property_sales.group_booking_finance_approval')),(4, ref('property_sales.group_booking_general_approval'))]"/>
+    </record>
+
+    <record id="sale_commission_to_be_paid_rule_salesman_own" model="ir.rule">
+        <field name="name">Sales Commission : Salesman Own Records</field>
+        <field name="model_id" ref="model_sale_commission_to_be_paid"/>
+        <field name="domain_force">
+            [('sales_person_id', '=', user.id),('company_id', 'in', company_ids + [False])]
+        </field>
+        <field name="groups" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
+    </record>
+
+    <record id="sale_commission_to_be_paid_rule_manager_all" model="ir.rule">
+        <field name="name">Sales Commission: Manager / All Records</field>
+        <field name="model_id" ref="model_sale_commission_to_be_paid"/>
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+        <field name="groups"
+        eval="[(4, ref('sales_team.group_sale_salesman_all_leads')),(4, ref('sales_team.group_sale_manager')),(4, ref('account.group_account_manager')),(4, ref('account.group_account_user'))]"/>
+    </record>
+
+      <record id="agent_commission_to_be_paid_rule_salesman_own" model="ir.rule">
+        <field name="name">Agent Commission : Manager / All Records</field>
+        <field name="model_id" ref="model_agent_commission_to_be_paid"/>
+        <field name="domain_force">
+            [('company_id', 'in', company_ids + [False])]
+        </field>
+        <field name="groups" eval="[(4, ref('account.group_account_manager')),(4, ref('account.group_account_user'))]"/>
+    </record>
+
+    <record id="sale_discount_approval_request_rule_salesman_own" model="ir.rule">
+        <field name="name">Discount Request : Own Records</field>
+        <field name="model_id" ref="model_sale_discount_approval_request"/>
+        <field name="domain_force">
+            [('requested_by', '=', user.id),('company_id', 'in', company_ids + [False])]
+        </field>
+        <field name="groups" eval="[(4, ref('property_sales.group_discount_user'))]"/>
+    </record>
+
+     <record id="sale_discount_approval_request_rule_discount_approver" model="ir.rule">
+        <field name="name">Discount Request : Discount Approver Records</field>
+        <field name="model_id" ref="model_sale_discount_approval_request"/>
+        <field name="domain_force">
+            ['&amp;', '|',('requested_by', '=', user.id), ('approval_user_ids', 'in', user.id), ('company_id', 'in', company_ids + [False])]
+        </field>
+        <field name="groups" eval="[(4, ref('property_sales.group_discount_approver'))]"/>
+    </record>
+
+     <record id="sale_discount_approval_request_rule_discount_manager" model="ir.rule">
+        <field name="name">Discount Request : Discount Manager Records</field>
+        <field name="model_id" ref="model_sale_discount_approval_request"/>
+        <field name="domain_force">
+            [('company_id', 'in', company_ids + [False])]
+        </field>
+        <field name="groups" eval="[(4, ref('property_sales.group_discount_manager'))]"/>
+    </record>
+
+
+
+
+</odoo>

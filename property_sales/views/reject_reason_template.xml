@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="sale_offer_reject_page">
+        <t t-call="website.layout">
+            <div class="container mt-5">
+                <h3>Decline Offer</h3>
+                <p>
+                    You are declining the offer
+                    <strong t-esc="sale_order.name"/>
+                </p>
+
+                <form action="/sale/offer/decline/submit" method="post">
+                    <input type="hidden" name="id" t-att-value="sale_order.id"/>
+                    <input type="hidden" name="token" t-att-value="token"/>
+
+                     <!-- CSRF token -->
+                    <input type="hidden" name="csrf_token"
+                           t-att-value="request.csrf_token()"/>
+
+                    <div class="form-group">
+                        <label><strong>Reason for rejection</strong></label>
+                        <textarea name="reason"
+                                  class="form-control"
+                                  rows="4"
+                                  required="required"
+                                  placeholder="Please enter the reason"/>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger mt-3">
+                        Submit
+                    </button>
+                </form>
+            </div>
+        </t>
+    </template>
+
+
+    <template id="sale_offer_reject_thank_you">
+        <t t-call="website.layout">
+            <div class="container mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 text-center">
+
+                        <div class="card shadow p-5 rounded-4">
+                            <div class="mb-3">
+                                <i class="fa fa-check-circle text-success"
+                                   style="font-size:48px;"></i>
+                            </div>
+
+                            <h3 class="mb-3">Thank You</h3>
+
+                            <p class="text-muted">
+                                Your response for the offer
+                                <strong t-esc="sale_order.name"/>
+                                has been successfully submitted.
+                            </p>
+
+                            <p class="text-muted">
+                                Our team will review your feedback and get back to you
+                            </p>
+
+                            <hr/>
+
+                            <small class="text-secondary">
+                                You may safely close this page.
+                            </small>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="sale_offer_already_done">
+        <t t-call="website.layout">
+            <div class="container mt-5 text-center">
+                <h4>Offer Already Responded</h4>
+                <p>
+                    Offer <strong t-esc="sale_order.name"/> is already
+                    <strong t-esc="sale_order.state"/>.
+                </p>
+                <p>You can close this page.</p>
+            </div>
+        </t>
+    </template>
+
+</odoo>

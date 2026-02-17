@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ir_cron_unblock_property_units" model="ir.cron">
+            <field name="name">Unblock Expired Property Units</field>
+            <field name="model_id" ref="model_property_unit"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_unblock_units()</field>
+            <field name="interval_number">12</field>
+            <field name="interval_type">hours</field>
+            <field name="active" eval="True"/>
+        </record>
+
+
+
+        <record id="ir_cron_expiry_reminder" model="ir.cron">
+            <field name="name">Expiry Reminder Cron</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_check_expiry_reminders()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+
+
+<!--          Scheduled action to sent mail about the document expiry On property Sales-->
+        <record id="ir_cron_scheduler_property_sales_document_data_reminder" model="ir.cron">
+            <field name="name">Property Sales Document Expiration</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="model_id" ref="model_property_sales_document"/>
+            <field name="state">code</field>
+            <field name="code">model.mail_reminder()</field>
+        </record>
+
+
+        <record id="ir_cron_expiry_reminder_retention" model="ir.cron">
+            <field name="name">Expiry Reminder Retention Cron</field>
+            <field name="model_id" ref="project.model_project_project"/>
+            <field name="state">code</field>
+            <field name="code">model.send_retention_reminder_mail()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <!--          Scheduled action to sent mail about the Booking Completion 25days-->
+
+        <record id="cron_kyc_25_days" model="ir.cron">
+            <field name="name">Booking 25 Days Warning</field>
+            <field name="model_id" ref="model_offer_booking"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_kyc_25_days_warning()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+        </record>
+
+        <!--          Scheduled action to sent mail about the Booking Completion 60 days-->
+
+        <record id="cron_kyc_60_days" model="ir.cron">
+            <field name="name">Booking 60 Days Escalation</field>
+            <field name="model_id" ref="model_offer_booking"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_kyc_60_days_escalation()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+        </record>
+
+    </data>
+</odoo>

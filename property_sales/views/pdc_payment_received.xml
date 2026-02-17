@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="pdc_payment_received_form_inherited_property_sales" model="ir.ui.view">
+        <field name="name">pdc.payment.received.form.inherit.property.sales</field>
+        <field name="model">pdc.payment.received</field>
+        <field name="inherit_id" ref="pdc_payment_property.view_pdc_payment_received_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='cheque_no']" position="after">
+                 <field name="property_type" readonly="status != 'draft'"/>
+                  <field name="property_project_id" readonly="status != 'draft'" invisible="property_type != 'sale'"/>
+                 <field name="property_unit_id" readonly="status != 'draft'" invisible="property_type != 'sale'"/>
+                <field name="spa_id" invisible="1"/>
+                   <field name="journal_id" invisible="1" />
+            </xpath>
+             <xpath expr="//div[@name='button_box']" position="inside">
+                  <button name="action_view_journal_entry" type="object"
+                                class="oe_stat_button" icon="fa-plus-square"
+                                string="Journals">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Journals
+                                </span>
+                            </div>
+                        </button>
+                  <button name="action_view_payment_invoice" type="object"
+                                class="oe_stat_button" icon="fa-money"
+                                string="Payments">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Payment
+                                </span>
+                            </div>
+                        </button>
+              </xpath>
+        </field>
+    </record>
+
+      <record id="view_tree_received_pdc_form_inherited_property_rent" model="ir.ui.view">
+        <field name="name">pdc.payment.received.tree.inherit.property.rent</field>
+        <field name="model">pdc.payment.received</field>
+        <field name="inherit_id" ref="pdc_payment_property.view_tree_received_pdc"/>
+        <field name="arch" type="xml">
+               <xpath expr="//field[@name='bank']" position="after">
+                    <field name="property_type"/>
+                     <field name="property_project_id"  invisible="property_type != 'sale'"/>
+                     <field name="property_unit_id" invisible="property_type != 'sale'"/>
+               </xpath>
+        </field>
+     </record>
+
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="view_account_journal_form_inherited_property_rental" model="ir.ui.view">
+        <field name="name">account.journal.form.inherit.rental</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='code']"
+                   position="after">
+                <field name="is_pdc"/>
+                <field name="credit_account_id"
+                       required="is_pdc == True"
+                       invisible="is_pdc == False"/>
+                <field name="debit_account_id"
+                       invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

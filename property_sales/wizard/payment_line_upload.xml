@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_import_payment_plan_lines_upload_form" model="ir.ui.view">
+        <field name="name">import.payment.plan.lines.form</field>
+        <field name="model">import.payment.plan.lines</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Upload">
+                <group>
+                    <field name="file" filename="filename"/>
+                    <field name="filename" invisible="1"/>
+                </group>
+                <footer>
+                    <button type="object" name="action_process_file" string="Upload" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_import_payment_plan_lines_upload" model="ir.actions.act_window">
+        <field name="name">Import Payment Lines</field>
+        <field name="res_model">import.payment.plan.lines</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_import_payment_plan_lines_upload_form"/>
+    </record>
+
+
+        <record id="view_import_payment_booking_plan_lines_form" model="ir.ui.view">
+        <field name="name">import.payment.booking.plan.lines.form</field>
+        <field name="model">import.payment.booking.plan.lines</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Upload">
+                <group>
+                    <field name="file" filename="filename"/>
+                    <field name="filename" invisible="1"/>
+                </group>
+                <footer>
+                    <button type="object" name="action_process_file" string="Upload" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_import_payment_booking_plan_lines_upload" model="ir.actions.act_window">
+        <field name="name">Import Booking Payment Lines</field>
+        <field name="res_model">import.payment.booking.plan.lines</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_import_payment_plan_lines_upload_form"/>
+    </record>
+</odoo>

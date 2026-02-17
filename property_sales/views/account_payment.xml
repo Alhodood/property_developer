@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+     <record id="view_account_payment_form_inherit_property" model="ir.ui.view">
+        <field name="name">account.payment.form.inherit.property</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group" position="inside">
+                <group string="Property Info">
+                     <field name="voucher_id" readonly="1"/>
+                     <field name="property_type"/>
+                    <field name="property_project_id" invisible="property_type != 'sale'"/>
+                    <field name="property_unit_id" invisible="property_type != 'sale'"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

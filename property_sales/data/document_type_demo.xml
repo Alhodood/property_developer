@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Creating 'Driving License' document type-->
+        <record id="psdocument_type_01" model="property.sales.document.type">
+            <field name="name">Title Deed</field>
+        </record>
+        <!-- Creating 'Passport' document type-->
+        <record id="psdocument_type_02" model="property.sales.document.type">
+            <field name="name">Floor Plan Approval</field>
+        </record>
+        <!-- Creating 'ID Card' document type-->
+        <record id="psdocument_type_03" model="property.sales.document.type">
+            <field name="name">Building Completion Certificate</field>
+        </record>
+        <record id="psdocument_type_04" model="property.sales.document.type">
+            <field name="name">NOC</field>
+        </record>
+    </data>
+</odoo>

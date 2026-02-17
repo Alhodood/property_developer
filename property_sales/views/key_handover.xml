@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_key_handover" model="ir.ui.view">
+        <field name="name">key.handover.form.view</field>
+        <field name="model">key.handover</field>
+        <field name="arch" type="xml">
+            <form string="Key Handover">
+                <header>
+                    <field name="status" widget="statusbar" readonly="1"/>
+                    <button name="action_complete" string="Complete"
+                        type="object" class="oe_highlight"
+                        invisible="status != 'initiated'"
+                    />
+                    <button name="action_initiate_handover" string="Initiate"
+                        type="object" class="oe_highlight"
+                        invisible="status != 'draft'"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="sequence" readonly="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="snagging_id" invisible="1"  options="{'no_create_edit': True,'no_create': True, 'no_open': True}"/>
+                                      <field name="crm_user_id" readonly="1"/>
+                            </group>
+                            <group>
+                                  <field name="spa_id"/>
+                            </group>
+                        </group>
+                    </div>
+                    <notebook>
+                        <page string="Property DETAILS" name="project_details">
+                            <div class="card">
+                                <div class="card-header"
+                                     data-bs-toggle="collapse"
+                                     data-bs-target="#prjdetail-section"
+                                     aria-expanded="true">
+                                    <span class="arrow">▼</span>
+                                    <strong class="strong_tab">PROPERTY DETAILS
+                                    </strong>
+                                </div>
+                                <div id="prjdetail-section"
+                                     class="collapse show">
+                                    <div class="card-body"
+                                         style="display: flex; justify-content: space-between; gap: 40px;">
+                                        <div style="flex: 1;">
+                                             <p>
+                                                <strong class="strong_gap">
+                                                    Project:
+                                                </strong>
+                                                <field name="property_project_id"/>
+                                            </p>
+                                            <p invisible="1">
+                                                <strong class="strong_gap">
+                                                    OQOOD:
+                                                </strong>
+                                                <field name="oqood"/>
+                                            </p>
+                                             <p>
+                                                <strong class="strong_gap">
+                                                    Company:
+                                                </strong>
+                                                <field name="company_id"/>
+                                            </p>
+                                            <p>
+                                                <strong class="strong_gap">
+                                                    Currency:
+                                                </strong>
+                                                <field name="currency_id"/>
+                                            </p>
+                                             <p invisible="1">
+                                                <strong class="strong_gap">
+                                                    Agent:
+                                                </strong>
+                                                <field name="lead_agent_id"/>
+                                            </p>
+                                             <p>
+                                                <strong class="strong_gap">
+                                                    Unit:
+                                                </strong>
+                                                <field name="property_unit_id"/>
+                                            </p>
+                                            <p invisible="1">
+                                                <strong class="strong_gap">
+                                                    Offer:
+                                                </strong>
+                                                <field name="offer_booking" />
+                                            </p>
+
+
+                                        </div>
+                                        <div style="flex: 1;">
+                                            <p>
+                                                <strong class="strong_gap">
+                                                    Project Name Ar(إســم
+                                                    الـمشروع):
+                                                </strong>
+                                                <field name="project_name_arabic"
+                                                       style="padding-left:2%;"/>
+                                            </p>
+                                            <p>
+                                                <strong class="strong_gap">
+                                                    Company Arabic:
+                                                </strong>
+                                                <field name="company_arabic"
+                                                       style="padding-left:2%;"/>
+                                            </p>
+                                            <p invisible="1">
+                                                <strong class="strong_gap">
+                                                    Sales Person:
+                                                </strong>
+                                                <field name="user_id"
+                                                       readonly="1"/>
+                                            </p>
+                                             <p invisible="1">
+                                                <strong class="strong_gap">
+                                                    SPA:
+                                                </strong>
+                                                <field name="spa_id"/>
+                                            </p>
+                                             <p invisible="1">
+                                                <strong class="strong_gap">Inquiry:
+                                                </strong>
+                                                <field name="crm_id"/>
+                                            </p>
+                                            <p invisible="1">
+                                                <strong class="strong_gap">Offer:
+                                                </strong>
+                                                <field name="sale_id"/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                               <div class="card">
+                                <div class="card-header collapsed"
+                                     data-bs-toggle="collapse"
+                                     data-bs-target="#system-section"
+                                     aria-expanded="false">
+                                    <span class="arrow">▼</span>
+                                    <strong class="strong_tab">System
+                                        Information
+                                    </strong>
+                                </div>
+                                <div id="system-section" class="collapse">
+                                    <div class="card-body"
+                                         style="display: flex; justify-content: space-between; gap: 40px;">
+
+                                        <!-- First Column -->
+                                        <div style="flex: 1;">
+                                            <p>
+                                                <strong class="strong_gap">
+                                                    Created
+                                                    By:
+                                                </strong>
+                                                <field name="create_uid"/>
+                                                <field name="create_date"
+                                                       style="margin-left:1%;"/>
+                                            </p>
+                                        </div>
+
+                                        <!-- Second Column -->
+                                        <div style="flex: 1;">
+                                            <p>
+                                                <strong class="strong_gap">Last
+                                                    Modified By:
+                                                </strong>
+                                                <field name="write_uid"/>
+                                                <field name="write_date"
+                                                       style="margin-left:1%;"/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+      <record id="view_key_handover_tree" model="ir.ui.view">
+        <field name="name">key.handover.tree.view</field>
+        <field name="model">key.handover</field>
+        <field name="arch" type="xml">
+            <list string="Key Handover" create="1" delete="1">
+                <field name="sequence" readonly="1"/>
+                <field name="property_project_id" readonly="1"/>
+                <field name="property_unit_id" readonly="1"/>
+                <field name="snagging_id" readonly="1"/>
+                <field name="oqood" column_invisible="1"/>
+                <field name="spa_id" column_invisible="1"/>
+                <field name="offer_booking" column_invisible="1"/>
+                <field name="user_id" column_invisible="1"/>
+                <field name="crm_id" column_invisible="1"/>
+                <field name="activity_ids" optional="hide" widget="list_activity"/>
+                <field name="activity_user_id" optional="hide" string="Activity by" widget="many2one_avatar_user"/>
+                <field name="status" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+     <record id="action_key_handover" model="ir.actions.act_window">
+        <field name="name">Key Handover</field>
+        <field name="res_model">key.handover</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_key_handover_tree"/>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p>
+                Create and manage your EOI
+            </p>
+        </field>
+    </record>
+
+     <menuitem id="menu_key_handover"
+               name="Key Handover"
+               action="action_key_handover"
+               parent="property_sales.menu_property_sales_management_root"
+               groups="property_sales.group_property_sales_crm,property_sales.group_property_sales_crm_manager,property_sales.group_property_sales_manager,property_sales.group_booking_general_approval,property_sales.group_booking_finance_approval"
+               sequence="19"/>
+
+</odoo>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <menuitem id="menu_sale_agent_registration"
+              name="Agent Registration"
+              parent="property_sales.menu_property_sales_management_root" groups="group_agent_reg"
+              sequence="24"/>
+
+    <record id="view_reg_agent_search_sale" model="ir.ui.view">
+        <field name="name">reg.agent.search</field>
+        <field name="model">reg.agent</field>
+        <field name="arch" type="xml">
+            <search string="Search Agents">
+
+                <!-- 🔍 Quick Search -->
+                <field name="name" string="Agent Name"/>
+                <field name="agent_reference"/>
+                <field name="email"/>
+                <field name="phone"/>
+
+                <!-- 📁 Group By -->
+                <group>
+                    <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+                    <filter name="group_salesman" string="Salesman" context="{'group_by': 'salesman_id'}"/>
+                </group>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="action_reg_agent_draft" model="ir.actions.act_window">
+        <field name="name">Agents Draft</field>
+        <field name="res_model">reg.agent</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="time_agent_broker_reg.view_reg_agent_search_sale"/>
+        <field name="domain">[('status','!=','approved')]</field>
+    </record>
+
+    <record id="action_reg_agent_approved" model="ir.actions.act_window">
+        <field name="name">Agents Approved</field>
+        <field name="res_model">reg.agent</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="time_agent_broker_reg.view_reg_agent_search_sale"/>
+        <field name="domain">[('status','=','approved')]</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+    <!-- Agents Submenu -->
+    <menuitem id="menu_sale_agents_draft"
+              name="Registered Reg"
+              parent="menu_sale_agent_registration"
+              action="action_reg_agent_draft"
+              sequence="10"/>
+
+
+    <menuitem id="menu_sale_agents_approved"
+              name="Confirmed Reg"
+              parent="menu_sale_agent_registration"
+              action="action_reg_agent_approved"
+              sequence="11"/>
+
+    <menuitem id="menu_reg_agents_confirmed" name="Confirmed Reg" parent="menu_reg_root" action="action_reg_agent_approved"/>
+
+    <menuitem id="menu_sale_agents_share_link"
+              name="Share Link"
+              parent="menu_sale_agent_registration"
+              action="action_share_record_link"
+              sequence="12"/>
+
+    <menuitem id="menu_reg_share" name="Share Link" parent="menu_reg_root" action="action_share_record_link"/>
+
+    <record id="action_reg_agent_partner" model="ir.actions.act_window">
+        <field name="name">Agents</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('par_type','=','agent')]</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+    <menuitem id="menu_sale_agents_partner"
+              name="Agents"
+              parent="menu_sale_agent_registration"
+              action="action_reg_agent_partner"
+              sequence="11"/>
+
+      <menuitem id="menu_reg_ag" name="Agents" parent="menu_reg_root" action="action_reg_agent_partner" sequence="5"/>
+</odoo>

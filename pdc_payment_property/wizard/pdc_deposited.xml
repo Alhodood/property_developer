@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pdc_deposit_wizard" model="ir.ui.view">
+        <field name="name">pdc.deposited.wizard.form.view</field>
+        <field name="model">pdc.deposited.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Deposit Details">
+                <group>
+                    <group>
+                        <field name="deposited" required="1"/>
+                    </group>
+                    <group>
+                        <field name="deposited_on" required="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_add_done" type="object"
+                            string="Done" class="btn-primary"/>
+                    <button special="cancel" data-hotkey="z" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pdc_deposited_on" model="ir.actions.act_window">
+        <field name="name">Deposit Details</field>
+        <field name="res_model">pdc.deposited.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_pdc_deposit_wizard"/>
+    </record>
+</odoo>

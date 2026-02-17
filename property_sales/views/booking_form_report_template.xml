@@ -1,0 +1,1088 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="report_booking_form">
+        <t t-call="web.basic_layout">
+            <style>
+                body {
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 13px;
+                }
+
+                .main-title {
+                    text-align: center;
+                    font-weight: 700;
+                    font-size: 20px;
+                    margin-bottom: 4px;
+                }
+                .page-break {
+                    page-break-before: always;
+                }
+                .sub-title {
+                    text-align: center;
+                    font-size: 12px;
+                    margin-bottom: 10px;
+                }
+
+                .top-info {
+                    width: 100%;
+                    margin-bottom: 1px;
+                }
+
+                .top-info td {
+                    vertical-align: middle;
+                    font-size: 12px;
+                }
+
+                .logo-box {
+                    width: 90px;
+                    height: 90px;
+                    border: 1px solid #000;
+                    text-align: center;
+                    vertical-align: middle;
+                }
+
+                .section-title {
+                    background-color: #f3c9ff;
+                    font-weight: bold;
+                    padding: 6px;
+                    border: 1px solid #000;
+                }
+
+                table.form-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    border: 1px solid #000;
+                }
+
+                table.form-table td {
+                    border: 1px solid #000;
+                    padding: 6px;
+                    vertical-align: middle;
+                }
+
+                .label {
+                    font-weight: bold;
+                    width: 22%;
+                }
+
+                .value {
+                    width: 38%;
+                }
+
+                .arabic {
+                    font-family: "Amiri", "Arial";
+                    direction: rtl;
+                    text-align: right;
+                    font-weight: bold;
+                }
+
+                .center {
+                    text-align: center;
+                }
+                .notes-wrapper {
+                    width: 100%;
+                    margin-top: 10px;
+                    font-size: 12px;
+                }
+                .notes-title {
+                    font-weight: bold;
+                    text-decoration: none;
+                    margin-bottom: 6px;
+                    background-color: #f3c9ff;
+                }
+                .notes-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                .notes-table td {
+                    vertical-align: top;
+                    width: 50%;
+                }
+                .notes-en {
+                    padding-right: 15px;
+                }
+                .notes-ar {
+                    padding-left: 15px;
+                    direction: rtl;
+                    text-align: right;
+                    font-family: "Amiri", "Arial";
+                }
+
+                .sign-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 18px;
+                    font-size: 13px;
+                }
+                .sign-table th,
+                .sign-table td {
+                    border: 1.5px solid #000;
+                    padding: 6px 8px;
+                    vertical-align: middle;
+                }
+                .sign-head {
+                    background: #f1c2ff;   /* exact pink/purple */
+                    font-weight: bold;
+                    text-align: left;
+                }
+                .sign-head.center {
+                    text-align: center;
+                }
+                .sign-ar {
+                    direction: rtl;
+                    text-align: right;
+                    font-family: "Amiri", "Arial";
+                }
+                .sign-row {
+                    height: 80px;
+                }
+                .sign-empty {
+                    height: 80px;
+                }
+
+                /* ===== FOOTER (DIV BASED – SAFE) ===== */
+.footer {
+    font-size: 12px;
+    padding: 10px 15px;
+    width: 100%;
+}
+
+.footer-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.footer-sign {
+    padding-top: 50px;
+    width: 50%;
+}
+
+.footer-sign.right {
+    text-align: right;
+}
+
+.footer-bottom {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    color: #f5a623;
+}
+
+.footer-left {
+    text-align: left;
+    width: 70%;
+}
+
+.footer-right {
+    text-align: right;
+    width: 30%;
+}
+
+            </style>
+
+            <div class="page">
+                <!-- ===== HEADER ===== -->
+                <div class="header">
+                    <div class="header-row">
+
+                        <!-- LEFT : LOGO -->
+                        <div class="header-left">
+                            <img t-if="o.company_id.logo"
+                                 t-att-src="image_data_uri(o.company_id.logo)"
+                                 style="max-height:90px; max-width:90px;"/>
+                        </div>
+
+                        <!-- CENTER : TITLE -->
+                        <div class="header-center">
+                            <div class="main-title">
+                                <t t-esc="o.property_project_id.name"/>
+                            </div>
+                            <div class="sub-title">
+                                Land No.<t t-esc="o.property_project_id.plot_no"/>
+                                - Master Developer :
+                                <t t-esc="o.property_project_id.master_develop_name"/>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT : LOCATION -->
+                        <div class="header-right">
+                            <b>LOCATION:</b>
+                            <t t-esc="o.property_project_id.street1"/>
+                            <t t-esc="o.property_project_id.street2"/>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ===== APARTMENT BOOKING FORM ===== -->
+                <table class="form-table">
+                    <tr>
+                        <td colspan="4" class="section-title">
+                            APARTMENT BOOKING FORM
+                            <span class="arabic" style="float:right;">استمارة حجز شقة</span>
+                        </td>
+                    </tr>
+
+                    <t t-set="buy_count" t-value="0"/>
+                    <t t-foreach="o.property_buyer_ids" t-as="buyer">
+                        <tr>
+                            <!-- Left label -->
+                            <td class="label" rowspan="2">
+                                BUYER NAME (<t t-esc="buy_count + 1"/>) in English
+                            </td>
+
+                            <!-- Name value (top row) -->
+                            <td class="value" colspan="2">
+                                <b><t t-esc="buyer.buyer_id.name"/></b>
+                            </td>
+
+                            <!-- Right Arabic label -->
+                            <td class="label arabic" rowspan="2">
+                                <span>
+                                    بيانات المشتري (<t t-esc="buy_count + 1"/>)
+                                </span>
+                            </td>
+                            <t t-set="buy_count" t-value="buy_count+1"/>
+                        </tr>
+
+                        <!-- EMPTY SECOND LINE UNDER NAME -->
+                        <tr>
+                            <td class="arabic" colspan="2"><t t-esc="buyer.buyer_id.name_arabic"/></td>
+                        </tr>
+                    </t>
+
+                    <tr>
+                        <td class="label">Date</td>
+                        <td class="value"><t t-esc="o.date_booking"/></td>
+                        <td class="label arabic">
+                            <t t-set="months_ar" t-value="{
+                                1: 'يناير', 2: 'فبراير', 3: 'مارس', 4: 'أبريل', 5: 'مايو', 6: 'يونيو',
+                                7: 'يوليو', 8: 'أغسطس', 9: 'سبتمبر', 10: 'أكتوبر', 11: 'نوفمبر', 12: 'ديسمبر'
+                            }"/>
+                            <t t-esc="str(o.date_booking.day).translate(str.maketrans('0123456789','٠١٢٣٤٥٦٧٨٩'))"/>
+                            <t> </t>
+                            <t t-esc="months_ar[o.date_booking.month]"/>
+                            <t> </t>
+                            <t t-esc="str(o.date_booking.year).translate(str.maketrans('0123456789','٠١٢٣٤٥٦٧٨٩'))"/>
+                        </td>
+                        <td class="label arabic">التاريخ</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Developer Name</td>
+                        <td class="value"><t t-esc="o.company_id.name"/></td>
+                        <td class="label arabic"><t t-esc="o.company_id.name_arabic"/></td>
+                        <td class="arabic">الـمطور</td>
+                    </tr>
+                </table>
+
+                <!-- ===== PROJECT DETAILS ===== -->
+                <table class="form-table" style="margin-top:10px;">
+                    <tr>
+                        <td colspan="4" class="section-title">
+                            PROJECT DETAILS
+                            <span class="arabic" style="float:right;">بيانات المشروع</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Project Name</td>
+                        <td class="value"><t t-esc="o.property_project_id.name"/></td>
+                        <td class="label arabic"><t t-esc="o.project_name_arabic"/></td>
+                        <td class="arabic">اسم المشروع</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">RERA Project Reg. No.</td>
+                        <td class="value"><t t-esc="o.property_project_id.project_register_name"/></td>
+                        <td class="label arabic">
+                            <t t-esc="o.property_project_id.project_register_name.translate(str.maketrans('0123456789','٠١٢٣٤٥٦٧٨٩'))"/>
+                        </td>
+                        <td class="arabic">رقم المشروع</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Developer Name</td>
+                        <td class="value"><t t-esc="o.company_id.name"/></td>
+                        <td class="label arabic"><t t-esc="o.company_id.name_arabic"/></td>
+                        <td class="arabic">اسم المطور</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Plot Number</td>
+                        <td class="value">
+                            <t t-esc="o.property_project_id.plot_no"/>
+                        </td>
+                        <td class="label arabic">رقم الأرض</td>
+                        <td class="arabic">١٠٩١</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Master Developer Name</td>
+                        <td class="value"><t t-esc="o.property_project_id.master_develop_name"/></td>
+                        <td class="label arabic"><t t-esc="o.property_project_id.master_develop_name_arabic"/> </td>
+                        <td class="arabic">اسم المطور الرئيسي</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Master Community</td>
+                        <td class="value"><t t-esc="o.property_project_id.master_community"/></td>
+                        <td class="label arabic"><t t-esc="o.property_project_id.master_community_arabic"/></td>
+                        <td class="arabic">المجمع الرئيسي</td>
+                    </tr>
+                </table>
+
+                <!-- ===== PROPERTY DETAILS ===== -->
+                <table class="form-table" style="margin-top:10px;">
+                    <tr>
+                        <td colspan="4" class="section-title">
+                            PROPERTY DETAILS
+                            <span class="arabic" style="float:right;">بيانات العقار</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Unit Number</td>
+                        <td class="value center"><b>
+                            <t t-esc="o.property_unit_id.name"/>
+                        </b></td>
+                        <td class="label arabic">
+                            <t t-esc="o.property_unit_id.name.translate(str.maketrans('0123456789','٠١٢٣٤٥٦٧٨٩'))"/>
+                        </td>
+                        <td class="arabic center">رقم الوحدة</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Unit Type</td>
+                        <td class="value"><b>
+                            <t t-esc="o.property_unit_id.type_unit"/>
+                        </b></td>
+                        <td class="label arabic">
+                            <t t-esc="o.property_unit_id.type_unit_arabic"/>
+                        </td>
+                        <td class="arabic">نوع الوحدة</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Net Area in Sq.Ft.</td>
+                        <td class="value"><b>
+                           <t t-esc="o.property_unit_id.total_size"/>
+                        </b></td>
+                        <td class="label arabic">
+                            <t t-esc="str(o.property_unit_id.total_size).translate(str.maketrans('0123456789','٠١٢٣٤٥٦٧٨٩'))"/>
+                        </td>
+                        <td class="arabic">المساحة الفعلية (قدم مربع)</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Floor</td>
+                        <td class="value"><b>
+                            <t t-esc="o.property_unit_id.floor_no"/>
+                        </b></td>
+                        <td class="label arabic">
+                            <t t-esc="str(o.property_unit_id.floor_no).translate(str.maketrans('0123456789','٠١٢٣٤٥٦٧٨٩'))"/>
+                        </td>
+                        <td class="arabic">الطابق</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Building Name</td>
+                        <td class="value"><b>
+                            <t t-esc="o.property_project_id.name"/>
+                        </b></td>
+                        <td class="label arabic">
+                            <t t-esc="o.project_name_arabic"/>
+                        </td>
+                        <td class="arabic">اسم المبنى</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Registration Type</td>
+                        <td class="value"><b>
+                            <t t-esc="o.property_project_id.register_type"/>
+                        </b></td>
+                        <td class="label arabic">نوع تسجيل العقار</td>
+                        <td class="arabic">على الخارطة</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Car Parking</td>
+                        <td class="value"><b>
+                            <t t-esc="o.property_unit_id.parking_space"/>
+                        </b></td>
+                        <td class="label arabic">
+                            <t t-esc="str(o.property_unit_id.parking_space).translate(str.maketrans('0123456789','٠١٢٣٤٥٦٧٨٩'))"/>
+                        </td>
+                        <td class="arabic">مواقف السيارات</td>
+                    </tr>
+                </table>
+
+                <!-- ===== PURCHASE PRICE DETAILS ===== -->
+                <table class="form-table" style="margin-top:10px;">
+                    <tr>
+                        <td colspan="4" class="section-title">
+                            PURCHASE PRICE DETAILS
+                            <span class="arabic" style="float:right;">بيانات سعر الشراء</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Unit Purchase Price (AED)</td>
+                        <td class="value"><b>
+                            <t t-esc="o.property_unit_id.final_sale_value"/>
+                        </b></td>
+                        <td class="label arabic">
+                            <t t-esc="str(o.property_unit_id.final_sale_value).translate(str.maketrans('0123456789','٠١٢٣٤٥٦٧٨٩'))"/>
+                        </td>
+                        <td class="arabic">
+                            سعر شراء الوحدة
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Net Area in Sq.Mt.</td>
+                        <td class="value"><b>
+                            <t t-esc="o.property_unit_id.total_area"/>
+                        </b></td>
+                        <td class="label arabic">
+                            <t t-esc="str(o.property_unit_id.total_area).translate(str.maketrans('0123456789','٠١٢٣٤٥٦٧٨٩'))"/>
+                        </td>
+                        <td class="arabic">
+                            المساحة الفعلية (متر مربع)
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Net Area in Sq.Ft.</td>
+                        <td class="value"><b>
+                            <t t-esc="o.property_unit_id.area_sqft"/>
+                        </b></td>
+                        <td class="label arabic">
+                            <t t-esc="str(o.property_unit_id.area_sqft).translate(str.maketrans('0123456789','٠١٢٣٤٥٦٧٨٩'))"/>
+                        </td>
+                        <td class="arabic">المساحة الفعلية (قدم مربع)</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Booking Deposit of Unit Cost</td>
+                        <td class="value"><b>
+                            <t t-esc="sum(o.payment_schedule_ids.filtered(lambda l: l.invoice_id).mapped('rounded_amount'))"/>
+                        </b></td>
+                        <td class="label arabic">
+                            <t t-esc="
+                                str(sum(o.payment_schedule_ids.filtered(lambda l: l.invoice_id).mapped('rounded_amount'))).translate(str.maketrans('0123456789','٠١٢٣٤٥٦٧٨٩'))
+
+                            "/>
+                        </td>
+                        <td class="arabic">دفعة حجز من قيمة الوحدة</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">Paid in AED</td>
+                        <td class="value"><b>
+                            <t t-esc="sum(o.payment_schedule_ids.filtered(lambda l: l.invoice_id).mapped('rounded_amount'))"/>
+                        </b></td>
+                        <td class="label arabic">
+                            <t t-esc="
+                              str(sum(o.payment_schedule_ids.filtered(lambda l: l.invoice_id).mapped('rounded_amount'))).translate(str.maketrans('0123456789','٠١٢٣٤٥٦٧٨٩'))
+
+                            "/>
+                        </td>
+                        <td class="arabic">المدفوع بالدرهم الإماراتي</td>
+                    </tr>
+                </table>
+
+                <div class="page-break"></div>
+
+                <!-- ===== BUYER DETAILS (1) ===== -->
+                <t t-set="b_seq" t-value="1"/>
+                <t t-foreach="o.property_buyer_ids" t-as="buyer">
+                    <table class="form-table" style="margin-top:10px;">
+                        <tr>
+                            <td colspan="4" class="section-title">
+                                BUYER DETAILS (<t t-esc="b_seq"/> )
+                                <span class="arabic" style="float:right;">بيانات المشتري (<t t-esc="b_seq"/>)</span>
+                            </td>
+                            <t t-set="b_seq" t-value="b_seq+1"/>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Name in English</td>
+                            <td class="value center"><b>
+                                <t t-esc="buyer.buyer_id.name"/>
+                            </b></td>
+                            <td class="label arabic"></td>
+                            <td class="arabic">الاسم باللغة العربية</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Owners Shares</td>
+                            <td class="value center"><b>
+                                <t t-esc="buyer.owner_share"/>
+                            </b></td>
+                            <td class="label arabic">
+                                <t t-esc="str(buyer.owner_share).translate(str.maketrans('0123456789','٠١٢٣٤٥٦٧٨٩'))"/>
+                            </td>
+                            <td class="arabic">حصص الملاك</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Nationality</td>
+                            <td class="value center"><b>
+                                <t t-esc="buyer.buyer_id.nationality_id.name"/>
+                            </b></td>
+                            <td class="label arabic">
+                                <t t-esc="buyer.buyer_id.nationality_arabic"/>
+                            </td>
+                            <td class="arabic">الجنسية</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">P.O. Box</td>
+                            <td class="value center" colspan="2"><b>
+                                <t t-esc="buyer.buyer_id.zip"/>
+                            </b></td>
+                            <td class="arabic">صندوق البريد</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Address</td>
+                            <td class="value center" colspan="2"><b>
+                                <t t-esc="buyer.buyer_id.contact_address"/>
+                            </b></td>
+                            <td class="arabic">العنوان</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Street</td>
+                            <td class="value"><b>
+                                <t t-esc="buyer.buyer_id.contact_address"/>
+                            </b></td>
+                            <td class="label arabic"></td>
+                            <td class="arabic">الشارع</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Villa / Apartment No.</td>
+                            <td class="value center"><b>
+                                <t t-esc="buyer.buyer_id.apartment_no"/>
+                            </b></td>
+                            <td class="label arabic">
+                                <t t-esc="buyer.buyer_id.apartment_no_arabic"/>
+                            </td>
+                            <td class="arabic">رقم الفيلا / رقم الشقة</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">City</td>
+                            <td class="value center"><b>Duabi</b></td>
+                            <td class="label arabic"></td>
+                            <td class="arabic">المدينة</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Country of Residence</td>
+                            <td class="value center"><b>United Arab Emirates</b></td>
+                            <td class="label arabic"></td>
+                            <td class="arabic">بلد الإقامة</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Tel / Mobile No.</td>
+                            <td class="value center"><b>-</b></td>
+                            <td class="label arabic"></td>
+                            <td class="arabic">رقم الهاتف</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Email Address</td>
+                            <td class="value center" colspan="2"><b>
+                                <t t-esc="buyer.buyer_id.email"/>
+                            </b></td>
+                            <td class="arabic">البريد الإلكتروني</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Alternative Mobile No.</td>
+                            <td class="value center" colspan="2"><b>
+                                <t t-esc="buyer.buyer_id.phone"/>
+                            </b></td>
+                            <td class="arabic">رقم الجوال البديل</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Relationships</td>
+                            <td class="value center" colspan="2"><b>
+                                <t t-esc="buyer.relationship"/>
+                            </b></td>
+                            <td class="arabic">صلة القرابة / العلاقة مع المالك</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Passport Number</td>
+                            <td class="value center" colspan="2"><b>
+                                <t t-esc="buyer.buyer_id.passport_number"/>
+                            </b></td>
+                            <td class="arabic">رقم جواز السفر</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Date of Expiry</td>
+                            <td class="value center" colspan="2"><b>
+                                <t t-esc="buyer.buyer_id.passport_date_of_expiry"/>
+                            </b></td>
+                            <td class="arabic">تاريخ الانتهاء</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">ID Number</td>
+                            <td class="value center" colspan="2"><b>
+                                <t t-esc="buyer.buyer_id.emirates_id"/>
+                            </b></td>
+                            <td class="arabic">رقم الهوية</td>
+                        </tr>
+
+                        <tr>
+                            <td class="label">Date of Expiry</td>
+                            <td class="value center" colspan="2"><b>
+                                <t t-esc="buyer.buyer_id.emirates_id_expiry"/>
+                            </b></td>
+                            <td class="arabic">تاريخ الانتهاء</td>
+                        </tr>
+                    </table>
+                </t>
+
+                <!-- ===== PAYMENT SCHEDULE ===== -->
+                <table class="form-table" style="margin-top:10px; font-size:12px;">
+                    <!-- TITLE ROW -->
+                    <tr>
+                        <td colspan="8" class="section-title">
+                            PAYMENT SCHEDULE (PAYMENT PLAN)
+                            <span class="arabic" style="float:right;">جدول الدفع (خطة الدفع)</span>
+                        </td>
+                    </tr>
+
+                    <!-- HEADER ROW -->
+                    <tr class="center">
+                        <td><b>SNO</b></td>
+                        <td><b>%</b></td>
+                        <td><b>INSTALLMENTS</b></td>
+                        <td><b>AMOUNT IN AED</b></td>
+                        <td class="arabic"><b>المبلغ المدفوع بالدرهم الإماراتي</b></td>
+                        <td class="arabic"><b>الدفعات</b></td>
+                        <td class="arabic"><b>%</b></td>
+                        <td class="arabic"><b>SNO</b></td>
+                    </tr>
+
+                    <t t-set="arabic_digits" t-value="str.maketrans('0123456789','٠١٢٣٤٥٦٧٨٩')"/>
+                    <t t-set="months_ar" t-value="{
+                        1:'يناير',2:'فبراير',3:'مارس',4:'أبريل',5:'مايو',6:'يونيو',
+                        7:'يوليو',8:'أغسطس',9:'سبتمبر',10:'أكتوبر',11:'نوفمبر',12:'ديسمبر'
+                    }"/>
+                    <t t-set="sno" t-value="1"/>
+                    <t t-foreach="o.payment_schedule_ids" t-as="line">
+                        <tr class="center">
+                            <!-- English -->
+                            <td><t t-esc="sno"/></td>
+                            <t t-set="sno" t-value="sno+1"/>
+                            <td><t t-esc="('%.2f' % line.percentage)"/>%</td>
+                            <td><t t-esc="line.plan_date.strftime('%d/%b/%Y')"/></td>
+                            <td><t t-esc="'{:,.0f}'.format(line.rounded_amount)"/></td>
+
+                            <!-- Arabic -->
+                            <td class="arabic">
+                                <t t-esc="'{:,.0f}'.format(line.rounded_amount).translate(arabic_digits)"/>
+                            </td>
+
+                            <td class="arabic">
+                                <t t-esc="str(line.plan_date.day).translate(arabic_digits)"/>
+                                <t> </t>
+                                <t t-esc="months_ar[line.plan_date.month]"/>
+                                <t> </t>
+                                <t t-esc="str(line.plan_date.year).translate(arabic_digits)"/>
+                            </td>
+
+                            <td class="arabic">
+                                ٪<t t-esc="('%.2f' % line.percentage).translate(arabic_digits)"/>
+                            </td>
+
+                            <td class="arabic">
+                                <t t-esc="str(sno).translate(arabic_digits)"/>
+                            </td>
+                        </tr>
+                    </t>
+
+                    <!-- Repeat rows exactly like screenshot -->
+                    <!-- You can copy-paste same pattern till row 21 -->
+
+                    <!-- TOTAL ROW -->
+                    <tr class="center" style="background:#f3c9ff; font-weight:bold;">
+                        <td></td>
+
+                        <!-- English total % -->
+                        <td>
+                            <t t-esc="('%.2f' % sum(o.payment_schedule_ids.mapped('percentage')))"/>%
+                        </td>
+
+                        <td></td>
+
+                        <!-- English total amount -->
+                        <td>
+                            <t t-esc="o.total_rounded_amount"/>
+                        </td>
+
+                        <!-- Arabic total amount -->
+                        <td class="arabic">
+                            <t t-esc="'{:,.0f}'.format(o.total_rounded_amount).translate(arabic_digits)"/>
+                        </td>
+
+                        <td></td>
+
+                        <!-- Arabic total % -->
+                        <td class="arabic">
+                                ٪<t t-esc="('%.2f' % sum(o.payment_schedule_ids.mapped('percentage'))).translate(arabic_digits)"/>
+                        </td>
+
+                        <td></td>
+                    </tr>
+                </table>
+
+                <div class="page-break"></div>
+
+                <table class="form-table" style="margin-top:10px;">
+                    <tr>
+                        <td colspan="6" class="section-title">
+                            OTHER GOVERNMENT CHARGES
+                            <span class="arabic" style="float:right;">رسوم حكومية أخرى</span>
+                        </td>
+                    </tr>
+
+                    <tr class="fw-bold">
+                        <td colspan="2">
+                            TITLE DEED &amp; Oqood (1575+40+%4)<br/>
+                            <small>Dubai Land Department</small>
+                        </td>
+                        <td class="center"><b>
+                            <t t-esc="'{:,.0f}'.format(sum(o.other_gov_line_ids.mapped('amount')))"/>
+                        </b></td>
+                        <td class="arabic center">
+                            <t t-esc="'{:,.0f}'.format(sum(o.other_gov_line_ids.mapped('amount'))).translate(arabic_digits)"/>
+                        </td>
+                        <td colspan="2" style="direction: rtl;">
+                            رسوم ملكية العقار وعقود (1575+40+%4)<br/>
+                            <span style="color:red;">دائرة الأراضي والأملاك</span>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="form-table" style="margin-top:10px;">
+                    <tr>
+                        <td colspan="4" class="section-title">
+                            CORPORATE BANK ACCOUNT DETAILS
+                            <span class="arabic" style="float:right;">بيانات حساب البنك</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">ACCOUNT NAME</td>
+                        <td class="value center" style="color:red;" colspan="2"><b>
+                            <t t-esc="o.property_project_id.account_name"/>
+                        </b></td>
+                        <td class="label arabic">اسم الحساب</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">ACCOUNT NO.</td>
+                        <td class="value center" style="color:red;" colspan="2"><b>
+                            <t t-esc="o.property_project_id.account_no"/>
+                        </b></td>
+                        <td class="label arabic">رقم الحساب</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">BANK NAME</td>
+                        <td class="value center" style="color:red;" colspan="2"><b>
+                            <t t-esc="o.property_project_id.bank_name"/>
+                        </b></td>
+                        <td class="label arabic">اسم البنك</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">BRANCH</td>
+                        <td class="value center" style="color:red;" colspan="2"><b>
+                            <t t-esc="o.property_project_id.branch"/>
+                        </b></td>
+                        <td class="label arabic">الفرع</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">IBAN</td>
+                        <td class="value center" style="color:red;" colspan="2"><b>
+                            <t t-esc="o.property_project_id.iban_number"/>
+                        </b></td>
+                        <td class="label arabic">الرقم الدولي للحساب المصرفي</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">SWIFT</td>
+                        <td class="value center" style="color:red;" colspan="2"><b>
+                            <t t-esc="o.property_project_id.swift"/>
+                        </b></td>
+                        <td class="label arabic">سويفت</td>
+                    </tr>
+                </table>
+
+                <table class="form-table" style="margin-top:10px;">
+                    <tr>
+                        <td colspan="4" class="section-title">
+                            <span>ESCROW BANK ACCOUNT</span>
+                            <span style="margin-left:20px; font-weight:bold;">PAYMENT PLAN ONLY</span>
+
+                            <span class="arabic" style="float:right;">
+                                بيانات حساب الضمان
+                                <span style="margin-right:20px;">خطة الدفع فقط</span>
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">ESCROW ACCOUNT NAME</td>
+                        <td class="value center" style="color:red;" colspan="2"><b>
+                            <t t-esc="o.property_project_id.escrow_acc_name"/>
+                        </b></td>
+                        <td class="label arabic">اسم الحساب</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">ESCROW ACCOUNT NO.</td>
+                        <td class="value center" style="color:red;" colspan="2"><b>
+                            <t t-esc="o.property_project_id.escrow_acc_number"/>
+                        </b></td>
+                        <td class="label arabic">رقم حساب الضمان</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">BANK NAME</td>
+                        <td class="value center" style="color:red;" colspan="2"><b>
+                            <t t-esc="o.property_project_id.bank_name_escrow"/>
+                        </b></td>
+                        <td class="label arabic">اسم البنك</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">BRANCH</td>
+                        <td class="value center" style="color:red;" colspan="2"><b>
+                            <t t-esc="o.property_project_id.branch_escrow"/>
+                        </b></td>
+                        <td class="label arabic">الفرع</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">IBAN</td>
+                        <td class="value center" style="color:red;" colspan="2"><b>
+                            <t t-esc="o.property_project_id.iban_number_escrow"/>
+                        </b></td>
+                        <td class="label arabic">الرقم الدولي للحساب المصرفي</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">SWIFT</td>
+                        <td class="value center" style="color:red;" colspan="2"><b>
+                            <t t-esc="o.property_project_id.swift_escrow"/>
+                        </b></td>
+                        <td class="label arabic">سويفت</td>
+                    </tr>
+                </table>
+
+                <table class="form-table" style="margin-top:10px;">
+                    <tr>
+                        <td colspan="4" class="section-title">
+                            BROKERS DETAILS
+                            <span class="arabic" style="float:right;">بيانات الوسيط</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">SELLER BROKER</td>
+                        <td class="value center" colspan="2"><b>
+                            <t t-esc="o.lead_agent_id.name"/>
+                        </b></td>
+                        <td class="label arabic">الوسيط البائع</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">REAL ESTATE NAME</td>
+                        <td class="value center" colspan="2"><b>
+                            <t t-esc="o.lead_agent_id.parent_id.name"/>
+                        </b></td>
+                        <td class="label arabic">المكتب العقاري</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">REGISTRATION NO.</td>
+                        <td class="value center" colspan="2"><b>
+                            <t t-esc="o.lead_agent_id.rera_number"/>
+                        </b></td>
+                        <td class="label arabic">رقم التسجيل</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">MOBILE NO.</td>
+                        <td class="value center" colspan="2"><b>
+                            <t t-esc="o.lead_agent_id.phone"/>
+                        </b></td>
+                        <td class="label arabic">رقم الهاتف الجوال</td>
+                    </tr>
+
+                    <tr>
+                        <td class="label">EMAIL ADDRESS</td>
+                        <td class="value center" colspan="2"><b>
+                            <t t-esc="o.lead_agent_id.email"/>
+                        </b></td>
+                        <td class="label arabic">البريد الإلكتروني</td>
+                    </tr>
+                </table>
+
+                <div class="notes-wrapper">
+                    <table class="notes-table">
+                        <tr>
+                            <!-- ENGLISH NOTES -->
+                            <td class="notes-en">
+                                <div class="notes-title">NOTES:</div>
+                                <t t-esc="o.terms_and_condition"/>
+                            </td>
+
+                            <!-- ARABIC NOTES -->
+                            <td class="notes-ar">
+                                <div class="notes-title">ملاحظات:</div>
+                                <t t-esc="o.terms_and_condition_arabic"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="page-break"></div>
+
+                    <t t-foreach="o.property_buyer_ids" t-as="buyer">
+                        <table class="sign-table">
+                            <tr>
+                                <th class="sign-head">BUYER NAME (2)</th>
+                                <th class="sign-head sign-ar">(2) اسم المشتري</th>
+                                <th class="sign-head center">SIGNATURE</th>
+                                <th class="sign-head sign-ar center">التوقيع</th>
+                            </tr>
+
+                            <tr class="sign-row">
+                                <td colspan="2" class="fw-bold">
+                                    <t t-esc="buyer.buyer_id.name"/>
+                                </td>
+                                <td colspan="2"></td>
+                            </tr>
+
+                            <tr class="sign-empty">
+                                <td colspan="2"></td>
+                                <td colspan="2"></td>
+                            </tr>
+                        </table>
+                    </t>
+
+                    <br/>
+
+                    <!-- ================= SALES PERSON ================= -->
+                    <table class="sign-table">
+                        <tr>
+                            <th class="sign-head">
+                                SALES PERSON NAME<br/>
+                                (TIME PROPERTIES LLC)
+                            </th>
+                            <th class="sign-head sign-ar">
+                                اسم البائع (تايم العقارية)<br/>
+                                ذ.م.م
+                            </th>
+                            <th class="sign-head center">SIGNATURE</th>
+                            <th class="sign-head sign-ar center">التوقيع</th>
+                        </tr>
+
+                        <tr class="sign-empty">
+                            <td colspan="2"></td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </table>
+
+                    <br/>
+
+                    <!-- ================= SELLER ================= -->
+                    <table class="sign-table">
+                        <tr>
+                            <th class="sign-head">
+                                SELLER NAME /<br/>
+                                REPRESENTATIVE NAME
+                            </th>
+                            <th class="sign-head sign-ar">
+                                اسم البائع / المفوض عنه
+                            </th>
+                            <th class="sign-head center">SIGNATURE</th>
+                            <th class="sign-head sign-ar center">التوقيع</th>
+                        </tr>
+
+                        <tr class="sign-empty">
+                            <td colspan="2"></td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </table>
+
+                </div>
+
+            </div>
+
+            <!-- ===== FOOTER ===== -->
+            <div class="footer"
+                 style="font-size:12px; padding:10px 15px;">
+
+                <!-- TOP LINE -->
+                <table style="width:100%; border-collapse:collapse;" class="fw-bold">
+                    <tr>
+                        <td style="text-align:left;padding-top:50px;">
+                            <b>BUYER Signature</b> __________________
+                        </td>
+
+                        <td style="text-align:right;">
+                            <b>SELLER Initial</b> __________________
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- BOTTOM LINE -->
+                <table style="width:100%; margin-top:20px;">
+                    <tr>
+                        <td style="text-align:left; color:#f5a623;">
+                            UAE: Tel : +971 4 321 4442;
+                            Fax : ₽971 4 321 1443;
+                            P.O. Box 96532, Dubai UAE;<br/>
+                            Email : <t t-esc="o.property_project_id.company_id.email"/>
+                            Website : <t t-esc="o.property_project_id.company_id.email"/>
+                        </td>
+
+                        <td style="text-align:right; color:#f5a623;">
+                            <t t-if="report_type == 'pdf'">
+                                Page <span class="page"/> of <span class="topage"/>
+                            </t>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </t>
+    </template>
+
+    <template id="property_sales.report_offer_booking_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="property_sales.report_booking_form"/>
+            </t>
+        </t>
+    </template>
+</odoo>

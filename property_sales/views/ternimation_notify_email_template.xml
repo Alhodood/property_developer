@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="email_template_termination_notify" model="mail.template">
+        <field name="name">Termination Process Started</field>
+        <field name="model_id" ref="property_sales.model_termination_request"/>
+        <field name="subject">Termination Process Started – {{object.property_unit_id.name}}</field>
+        <field name="email_from">{{object.user_id.email}}</field>
+        <field name="partner_to">{{object.partner_id.id}}</field>
+         <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+            <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                  <p>Dear <t t-out="object.partner_id.name or ''"/>,</p>
+                    <br/><br/>
+                      <p>
+                    We would like to inform you that the
+                    <strong>termination process has been formally initiated</strong>
+                    for the property unit mentioned below:
+                </p>
+                 <table style="border-collapse: collapse; margin-top: 10px;">
+                <tr>
+                    <td style="padding:4px 8px;"><strong>Property</strong></td>
+                    <td style="padding:4px 8px;"><t t-out="object.property_project_id.name"/></td>
+                </tr>
+                <tr>
+                    <td style="padding:4px 8px;"><strong>Property Unit</strong></td>
+                    <td style="padding:4px 8px;"><t t-out="object.property_unit_id.name"/></td>
+                </tr>
+                <tr>
+                    <td style="padding:4px 8px;"><strong>Reference</strong></td>
+                    <td style="padding:4px 8px;"><t t-out="object.sequence"/></td>
+                </tr>
+                <tr>
+                    <td style="padding:4px 8px;"><strong>Request Date</strong></td>
+                    <td style="padding:4px 8px;"><t t-out="object.request_date"/></td>
+                </tr>
+            </table>
+
+            <p style="margin-top:10px;">
+                Our team is currently reviewing the request. Should any additional
+                information or documentation be required, we will contact you
+                accordingly.
+            </p>
+
+                 <p>
+                Please feel free to reach out to us if you have any questions.
+            </p>
+
+            <p>
+                Kind regards,<br/>
+                <strong><t t-out="object.company_id.name"/></strong>
+            </p>
+
+            </p>
+            </div>
+        </field>
+            <field name="auto_delete" eval="True"/>
+    </record>
+</odoo>

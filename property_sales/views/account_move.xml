@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_move_form_view_inherited_afasco" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.afasco</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_date']"
+                   position="after">
+                <field name="property_type"/>
+                <field name="property_project_id" invisible="property_type != 'sale'"/>
+                <field name="property_unit_id" invisible="property_type != 'sale'"/>
+                <field name="sale_id" invisible="1"/>
+                <field name="spa_id" invisible="1"/>
+                <field name="sale_property_commission_id" invisible="1"/>
+                <field name="agent_sale_commission_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

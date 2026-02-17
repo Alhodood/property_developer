@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_property_price_update_wizard_wizard" model="ir.ui.view">
+        <field name="name">property.price.update.wizard.form</field>
+        <field name="model">property.price.update.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Notify Handover">
+                <group>
+                    <group>
+                    <field name="project_id"/>
+                    <field name="currency_id" readonly="1"/>
+                    <field name="apply_on"/>
+                    <field name="unit_type_id" required="1"/>
+                    <field name="unit_ids" widget="many2many_tags" invisible="apply_on == 'all'" required="apply_on == 'selected'"/>
+                    </group>
+                    <group>
+                          <field name="price_type"/>
+                          <field name="percentage_value" invisible="price_type != 'percentage'" required="price_type == 'percentage'"/>
+                          <field name="type_percentage" invisible="price_type != 'percentage'" required="price_type == 'percentage'"/>
+                          <field name="fixed_value" invisible="price_type != 'fixed'" required="price_type == 'fixed'"/>
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="action_send_notification"
+                        type="object"
+                        string="Update"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+        </record>
+
+    <record id="action_property_pric_update_wizard_upload" model="ir.actions.act_window">
+        <field name="name">Price Update</field>
+        <field name="res_model">property.price.update.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_property_price_update_wizard_wizard"/>
+    </record>
+</odoo>

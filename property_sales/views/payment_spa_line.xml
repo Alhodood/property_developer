@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_payment_schedule_spa_line_form" model="ir.ui.view">
+    <field name="name">payment.schedule.spa.line.form</field>
+    <field name="model">payment.schedule.spa.line</field>
+    <field name="arch" type="xml">
+        <form string="SPA Payment Line">
+            <sheet>
+
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence"/>
+                        <field name="spa_id"/>
+                        <field name="sale_order"/>
+                        <field name="crm_id"/>
+                    </group>
+
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="property_project_id"/>
+                        <field name="property_unit_id"/>
+                    </group>
+                </group>
+
+                <separator string="Payment Details"/>
+
+                <group>
+                    <group>
+                        <field name="plan_date"/>
+                        <field name="payment_id"/>
+                        <field name="percentage"/>
+                    </group>
+
+                    <group>
+                        <field name="amount" readonly="1"/>
+                        <field name="rounded_amount"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                </group>
+
+                <separator string="Invoice Information"/>
+
+                <group>
+                    <group>
+                        <field name="invoice_id"/>
+                        <field name="inv_created"/>
+                    </group>
+
+                    <group>
+                        <field name="inv_status"/>
+                        <field name="pay_status"/>
+                        <field name="amount_residual"/>
+                    </group>
+                </group>
+
+            </sheet>
+        </form>
+    </field>
+    </record>
+
+    <record id="view_payment_schedule_spa_line_tree" model="ir.ui.view">
+    <field name="name">payment.schedule.spa.line.tree</field>
+    <field name="model">payment.schedule.spa.line</field>
+    <field name="arch" type="xml">
+        <list string="SPA Payment Schedule" default_order="sequence desc" limit="500">
+            <field name="sequence" widget="handle"/>
+            <field name="name"/>
+            <field name="spa_id"/>
+            <field name="partner_id"/>
+            <field name="plan_date"/>
+            <field name="percentage"/>
+            <field name="rounded_amount"/>
+            <field name="invoice_id"/>
+            <field name="inv_status"/>
+            <field name="pay_status"/>
+        </list>
+    </field>
+    </record>
+
+        <record id="view_payment_schedule_spa_line_search" model="ir.ui.view">
+        <field name="name">payment.schedule.spa.line.search</field>
+        <field name="model">payment.schedule.spa.line</field>
+            <field name="arch" type="xml">
+                <search string="Search Payment Schedule">
+                    <field name="name"/>
+                    <field name="spa_id"/>
+                    <field name="partner_id"/>
+                    <field name="invoice_id"/>
+
+                    <filter string="Invoice Created"
+                            name="inv_created"
+                            domain="[('inv_created','=',True)]"/>
+
+                    <filter string="Not Invoiced"
+                            name="not_invoiced"
+                            domain="[('invoice_id','=',False)]"/>
+
+                    <filter string="Invoice Posted"
+                            name="posted"
+                            domain="[('inv_status','=','posted')]"/>
+
+                    <filter string="Unpaid"
+                            name="unpaid"
+                            domain="[('pay_status','!=','paid')]"/>
+                    <filter string="Pending Payment"
+                            name="pending_payment"
+                            domain="['|', ('invoice_id','=',False), ('pay_status','!=','paid')]"/>
+
+                    <group>
+                        <filter string="SPA" context="{'group_by':'spa_id'}" name="spa_filter_group_by"/>
+                        <filter string="Buyer" context="{'group_by':'partner_id'}" name="buyer_group_by"/>
+                        <filter string="Invoice Status" context="{'group_by':'inv_status'}" name="invoice_status_group_by"/>
+                        <filter string="Payment Status" context="{'group_by':'pay_status'}" name="payment_status_group_by"/>
+                        <filter string="Plan Date" context="{'group_by':'plan_date'}" name="plan_date_group_by"/>
+                    </group>
+                    </search>
+            </field>
+        </record>
+
+    <record id="action_payment_schedule_lines" model="ir.actions.act_window">
+        <field name="name">Payment Schedule Line</field>
+        <field name="res_model">payment.schedule.spa.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_payment_schedule_spa_line_tree"/>
+        <field name="search_view_id" ref="view_payment_schedule_spa_line_search"/>
+         <field name="context">{'search_default_pending_payment': 1}</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p>
+                Create and manage your Payment Schedule Line
+            </p>
+        </field>
+    </record>
+
+     <menuitem id="menu_payment_schedule_lines"
+              name="Payment Schedule Line"
+              action="action_payment_schedule_lines"
+              parent="property_sales.menu_property_sales_management_root"
+               groups="property_sales.group_property_sales_crm_manager,property_sales.group_property_sales_manager,property_sales.group_booking_general_approval,property_sales.group_booking_finance_approval"
+              sequence="15"/>
+
+
+
+
+
+
+</odoo>

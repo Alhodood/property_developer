@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="pdc_receipt_template">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <div class="page" style="font-size:13px;">
+
+                        <div style="width:100%; overflow:hidden;" t-attf-class="header">
+
+                            <!-- LEFT : COMPANY DETAILS -->
+                            <div style="width:70%; float:left;">
+                                <strong>
+                                    <t t-esc="docs[0].company_id.name"/>
+                                </strong><br/>
+
+                                <t t-if="docs[0].company_id.street">
+                                    <t t-esc="docs[0].company_id.street"/><br/>
+                                </t>
+                                <t t-if="docs[0].company_id.street2">
+                                    <t t-esc="docs[0].company_id.street2"/><br/>
+                                </t>
+                                <t t-if="docs[0].company_id.city">
+                                    <t t-esc="docs[0].company_id.city"/>,
+                                </t>
+                                <t t-if="docs[0].company_id.country_id">
+                                    <t t-esc="docs[0].company_id.country_id.name"/><br/>
+                                </t>
+
+                                <t t-if="docs[0].company_id.vat">
+                                    TRN : <t t-esc="docs[0].company_id.vat"/><br/>
+                                </t>
+
+                                <t t-if="docs[0].company_id.email">
+                                    E-Mail : <t t-esc="docs[0].company_id.email"/>
+                                </t>
+                            </div>
+
+                            <!-- RIGHT : LOGO -->
+                            <div style="width:30%; float:right; text-align:right;">
+                                <t t-if="docs[0].company_id.logo">
+                                    <img t-att-src="'/web/image/res.company/%s/logo' % docs[0].company_id.id"
+                                         style="max-height:80px;"/>
+                                </t>
+                            </div>
+
+                        </div>
+
+                        <!-- CLEAR FLOAT -->
+                        <div style="clear:both;"></div>
+
+                        <h3 style="text-align:center; margin-top:10px;">
+                            RECEIPT VOUCHER
+                        </h3>
+
+                        <!-- DETAILS -->
+                        <table width="100%" style="border:1px solid #000; border-collapse:collapse;">
+                            <tr>
+                                <td style="border:1px solid #000; padding:6px;">
+                                    <strong>Received From</strong><br/>
+                                    <t t-esc="docs[0].customer_id.name"/>
+                                </td>
+                                <td style="border:1px solid #000; padding:6px;">
+                                    <strong>Property</strong><br/>
+                                    <t t-esc="docs[0].property_project_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #000; padding:6px;">
+                                    <strong>Through</strong><br/>
+                                    Bank Transfer
+                                </td>
+                                <td style="border:1px solid #000; padding:6px;">
+                                    <strong>Unit</strong><br/>
+                                    <t t-esc="docs[0].property_unit_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #000; padding:6px;">
+                                    <strong>SPA</strong><br/>
+                                    <t t-esc="docs[0].spa_id.sequence"/>
+                                </td>
+                                <td style="border:1px solid #000; padding:6px;">
+                                    <strong>Amount</strong><br/>
+                                    <t t-esc="sum(docs.mapped('amount'))" t-options='{"widget": "monetary", "display_currency": docs[0].company_id.currency_id}'
+                                       class="fw-bold"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- DESCRIPTION -->
+                        <table width="100%" style="margin-top:10px; border:1px solid #000; border-collapse:collapse;">
+                            <tr>
+                                <th style="border:1px solid #000; padding:6px;" class="fw-bold">
+                                    Cheque No
+                                </th>
+                                <th style="border:1px solid #000; padding:6px;" class="fw-bold">
+                                    Cheque Payee
+                                </th>
+                                <th style="border:1px solid #000; padding:6px;" class="fw-bold">
+                                    Cheque Date
+                                </th>
+                                <th style="border:1px solid #000; padding:6px;" class="fw-bold">
+                                    Bank
+                                </th>
+                                <th style="border:1px solid #000; padding:6px;text-align:right;" class="fw-bold">
+                                    Amount
+                                </th>
+                            </tr>
+                            <t t-foreach="docs" t-as="o">
+                                <tr>
+                                    <td style="border:1px solid #000; padding:6px;text-align:center;">
+                                        <t t-esc="o.cheque_no"/>
+                                    </td>
+                                    <td style="border:1px solid #000; padding:6px;text-align:center;">
+                                        <t t-esc="o.cheque_pay_name"/>
+                                    </td>
+                                    <td style="border:1px solid #000; padding:6px;text-align:center;">
+                                        <t t-esc="o.cheque_date"/>
+                                    </td>
+                                    <td style="border:1px solid #000; padding:6px;text-align:center;">
+                                        <t t-esc="o.bank"/>
+                                    </td>
+                                    <td style="border:1px solid #000; padding:6px; text-align:right;" class="fw-bold">
+                                        <t t-esc="o.amount" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+
+                        <!-- AMOUNT IN WORDS -->
+                        <p style="margin-top:8px;">
+                            <strong>Amount in Words:</strong><br/>
+                            <t t-esc="docs[0].amount_to_words(sum(docs.mapped('amount')), docs[0].company_id.currency_id.name)"/>
+                        </p>
+
+                        <!-- FOOTER -->
+                        <table width="100%" style="margin-top:40px;font-size:14px;">
+                            <tr>
+                                <td style="padding-top:9% !important;"><span style="padding:2% !important;">Prepared By</span></td>
+                                <td><span style="padding:2% !important;">Approved By</span></td>
+                                <td><span style="padding:2% !important;">Receiver’s Sign</span></td>
+                            </tr>
+                        </table>
+
+                        <p style="text-align:center; margin-top:10px; font-size:12px;">
+                            This is computer generated and signature not required.
+                        </p>
+
+                        <div t-attf-class="footer o_standard_footer">
+                            <div class="text-center" style="font-size:11px !important;">
+                                <div t-if="report_type == 'pdf'" class="text-muted">
+                                    Page:
+                                    <span class="page"/>
+                                    of
+                                    <span class="topage"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+                </t>
+        </template>
+
+    </data>
+</odoo>

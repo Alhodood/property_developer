@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="blocking_request_form" model="ir.ui.view">
+        <field name="name">blocking.request.form.view</field>
+        <field name="model">blocking.request</field>
+        <field name="arch" type="xml">
+            <form string="Blocking Request">
+                <header>
+                    <field name="status" widget="statusbar" readonly="1"
+                           options="{'clickable': '0'}"/>
+                    <button name="action_approve_fst"
+                            type="object"
+                            string="Admin Approval"
+                            groups="property_sales.group_admin_blocking"
+                            class="btn btn-success"
+                            invisible="status != 'draft'"
+                    />
+                    <button name="action_approve_scnd"
+                            type="object"
+                            groups="property_sales.group_property_blocking"
+                            string="Finance Approval"
+                            class="btn btn-success"
+                            invisible="status != 'admin_approved'"
+                    />
+
+                    <button name="action_approve_refuse"
+                            type="object"
+                            string="Refuse"
+                            class="btn btn-danger"
+                            groups="property_sales.group_property_blocking"
+                            invisible="status != 'admin_approved'"
+                    />
+                      <button name="action_approve_refuse"
+                            type="object"
+                            string="Refuse"
+                            class="btn btn-danger" groups="property_sales.group_admin_blocking"
+                            invisible="status != 'draft'"
+                    />
+
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="sequence_code" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group string="Property Information">
+                        <group>
+                            <field name="crm_id" invisible="1" force_save="1"/>
+                            <field name="sale_order" readonly="1" force_save="1"/>
+                            <field name="property_project_id" readonly="1" force_save="1"/>
+                            <field name="user_id" readonly="1" force_save="1"/>
+                            <field name="status" readonly="1"/>
+                            <field name="start_date" readonly="1"/>
+                            <field name="payment_required"/>
+                            <field name="company_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="partner_id" readonly="1" force_save="1"/>
+                            <field name="property_unit_id" readonly="1" force_save="1"/>
+                            <field name="created_by" readonly="1"/>
+                            <field name="create_date" readonly="1"/>
+                            <field name="end_date"/>
+                            <field name="no_of_days"/>
+                            <field name="payment_amount"
+                                   required="payment_required == True"/>
+                        </group>
+                    </group>
+                    <group string="Note">
+                        <field name="request" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Payment Lines" name="payment_lines"
+                              groups="property_sales.group_property_blocking">
+                            <field name="blocking_payment_lines_ids"
+                                   widget="one2many">
+                                <list string="Payment Lines" editable="bottom"
+                                      delete="1" create="1">
+                                    <field name="blocking_request_id"
+                                           column_invisible="1"/>
+                                    <field name="payment_id"/>
+                                    <field name="partner_id" readonly="1"/>
+                                    <field name="currency_id"
+                                           column_invisible="1"/>
+                                    <field name="amount" readonly="1"/>
+                                    <field name="payment_date" readonly="1"/>
+                                    <field name="state" readonly="1"/>
+                                </list>
+                            </field>
+
+                        </page>
+                        <page string="Other Information"
+                              name="other_information">
+                            <group>
+                                <group>
+                                    <field name="fst_approval_date"
+                                           readonly="1"/>
+                                    <field name="fst_approver_comment"
+                                           readonly="status != 'draft'"/>
+                                    <field name="fst_approval_user"
+                                           readonly="1"/>
+                                    <field name="refuse_date" readonly="1"/>
+                                    <field name="refuse_user" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="scnd_approval_date"
+                                           readonly="1"/>
+                                    <field name="snd_approver_comment"
+                                           readonly="status != 'admin_approved'"/>
+                                    <field name="scnd_approval_user"
+                                           readonly="1"/>
+                                    <field name="refuse_comment"
+                                           readonly="status not in ['draft','admin_approved'] "/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="blocking_request_tree_view" model="ir.ui.view">
+        <field name="name">blocking.request.tree.view</field>
+        <field name="model">blocking.request</field>
+        <field name="arch" type="xml">
+            <list string="Property Blocking" create="1" delete="1">
+                <field name="sequence_code" readonly="1"/>
+                <field name="property_project_id" readonly="1"/>
+                <field name="property_unit_id" readonly="1"/>
+                <field name="crm_id" column_invisible="1"/>
+                <field name="sale_order" readonly="1"/>
+                <field name="start_date" readonly="1"/>
+                <field name="end_date"/>
+                <field name="no_of_days"/>
+                <field name="user_id" readonly="1"/>
+                <field name="status" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="blocking_request_search_view" model="ir.ui.view">
+        <field name="name">blocking.request.search.view</field>
+        <field name="model">blocking.request</field>
+        <field name="arch" type="xml">
+            <search string="Search Blocking Request">
+
+                <!-- Quick search fields -->
+                <field name="sequence_code" string="Sequence"/>
+                <field name="partner_id"/>
+                <field name="property_project_id"/>
+                <field name="property_unit_id"/>
+                <field name="crm_id"/>
+                <field name="user_id"/>
+                <field name="created_by"/>
+
+                <!-- Status Filters -->
+                <separator/>
+                <filter name="draft"
+                        string="Draft"
+                        domain="[('status','=','draft')]"/>
+
+                <filter name="admin_approved"
+                        string="Admin Approved"
+                        domain="[('status','=','admin_approved')]"/>
+
+                <filter name="finance_approved"
+                        string="Finance Approved"
+                        domain="[('status','=','finance_approved')]"/>
+
+                <filter name="refused"
+                        string="Refused"
+                        domain="[('status','=','refused')]"/>
+
+                <!-- My Requests -->
+                <separator/>
+                <filter name="my_requests"
+                        string="My Requests"
+                        domain="[('created_by','=',uid)]"/>
+
+
+                <!-- Group By -->
+                <group>
+                    <filter name="group_status"
+                            string="Status"
+                            context="{'group_by':'status'}"/>
+
+                    <filter name="group_project"
+                            string="Project"
+                            context="{'group_by':'property_project_id'}"/>
+
+                    <filter name="group_salesperson"
+                            string="Salesperson"
+                            context="{'group_by':'user_id'}"/>
+
+                    <filter name="group_created_by"
+                            string="Created By"
+                            context="{'group_by':'created_by'}"/>
+                </group>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="action_blocking_request_type" model="ir.actions.act_window">
+        <field name="name">Blocking Request</field>
+        <field name="res_model">blocking.request</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="blocking_request_tree_view"/>
+        <field name="search_view_id" ref="blocking_request_search_view"/>
+        <field name="domain">[]</field>
+        <field name="context">{'create': False,'delete': False}</field>
+        <field name="help" type="html">
+            <p>
+                Create and manage your Blocking Request
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_property_blocking_request"
+              name="Property Blocking Request"
+              action="action_blocking_request_type"
+              groups="property_sales.group_property_blocking,property_sales.group_admin_blocking"
+              parent="property_sales.menu_property_sales_management_root"
+              sequence="20"
+    />
+
+</odoo>

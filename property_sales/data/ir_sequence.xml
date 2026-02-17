@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequence for CRM Lead -->
+        <record id="seq_property_project_code" model="ir.sequence">
+            <field name="name">Property Project Sequence</field>
+            <field name="code">property.project.sequence</field>
+            <field name="prefix">PSL/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+             <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_sale_offer_print" model="ir.sequence">
+            <field name="name">Sale Offer Print Reference</field>
+            <field name="code">sale.offer.print</field>
+            <field name="prefix">EMR/REF/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+          <record id="seq_property_project_unit" model="ir.sequence">
+            <field name="name">Property Unit Sequence</field>
+            <field name="code">property.unit.sequence</field>
+            <field name="prefix">UNT/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+               <field name="company_id" eval="False"/>
+        </record>
+
+         <record id="seq_property_blocking_sequence" model="ir.sequence">
+            <field name="name">Property Blocking Sequence</field>
+            <field name="code">property.blocking.sequence</field>
+            <field name="prefix">BLK/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+              <field name="company_id" eval="False"/>
+        </record>
+
+         <record id="seq_paymnet_voucher_sequence" model="ir.sequence">
+            <field name="name">Payment Voucher Sequence</field>
+            <field name="code">property.voucher.sequence</field>
+            <field name="prefix">VCHR/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+              <field name="company_id" eval="False"/>
+        </record>
+
+         <record id="seq_property_project_booking" model="ir.sequence">
+            <field name="name">Property Booking Sequence</field>
+            <field name="code">property.booking.sequence</field>
+            <field name="prefix">BKG/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+        </record>
+
+          <record id="seq_spa_book" model="ir.sequence">
+            <field name="name">SPA Booking Sequence</field>
+            <field name="code">spa.book.sequence</field>
+            <field name="prefix">SPA/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+        </record>
+
+          <record id="seq_property_oqood_sequence" model="ir.sequence">
+            <field name="name">Property Oqood Sequence</field>
+            <field name="code">property.oqood.sequence</field>
+            <field name="prefix">OQOOD/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_property_snagging_sequence" model="ir.sequence">
+            <field name="name">Property Snagging Sequence</field>
+            <field name="code">property.snagging.sequence</field>
+            <field name="prefix">SNG/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_key_handover" model="ir.sequence">
+            <field name="name">Key Handover Sequence</field>
+            <field name="code">key.handover.sequence</field>
+            <field name="prefix">KH/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_sale_commission_sequence" model="ir.sequence">
+            <field name="name">Sales Commission Sequence</field>
+            <field name="code">sale.commission.sequence</field>
+            <field name="prefix">SCM/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_agnet_commission_sequence" model="ir.sequence">
+            <field name="name">Agent Commission Sequence</field>
+            <field name="code">agent.commission.sequence</field>
+            <field name="prefix">AGCM/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+        </record>
+
+           <record id="seq_property_title_deed_sequence" model="ir.sequence">
+            <field name="name">Title Deed Sequence</field>
+            <field name="code">property.title.deed.sequence</field>
+            <field name="prefix">TLD/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+        </record>
+
+          <record id="seq_property_pre_title_deed_sequence" model="ir.sequence">
+            <field name="name">PRE Title Deed Sequence</field>
+            <field name="code">pre.title.deed.sequence</field>
+            <field name="prefix">PTLD/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_property_property_termination_sequence" model="ir.sequence">
+            <field name="name">Property Termination Sequence</field>
+            <field name="code">property.termination.sequence</field>
+            <field name="prefix">TRM/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+        </record>
+
+         <record id="seq_discount_request_sequence" model="ir.sequence">
+            <field name="name">Discount Request Sequence</field>
+            <field name="code">discount.request.sequence</field>
+            <field name="prefix">DRQST/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+        </record>
+
+
+
+
+    </data>
+</odoo>

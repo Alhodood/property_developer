@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_available_property_unit_document">
+        <t t-set="data_report_landscape" t-value="True"/>
+        <t t-call="web.basic_layout">
+            <div t-attf-class="header">
+            </div>
+         <div class="mt-0">
+             <div class="page">
+                <h2 class="text-center">
+                    Available Units – <t t-esc="o.company_id.name"/>/ <t t-esc="o.name"/>
+                </h2>
+                  <div class="oe_structure"></div>
+                 <br></br>
+                <table class="table table-sm table-bordered"
+                       style="margin-top:20px;font-size:11px;width:100%;border-collapse: collapse;border:1px solid #000;">
+                        <tr style="border:1px solid #000;">
+                            <th style="border:1px solid #000;font-weight:700;font-size:14px;" colspan="10" class="text-center"><strong><t t-esc="o.name"/></strong></th>
+                            <th style="border:1px solid #000;font-weight:700;" class="text-center" width="8%"><strong></strong></th>
+                            <th style="border:1px solid #000;font-weight:700;" class="text-center" width="8%"><strong></strong></th>
+                            <th style="border:1px solid #000;font-weight:700;"  class="text-center" width="8%"><strong></strong></th>
+                            <th style="border:1px solid #000;font-weight:700;" class="text-center" width="8%"><strong></strong></th>
+                            <th style="border:1px solid #000;font-weight:700;font-size:14px;"  class="text-center" width="6%"><strong><u><t t-esc="time.strftime('%d/%b/%Y')"/></u></strong></th>
+                        </tr>
+                        <tr style="border:1px solid #000;background-color:#FBE2D5;">
+                            <th style="border:1px solid #000;font-weight:700;" class="text-center" width="1%"><strong>S.No</strong></th>
+                            <th style="border:1px solid #000;font-weight:700;"  class="text-center" width="6%"><strong>Unit No</strong></th>
+                            <th style="border:1px solid #000;font-weight:700;"  class="text-center" width="3%"><strong>Floor</strong></th>
+                            <th style="border:1px solid #000;font-weight:700;" class="text-center"  width="4%"><strong>Type</strong></th>
+                            <th style="border:1px solid #000;font-weight:700;" class="text-center" width="7%"><strong>Flat Area (sft)</strong></th>
+                            <th style="border:1px solid #000;font-weight:700;" class="text-center"  width="7%"><strong>Balcony Area (sft)</strong></th>
+                            <th style="border:1px solid #000;font-weight:700;"  class="text-center" width="8%"><strong>TOTAL (sft)</strong></th>
+                            <th style="border:1px solid #000;font-weight:700;" class="text-center"  width="8%"><strong>Price/ PSF AED</strong></th>
+                            <th style="border:1px solid #000;font-weight:700;" class="text-center"  width="10%"><strong>View</strong></th>
+                            <th style="border:1px solid #000;font-weight:700;"  class="text-center" width="8%"><strong>Final Target Price (AED)</strong></th>
+                            <th style="border:1px solid #000;font-weight:700;" class="text-center" width="8%"><strong>Title Deed (AED)</strong></th>
+                            <th style="border:1px solid #000;font-weight:700;" class="text-center" width="8%"><strong>Oqood (AED)</strong></th>
+                            <th style="border:1px solid #000;font-weight:700;"  class="text-center" width="8%"><strong>Total Purchase Price (AED)</strong></th>
+                            <th style="border:1px solid #000;font-weight:700;" class="text-center" width="8%"><strong>Comments</strong></th>
+                            <th style="border:1px solid #000;font-weight:700;"  class="text-center" width="6%"><strong>STATUS</strong></th>
+                        </tr>
+                    <tbody style="border:1px solid #000;">
+                          <t t-set="index" t-value="1"/>
+                        <t t-foreach="o.property_unit_ids" t-as="unit">
+                            <t t-if="unit.status == 'available'">
+                            <tr style="page-break-inside: avoid;border:1px solid #000;"
+                                 t-att-style="'background-color:%s;' % unit.type_id.color if unit.type_id.color else''"
+                            >
+
+                                <td class="text-center" style="border:1px solid #000;">
+                                    <t t-esc="index"/></td>
+                                <td class="text-center" style="border:1px solid #000;"><t t-esc="unit.name"/></td>
+                                <td style="border:1px solid #000;" class="text-center"><t t-esc="unit.floor_no"/></td>
+                                <td style="border:1px solid #000;" class="text-center"><t t-esc="unit.type_id.name"/></td>
+                                <td style="border:1px solid #000;" class="text-end"><t t-esc="unit.apartment_area"/></td>
+                                <td style="border:1px solid #000;" class="text-end"><t t-esc="unit.balcony_area"/></td>
+                                <td style="border:1px solid #000;" class="text-end"><strong><t t-esc="unit.total_size"/></strong></td>
+                                <td style="border:1px solid #000;font-weight:700;" class="text-end"><strong><t t-esc="unit.price_psf"/></strong></td>
+                                <td style="border:1px solid #000;font-weight:700;"><strong><t t-esc="unit.view_unit"/></strong></td>
+                                <td style="border:1px solid #000;font-weight:700;" class="text-end"><strong><t t-esc="unit.php"/></strong></td>
+                                <td style="border:1px solid #000;font-weight:700;" class="text-end"><strong><t t-esc="unit.title_deed_value"/></strong></td>
+                                <td style="border:1px solid #000;font-weight:700;" class="text-end"><strong><t t-esc="unit.oqood_value"/></strong></td>
+                                <td style="border:1px solid #000;font-weight:700;" class="text-end"><strong><t t-esc="unit.total_purchase_value"/></strong></td>
+                                <td width="10%" style="border:1px solid #000;"></td>
+                                <td style="border:1px solid #000;font-weight:700;" class="text-center"><strong>AVAILABLE</strong></td>
+                            </tr>
+                             <t t-set="index" t-value="index + 1"/>
+                                </t>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+            <div t-attf-class="footer o_standard_footer">
+                    <div class="text-center">
+                        <div style="border-top: 2px solid black; margin-bottom: 10px;"></div>
+                        <div t-if="report_type == 'pdf'" class="text-muted">
+                            Page:
+                            <span class="page"/>
+                            of
+                            <span class="topage"/>
+                        </div>
+                    </div>
+                </div>
+        </t>
+    </template>
+
+      <template id="property_sales.report_available_property_project_unit">
+            <t t-set="data_report_landscape" t-value="True"/>
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                        <t t-call="property_sales.report_available_property_unit_document"/>
+                </t>
+            </t>
+        </template>
+</odoo>

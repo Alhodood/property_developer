@@ -1,0 +1,78 @@
+<odoo>
+  <!-- mail to agent with link -->
+    <record id="mail_template_agent_registration" model="mail.template">
+        <field name="name">Agent Registration Link</field>
+        <field name="model_id" ref="model_reg_agent"/>
+        <field name="partner_to" eval="False"/>
+        <field name="subject">Please complete your Agent Registration</field>
+        <field name="email_to" eval="False"/>
+        <field name="use_default_to" eval="True"/>
+        <field name="body_html" type="html">
+            <div>
+                <p>Hi,</p>
+                <p>Please complete your registration by clicking the link below:</p>
+                <p>
+                  <a t-attf-href="/agent/register"
+                     style="display:inline-block; padding:12px 26px;
+                            background-color:#28a745; color:white;
+                            border-radius:30px; text-decoration:none;
+                            font-weight:600;">
+                     Complete Registration
+                  </a>
+                </p>
+                <p>Thanks,<br/> <t t-out="object.company_id.name"/></p>
+            </div>
+        </field>
+    </record>
+
+  <!-- notify salesman when agent submits -->
+  <record id="mail_template_submission_notify_salesman" model="mail.template">
+    <field name="name">Agent Submitted Registration (Notify Salesman)</field>
+    <field name="model_id" ref="model_reg_agent"/>
+    <field name="subject">Agent has submitted registration: {{object.name}}</field>
+    <field name="email_from"></field>
+    <field name="email_from"></field>
+    <field name="body_html"><![CDATA[
+      <p>Agent Registration,</p>
+      <p>Agent <strong><t t-esc="object.name"/> (<t t-esc="object.sequence_code"/>)</strong> has submitted registration.</p>
+      <p>
+        <a t-attf-href="#{object.env['ir.config_parameter'].sudo().get_param('web.base.url')}/web#id=#{object.id}&model=reg.agent&view_type=form"
+           style="
+               background-color:#875A7B;
+               color:#ffffff;
+               padding:10px 18px;
+               text-decoration:none;
+               border-radius:4px;
+               font-weight:600;
+               display:inline-block;
+           ">
+            Open Record
+        </a>
+    </p>
+    ]]></field>
+  </record>
+
+  <!-- approval -->
+  <record id="mail_template_agent_approved" model="mail.template">
+    <field name="name">Agent Approved</field>
+    <field name="model_id" ref="model_reg_agent"/>
+    <field name="subject">Your registration is approved</field>
+    <field name="body_html"><![CDATA[
+      <p>Dear <t t-esc="object.name"/>,</p>
+      <p>Your registration has been approved. You are now registered as a vendor.</p>
+      <p>Thanks</p>
+    ]]></field>
+  </record>
+
+  <!-- rejection -->
+  <record id="mail_template_agent_rejected" model="mail.template">
+    <field name="name">Agent Rejected</field>
+    <field name="model_id" ref="model_reg_agent"/>
+    <field name="subject">Your registration was not approved</field>
+    <field name="body_html"><![CDATA[
+      <p>Dear <t t-esc="object.name"/>,</p>
+      <p>Your registration was rejected.</p>
+      <p>Reason: <t t-esc="object.reject_reason"/></p>
+    ]]></field>
+  </record>
+</odoo>

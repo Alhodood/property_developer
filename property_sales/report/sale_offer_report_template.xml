@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="sale_offer_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+
+                <style>
+                    /* ===== PAGE BACKGROUND ===== */
+                    .page {
+                        background-color: #1f3d2b;
+                        padding: 0 0;
+                        width:100% !important;
+                    }
+                    body {
+                        background-color: #1f3d2b;
+                    }
+                    .emaar-card {
+                        background-color: #ffffff;
+                        width: 82%;
+                        margin: 0 auto;
+                        padding: 30px 35px;
+                        font-family: "Times New Roman", Times, serif;
+                        color: #000;
+                    }
+
+                    /* ===== HEADERS ===== */
+                    .sub-heading-text {
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        letter-spacing: 0.16em;
+                        font-size: 14px;
+                        text-align: center;
+                        margin: 20px 0;
+                    }
+
+                    /* ===== TABLE COMMON ===== */
+                    table {
+                        border-collapse: collapse;
+                        width: 100%;
+                    }
+                    th, td {
+                        border: 1px solid #000;
+                        padding: 7px;
+                        font-size: 12px;
+                        text-align: center;
+                    }
+                    th {
+                        background-color: #f2f2f2;
+                        font-weight: bold;
+                    }
+
+                    .table-title {
+                        font-size: 14px;
+                        letter-spacing: 1px;
+                        padding: 8px;
+                    }
+
+                    /* ===== PAGE BREAK ===== */
+                    .page-break {
+                        page-break-before: always;
+                    }
+
+                    /* ===== FOOTER ROW ===== */
+                    .total-row td {
+                        font-weight: bold;
+                    }
+
+                    .header_div {
+                        height: 120px;
+                        background-color: #1f3a26; /* deep green */
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        padding: 0 60px;
+                        color: #ffffff;
+                        padding-top:100px !important;
+                        padding-bottom:160px !important;
+                    }
+
+                    /* LEFT SECTION */
+                    .left {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                        margin-left: 70px;
+                        width:500px;
+                    }
+
+                    .left .brand {
+                        font-size: 26px;
+                        letter-spacing: 4px;
+                        font-weight: 900;
+                        margin-left: 20%;
+                        font-family: "Times New Roman", Times, serif;
+                        letter-spacing: 4px;
+                    }
+
+                    .left .divider {
+                        height: 1px;
+                        width:80%;
+                        background-color: #ffffff;
+                    }
+
+                    .left .subtitle {
+                        font-size: 16px;
+                        margin-left: 20%;
+                        margin-top:8% !important;
+                        font-family: Arial, Helvetica, sans-serif;
+                        letter-spacing: 3px;
+                        text-align:center;
+                        text-transform: uppercase;
+                    }
+
+                    /* RIGHT SECTION */
+                    .right {
+                        text-align: right;
+                        margin-right:100px;
+                    }
+
+                    .right .brand {
+                        font-size: 24px;
+                        letter-spacing: 6px;
+                        text-transform: uppercase;
+                        font-family: "Times New Roman", Times, serif;
+                    }
+
+                    .right .subtitle {
+                        font-size: 16px;
+                        letter-spacing: 2.5px;
+                        margin-top: 4px;
+                        font-family: Arial, Helvetica, sans-serif;
+                        text-transform: uppercase;
+                    }
+
+                    .o_footer_content {
+                        font-family: Arial, Helvetica, sans-serif;
+                        font-size: 11px;
+                        padding: 10px 40px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        border-top: 1px solid rgba(255, 255, 255, 0.4);
+                    }
+
+                    .footer-left {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 2px;
+                    }
+
+                    .footer-right {
+                        white-space: nowrap;
+                    }
+
+                    .generated {
+                        opacity: 0.9;
+                    }
+
+                    .disclaimer {
+                        font-family: Arial, Helvetica, sans-serif;
+                        font-size: 11px;
+                        line-height: 1.4;
+                        color: #000000;
+                        margin-top: 12px;
+                    }
+
+                    .disclaimer p {
+                        margin: 0 0 4px 0;
+                    }
+                    .white-separator {
+                        border: none;
+                        border-top: 1px solid #ffffff;
+                        margin: 10px 0 0 0;
+                    }
+
+                    .payment-plan-table {
+                        width: 100%;
+                        border-collapse: separate;   /* IMPORTANT */
+                        border-spacing: 0;           /* keep grid tight */
+                        border: 1.5px solid #c9c3bf;
+                        font-family: "Times New Roman", Times, serif;
+                    }
+
+                    .payment-plan-table th,
+                    .payment-plan-table td {
+                        border: 1.5px solid #c9c3bf;
+                        padding: 10px 8px;
+                        font-size: 12px;
+                        text-align: center;
+                        vertical-align: middle;
+                    }
+
+                    /* HEADER STYLE */
+                    .payment-plan-table th {
+                        font-style: italic;
+                        font-weight: 600;
+                        background-color: #ffffff;
+                        color: #333;
+                    }
+
+                    .project-summary-table {
+                        width: 100%;
+                        border-collapse: separate;      /* IMPORTANT for PDF look */
+                        border-spacing: 0;
+                        border: 1.5px solid #c9c3bf;
+                        font-family: "Times New Roman", Times, serif;
+                        margin-bottom: 20px;
+                    }
+
+                    .project-summary-table th,
+                    .project-summary-table td {
+                        border: 1.5px solid #c9c3bf;
+                        padding: 10px 8px;
+                        font-size: 12px;
+                        text-align: center;
+                        vertical-align: middle;
+                    }
+
+                    /* HEADER CELLS */
+                    .project-summary-table th {
+                        font-style: italic;
+                        font-weight: 600;
+                        background-color: #ffffff;
+                        color: #333;
+                    }
+
+                    /* DATA ROW TEXT */
+                    .project-summary-table td {
+                        font-weight: normal;
+                    }
+
+                    /* MULTI-LINE CELLS (Project name) */
+                    .project-summary-table td br {
+                        line-height: 1.4;
+                    }
+
+                    .reference-block {
+                        font-family: Arial, Helvetica, sans-serif;
+                        font-size: 12px;
+                        color: #000000;
+                        line-height: 1.6;
+                        margin-bottom: 18px;
+                    }
+
+                    .reference-row {
+                        display: table;
+                        width: 100%;
+                        margin-bottom: 4px;
+                    }
+
+                    .reference-label {
+                        display: table-cell;
+                        width: 100px;
+                    }
+
+                    .reference-value {
+                        display: table-cell;
+                    }
+
+
+
+
+                </style>
+
+                <!-- ================= PAGE 1 ================= -->
+                <div class="page">
+                    <div class="header_div">
+                        <div class="left">
+                            <div class="brand"><t t-esc="docs.company_id.name"/> </div>
+                            <div class="divider"></div>
+                            <div class="subtitle">SALES OFFER</div>
+                        </div>
+
+                        <div class="right">
+                            <div class="brand"><t t-esc="docs.property_project_id.name"/> </div>
+                            <div class="subtitle"><t t-esc="docs.property_unit_id.type_id.name"/> </div>
+                        </div>
+                    </div>
+                    <div class="emaar-card" style="margin-top:3%;">
+                        <div class="reference-block">
+
+                            <div class="reference-row">
+                                <div class="reference-label">Reference No :</div>
+                                <div class="reference-value">
+                                    <t t-esc="docs.print_reference"/>
+                                </div>
+                            </div>
+
+                            <div class="reference-row">
+                                <div class="reference-label">Date:</div>
+                                <div class="reference-value">
+                                    <t t-esc="docs.date_order.strftime('%m/%d/%Y')"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <p style="font-family: Arial, Helvetica, sans-serif; font-size:14px; margin: 10px 0 6px 0;">
+                            Dear Customer,
+                        </p>
+
+                        <p style="font-family: Arial, Helvetica, sans-serif; font-size:14px; line-height:1.6;">
+                            Considering the points we discussed, I believe the below listed projects will cater to your requirements.
+                        </p>
+
+                        <!-- ===== PROJECT DETAILS ===== -->
+                        <table style="margin-bottom:20px;" class="project-summary-table">
+                            <tr>
+                                <th colspan="3">Project</th>
+                                <th colspan="2">Unit Number</th>
+                                <th colspan="2">Estimated Completion Date</th>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><t t-esc="docs.property_project_id.name"/> <br/>
+                                    By <t t-esc="docs.company_id.name"/></td>
+                                <td colspan="2"><t t-esc="docs.property_unit_id.unit_code"/></td>
+                                <td colspan="2"><t t-esc="docs.validity_date"/></td>
+                            </tr>
+                            <tr>
+                                <th>Type</th>
+                                <th>Unit Name</th>
+                                <th>Bed Rooms</th>
+                                <th>Property Status</th>
+                                <th>Total Area (SQ. FT)</th>
+                                <th>Plot Area (SQ. FT)</th>
+                                <th>Selling Price (AED)</th>
+                            </tr>
+                            <tr>
+                                <td><t t-esc="docs.property_unit_id.type_id.name"/></td>
+                                <td><t t-esc="docs.property_unit_id.name"/></td>
+                                <td><t t-esc="docs.property_unit_id.no_of_bedrooms"/></td>
+                                <td>
+                                        <t t-esc="docs.property_unit_id.status.capitalize()" t-if="docs.property_unit_id.status"/>
+                                </td>
+                                <td><t t-esc="docs.property_unit_id.total_size"/></td>
+                                <td><t t-esc="docs.property_unit_id.apartment_area"/></td>
+                                <td><t t-esc="docs.property_unit_id.final_sale_value"/></td>
+                            </tr>
+                        </table>
+
+                        <div class="disclaimer">
+                            <t t-esc="docs.note"/>
+                            <hr class="white-separator"/>
+                        </div>
+
+                        <div class="text-center fw-bold py-4">
+                            SCHEDULE OF INSTALLMENT PAYMENTS
+                        </div>
+
+                        <table class="payment-plan-table">
+                            <thead>
+                                <tr>
+                                    <th>Installment</th>
+                                    <th colspan="3">Milestone</th>
+                                    <th>Percentage (%)</th>
+                                    <th colspan="2">Date</th>
+                                    <th>Total Amount (AED)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <!-- ===== REMAINING LINES ===== -->
+                                <t t-set="seq" t-value="0"/>
+                                <t t-foreach="docs.plan_lines_ids" t-as="line">
+                                    <tr>
+                                        <td><t t-esc="seq + 1"/></td>
+                                        <t t-set="seq" t-value="seq+1"/>
+                                        <td colspan="3"><t t-esc="line.name"/></td>
+                                        <td>    <t t-esc="'%.2f' % line.percentage"/></td>
+                                        <td colspan="2"><t t-esc="line.plan_date"/></td>
+                                        <td><t t-esc="line.rounded_amount"/></td>
+                                    </tr>
+                                </t>
+
+                            </tbody>
+                        </table>
+
+                        <!-- ===== PURCHASE PRICE FOOTER ===== -->
+                        <table style="margin-top:12px;">
+                            <tr>
+                                <td style="text-align:right;font-weight:bold;" colspan="7">
+                                    Purchase Price (AED)
+                                </td>
+                                <td style="font-weight:bold;">
+                                    <t t-esc="docs.total_rounded_amount"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div t-attf-class="footer o_standard_footer">
+                    <div class="text-center">
+                        <div style="border-top: 2px solid black; margin-bottom: 10px;"></div>
+                        <div t-if="report_type == 'pdf'" class="text-muted">
+                            <div class="footer-left">
+                                <div>This offer is valid for 24 hours from the date of generation and subject to availability of the unit.</div>
+                            </div>
+
+                            <div class="footer-right">
+                                Issued on <t t-esc="datetime.datetime.now().strftime('%d/%m/%Y %H:%M')"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page page-break px-4 py-4" t-if="docs.property_unit_id.floor_plan" style="background-color: #1f3d2b;">
+                    <img t-att-src="image_data_uri(docs.property_unit_id.floor_plan)"
+                         style="width:100%; height:1190px; margin:0 auto;" alt="Floor Plan"/>
+                </div>
+
+            </t>
+        </t>
+    </template>
+</odoo>

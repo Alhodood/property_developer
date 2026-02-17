@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_discount_approved_wizard_form" model="ir.ui.view">
+        <field name="name">discount.approved.wizard.form</field>
+        <field name="model">discount.approved.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Discount Approved Reason">
+                <group>
+                    <field name="sale_order" invisible="1"/>
+                    <field name="discount_request_id" invisible="1"/>
+                </group>
+                   <field name="reason_for_request" placeholder="Approved Reason......."/>
+                <footer>
+                    <button type="object" name="action_update_reason" string="Approve" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_discount_approved_wizard" model="ir.actions.act_window">
+        <field name="name">Discount Approved Reason</field>
+        <field name="res_model">discount.approved.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_discount_approved_wizard_form"/>
+    </record>
+
+     <record id="view_discount_reject_wizard_form" model="ir.ui.view">
+        <field name="name">discount.reject.wizard.form</field>
+        <field name="model">discount.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Discount Reject Reason">
+                <group>
+                    <field name="sale_order" invisible="1"/>
+                    <field name="discount_request_id" invisible="1"/>
+                </group>
+                   <field name="reason_for_request" placeholder="Approved Reason......."/>
+                <footer>
+                    <button type="object" name="action_update_reason" string="Reject" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_discount_reject_wizard" model="ir.actions.act_window">
+        <field name="name">Discount Reject Reason</field>
+        <field name="res_model">discount.reject.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_discount_reject_wizard_form"/>
+    </record>
+
+
+
+
+</odoo>

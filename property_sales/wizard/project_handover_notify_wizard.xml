@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_handover_notify_wizard" model="ir.ui.view">
+        <field name="name">project.handover.notify.wizard.form</field>
+        <field name="model">project.handover.notify.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Notify Handover">
+                <group>
+                    <field name="project_id"/>
+                    <field name="unit_ids" widget="many2many_tags"/>
+                </group>
+                <footer>
+                    <button
+                        name="action_send_notification"
+                        type="object"
+                        string="Send Notification"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+        </record>
+
+    <record id="action_project_handover_notify_wizard_upload" model="ir.actions.act_window">
+        <field name="name">Notify Handover</field>
+        <field name="res_model">project.handover.notify.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_project_handover_notify_wizard"/>
+    </record>
+</odoo>

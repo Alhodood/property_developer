@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_form_property_payment_plan" model="ir.ui.view">
+        <field name="name">property.payment.plan.form.view</field>
+        <field name="model">property.payment.plan</field>
+        <field name="arch" type="xml">
+            <form string="Payment Plan">
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                              <field name="before_percentage"/>
+                        </group>
+                        <group>
+                              <field name="after_percentage"/>
+                              <field name="property_project_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Payment Lines" name="payment_lines">
+                            <field name="payment_line_ids"
+                                   widget="one2many">
+                                <list string="Payment Lines" editable="bottom"
+                                      delete="1" create="1">
+                                     <field name="payment_id"
+                                           column_invisible="1"/>
+                                        <field name="description" required="1"/>
+                                        <field name="installment_month" required="1"/>
+                                        <field name="percentage" sum="Total Percentage" required="1"/>
+                                        <field name="period_covered" required="1"/>
+                                        <field name="start_date" required="period_covered != 'on_booking'"/>
+                                        <field name="end_date" required="period_covered != 'on_booking'"/>
+                                        <field name="monthly_per"/>
+                                        <field name="quarterly_per"/>
+                                        <field name="half_yearly_per"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                 <chatter reload_on_post="True"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_property_payment_plan_tree" model="ir.ui.view">
+        <field name="name">property.payment.plan.tree.view</field>
+        <field name="model">property.payment.plan</field>
+        <field name="arch" type="xml">
+            <list string="Payment Plan" create="1" delete="1">
+                <field name="name" readonly="1"/>
+                <field name="before_percentage" readonly="1"/>
+                <field name="after_percentage" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_property_payment_plan" model="ir.actions.act_window">
+        <field name="name">Payment Plan</field>
+        <field name="res_model">property.payment.plan</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_property_payment_plan_tree"/>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p>
+                Create and manage your property Payment Plan
+            </p>
+        </field>
+    </record>
+
+     <menuitem id="menu_payment_lines"
+              name="Payment Plan" active="False"
+              action="action_property_payment_plan"
+              parent="property_sales.menu_properties_sales_configuration"
+              sequence="7"/>
+
+
+</odoo>

@@ -1,0 +1,797 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="spa_report_template">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+
+                    <div class="page" style="font-size:12px; line-height:1.6;">
+
+                        <!-- HEADER -->
+                        <div t-attf-class="header">
+                            <p style="text-align:center; font-weight:bold;">
+                                TERMS AND CONDITIONS OF THE AGREEMENT
+                            </p>
+
+                            <p style="text-align:left;">
+                                Ref No:<span style="padding-left:20px;">/</span>   <span style="padding-left:20px;">/</span>
+                            </p>
+                        </div>
+
+                        <!-- MAIN BILINGUAL TABLE -->
+                        <table width="100%" border="1"
+                               style="border-collapse:collapse; margin-top:10px;border:1px solid #000;">
+
+                            <tr>
+                                <!-- LEFT (ENGLISH) -->
+                                <td width="50%" style="padding:10px; vertical-align:top;border:1px solid #000;">
+
+                                    <p style="text-align:center; font-weight:bold;">
+                                        Freehold Sale and Purchase Agreement
+                                    </p>
+
+                                    <p style="text-align:center;">
+                                        <strong>FOR</strong><br/>
+                                        <t t-esc="docs.property_project_id.name"/>
+                                    </p>
+
+                                    <p style="text-align:center;">
+                                        (UNIT NO:) <t t-esc="docs.property_unit_id.name"/>
+                                    </p>
+
+                                    <p><strong>PARTICULARS:</strong></p>
+
+                                    <p>
+                                        <strong>1. THIS SALE PURCHASE AGREEMENT</strong>
+                                        <t t-esc="datetime.datetime.now().year"/>
+                                    </p>
+
+                                    <p><strong>2. THE SELLER</strong></p>
+
+                                    <p>
+                                        <strong><t t-esc="docs.company_id.name"/> </strong>
+                                        (Limited Liability Company), a company duly incorporated
+                                        and registered in Dubai, United Arab Emirates, having
+                                        registration No. 567253 and mailing address at
+                                        P.O. Box 96532 Dubai United Arab Emirates, with
+                                        telephone No. +971-4-321-4442 and facsimile No.
+                                        +971-4-321-4443, (hereinafter called
+                                        “TIME PROPERTIES LLC” or “Seller”)
+                                        expression shall unless it repugnant to the context
+                                        be deemed include its nominees, successors,
+                                        successors-in-title or assigns.
+                                    </p>
+
+                                    <p><strong>And</strong></p>
+
+                                    <p><strong>3. THE BUYER</strong></p>
+
+                                    <p><strong>INDIVIDUAL(S)</strong></p>
+                                    <t t-foreach="docs.property_buyer_ids" t-as="line">
+                                        <p style="margin:0; line-height:1.4;">
+                                            <strong>Mr:</strong> <t t-esc="line.buyer_id.name"/><br/><br/>
+                                            <strong>Nationality:</strong> <t t-esc="line.buyer_id.nationality_id.name"/><br/><br/>
+                                            <strong>P.O. Box:</strong> <t t-esc="line.buyer_id.zip"/><br/><br/>
+                                            <strong>Passport No:</strong> <t t-esc="line.buyer_id.passport_number"/><br/><br/>
+                                            <strong>Address:</strong> <t t-esc="line.buyer_id.contact_address_inline"/><br/><br/>
+                                            <strong>Country:</strong> <t t-esc="line.buyer_id.country_id.name"/><br/><br/>
+                                            <strong>Mobile No:</strong> <t t-esc="line.buyer_id.phone"/><br/><br/>
+                                            <strong>Alternative Mobile No:</strong> <t t-esc="line.buyer_id.phone"/><br/><br/>
+                                            <strong>E-Mail:</strong> <t t-esc="line.buyer_id.email"/>
+                                        </p>
+
+                                        <!-- spacing between buyers only -->
+                                        <p style="margin:45px 0;"></p>
+                                    </t>
+
+                                </td>
+
+                                <!-- RIGHT (ARABIC) -->
+                                <td width="50%" style="padding:10px; vertical-align:top; direction:rtl; text-align:right;border:1px solid #000;">
+
+                                    <p style="text-align:center; font-weight:bold;">
+                                        اتفاقية بيع وشراء ملكية حرة
+                                    </p>
+
+                                    <p style="text-align:center;">
+                                        <strong>بشأن</strong><br/>
+                                        <t t-esc="docs.property_project_id.project_name_arabic"/>
+                                    </p>
+
+                                    <p style="text-align:center;">
+                                        <t t-esc="docs.property_unit_id.name"/>
+                                        (الوحدة رقم:)
+                                    </p>
+
+                                    <p><strong>التفاصيل:</strong></p>
+
+                                    <p>
+                                        <strong>1-</strong>
+                                        حررت اتفاقية البيع والشراء هذه ("الاتفاقية")
+                                        في تاريخ أبريل 2022 والمحوّلة في 02 أكتوبر 2023
+                                        فيما بين:
+                                    </p>
+
+                                    <p><strong>2- البائع:</strong></p>
+
+                                    <p>
+                                        شركة تايم العقارية ذ.م.م وهي شركة ذات مسؤولية
+                                        محدودة مسجلة ومؤسسة وفقاً لقوانين دولة
+                                        الإمارات العربية المتحدة، ومسجلة في دبي
+                                        برقم 567253، وعنوانها ص.ب 96532 دبي،
+                                        هاتف رقم 97143214442+، فاكس رقم 97143214443+،
+                                        ويشار إليها فيما بعد بـ "شركة تايم العقارية"
+                                        أو "البائع"، ويشمل هذا المصطلح حيثما ورد
+                                        خلفاءها والمتنازل لهم.
+                                    </p>
+
+                                    <p><strong>و</strong></p>
+
+                                    <p><strong>3- المشتري:</strong></p>
+
+                                    <p><strong>فرد / أفراد</strong></p>
+
+                                    <t t-foreach="docs.property_buyer_ids" t-as="line">
+
+                                        <p style="direction:rtl; text-align:right;">
+                                            <span style="display:inline-block; width:30%; font-weight:bold;">
+                                                السيد:
+                                            </span>
+                                            <span style="display:inline-block; width:68%;">
+                                                <t t-esc="line.buyer_id.name"/>
+                                            </span>
+                                        </p>
+
+                                        <p style="direction:rtl; text-align:right;">
+                                            <span style="display:inline-block; width:30%; font-weight:bold;">
+                                                الجنسية:
+                                            </span>
+                                            <span style="display:inline-block; width:68%;">
+                                                <t t-esc="line.buyer_id.nationality_id.name"/>
+                                            </span>
+                                        </p>
+
+                                        <p style="direction:rtl; text-align:right;">
+                                            <span style="display:inline-block; width:30%; font-weight:bold;">
+                                                صندوق البريد:
+                                            </span>
+                                            <span style="display:inline-block; width:68%;">
+                                                <t t-esc="line.buyer_id.zip"/>
+                                            </span>
+                                        </p>
+
+                                        <p style="direction:rtl; text-align:right;">
+                                            <span style="display:inline-block; width:30%; font-weight:bold;">
+                                                رقم جواز السفر:
+                                            </span>
+                                            <span style="display:inline-block; width:68%;">
+                                                <t t-esc="line.buyer_id.passport_number"/>
+                                            </span>
+                                        </p>
+
+                                        <p style="direction:rtl; text-align:right;">
+                                            <span style="display:inline-block; width:30%; font-weight:bold;">
+                                                العنوان:
+                                            </span>
+                                            <span style="display:inline-block; width:68%;">
+                                                <t t-esc="line.buyer_id.contact_address_inline"/>
+                                            </span>
+                                        </p>
+
+                                        <p style="direction:rtl; text-align:right;">
+                                            <span style="display:inline-block; width:30%; font-weight:bold;">
+                                                الدولة:
+                                            </span>
+                                            <span style="display:inline-block; width:68%;">
+                                                <t t-esc="line.buyer_id.country_id.name"/>
+                                            </span>
+                                        </p>
+
+                                        <p style="direction:rtl; text-align:right;">
+                                            <span style="display:inline-block; width:30%; font-weight:bold;">
+                                                رقم الهاتف:
+                                            </span>
+                                            <span style="display:inline-block; width:68%;">
+                                                <t t-esc="line.buyer_id.phone"/>
+                                            </span>
+                                        </p>
+
+                                        <p style="direction:rtl; text-align:right;">
+                                            <span style="display:inline-block; width:30%; font-weight:bold;">
+                                                رقم الهاتف البديل:
+                                            </span>
+                                            <span style="display:inline-block; width:68%;">
+                                                <t t-esc="line.buyer_id.phone or ''"/>
+                                            </span>
+                                        </p>
+
+                                        <p style="direction:rtl; text-align:right;">
+                                            <span style="display:inline-block; width:30%; font-weight:bold;">
+                                                البريد الإلكتروني:
+                                            </span>
+                                            <span style="display:inline-block; width:68%;">
+                                                <t t-esc="line.buyer_id.email"/>
+                                            </span>
+                                        </p>
+
+                                        <br/><br/>
+
+                                    </t>
+
+                                </td>
+                            </tr>
+                        </table>
+                        <div style="page-break-before: always !important;"></div>
+
+                        <table width="100%" border="1"
+                               style="border-collapse:collapse; margin-top:10px;border:1px solid #000;">
+                            <tr>
+
+                                <!-- LEFT : ENGLISH -->
+                                <td width="50%"
+                                    style="vertical-align:top; padding:10px; border-right:1px solid #000;">
+
+                                    <p><strong>WHEREAS:</strong></p>
+
+                                    <p>
+                                        The Seller is a company duly incorporated and registered in Dubai,
+                                        United Arab Emirates
+                                    </p>
+
+                                    <p class="mb-4">
+                                        <strong>4.</strong> The Buyer desires to purchase an apartment/unit
+                                        in the <strong><t t-esc="docs.property_project_id.name"/></strong> project:
+                                    </p>
+
+                                    <table style="width:100%; border-collapse:collapse; font-size:14px;">
+                                        <tr>
+                                            <td colspan="2"
+                                                style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                Master Community: Dubai Land Residence Complex
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold; width:45%;">
+                                                Location/Area:
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;">
+                                                <t t-esc="docs.property_project_id.street1"/>
+                                                <t t-esc="docs.property_project_id.street2"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                Project Name
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;">
+                                                <t t-esc="docs.property_project_id.name"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                RERA Project Number
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;">
+                                                <t t-esc="docs.property_project_id.project_register_name"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                Plot Number
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;">
+                                                <t t-esc="docs.property_project_id.plot_no"/>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Highlighted rows -->
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                Unit Number
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;">
+                                                <t t-esc="docs.property_unit_id.name"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                Floor Number
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;">
+                                                <t t-esc="docs.property_unit_id.floor_no"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                Unit Type
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;">
+                                                <t t-esc="docs.type_id.name"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                Unit Area (including balcony)
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;">
+                                                (Sq.Ft.) <t t-esc="docs.net_area"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                Number of car parking spaces:
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px; text-align:center;">
+                                                <t t-esc="docs.property_unit_id.parking_space"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                Total Purchase Price (AED)
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2"
+                                                style="border:1px solid #000; padding:6px; font-weight:bold;padding-bottom:8%;">
+                                                Price in written (AED): Only.
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <p class="mt-2">
+                                        <strong>5.</strong> Buyer shall pay in accordance with the Payment
+                                        Plan referred to in Schedule
+                                        (<strong>E-PAYMENTPLAN</strong>)
+                                    </p>
+                                </td>
+
+                                <!-- RIGHT : ARABIC -->
+                                <td width="50%"
+                                    style="vertical-align:top; padding:10px; direction:rtl; text-align:right;">
+
+                                    <p><strong>حيث إن:</strong></p>
+
+                                    <p>
+                                        البائع شركة تم تأسيسها حسب الأصول ومسجلة بإمارة دبي،
+                                        الإمارات العربية المتحدة
+                                    </p>
+
+                                    <p class="mb-5">
+                                        <strong>4-</strong> المشتري يرغب في شراء الشقة/الوحدة في:
+                                        <strong>Time 1</strong>
+                                    </p>
+                                    <table style="width:100%; border-collapse:collapse; font-size:14px;">
+                                        <tr>
+                                            <td colspan="2"
+                                                style="border:1px solid #000; padding:6px; font-weight:bold; text-align:right;">
+                                                المجمع الرئيسي: مجمع دبي لاند السكني
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold; width:45%;">
+                                                موقع المشروع:
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;">
+                                                وادي الصفا 5
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                اسم المشروع:
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;">
+                                                سولانكي ون
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                رقم المشروع:
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;">
+                                                3776
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                رقم القطعة الأرض:
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;">
+                                                2070
+                                            </td>
+                                        </tr>
+
+                                        <!-- Highlighted rows -->
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                رقم الوحدة:
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                الطابق:
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                النوع:
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                المساحة (شاملة الشرفة)
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;">
+                                                (قدم مربع)
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                عدد مواقف السيارات
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px; text-align:center;">
+                                                1
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="border:1px solid #000; padding:6px; font-weight:bold;">
+                                                إجمالي سعر الشراء (درهم)
+                                            </td>
+                                            <td style="border:1px solid #000; padding:6px;"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2"
+                                                style="border:1px solid #000; padding:6px; font-weight:bold;padding-bottom:13%;">
+                                                إجمالي سعر الشراء (درهم إماراتي): فقط لا غير
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <p class="mt-3">
+                                        <strong>5-</strong> يتعهد المشتري بسداد إجمالي سعر الشراء
+                                        المشار إليه في الملحق (جدول الدفع).
+                                    </p>
+                                </td>
+
+                            </tr>
+                        </table>
+
+                        <t t-esc="docs.terms_description"/>
+                        <table width="100%" style="border-collapse:collapse; margin-top:10px;border:1px solid #000;">
+                            <!-- ===================== SCHEDULE D ===================== -->
+                            <tr>
+                                <!-- ENGLISH -->
+                                <td width="50%" style="vertical-align:top; padding:10px; border-right:1px solid #000;">
+                                    <p><strong><u>Facilities Included:</u></strong></p>
+
+                                    <ul style="margin-left:18px;">
+                                        <t t-foreach="docs.property_project_id.amenity_ids" t-as="line">
+                                            <li><t t-esc="line.name"/> </li>
+                                        </t>
+                                        <t t-foreach="docs.property_unit_id.amenity_ids" t-as="line">
+                                            <li><t t-esc="line.name"/> </li>
+                                        </t>
+                                    </ul>
+                                </td>
+
+                                <!-- ARABIC -->
+                                <td width="50%" style="vertical-align:top; padding:10px; direction:rtl; text-align:right;">
+                                    <p><strong><u>جدول د - الملاحق</u></strong></p>
+                                    <p><strong>وسائل الترفيه تشمل:</strong></p>
+
+                                    <ul style="margin-right:18px;">
+                                        <t t-foreach="docs.property_project_id.amenity_ids" t-as="line">
+                                            <li><t t-esc="line.arabic_name"/> </li>
+                                        </t>
+                                        <t t-foreach="docs.property_unit_id.amenity_ids" t-as="line">
+                                            <li><t t-esc="line.arabic_name"/> </li>
+                                        </t>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table width="100%" style="border-collapse:collapse; margin-top:10px;border:1px solid #000;">
+                            <!-- ===================== SCHEDULE E ===================== -->
+                            <tr>
+                                <!-- ENGLISH PAYMENT PLAN -->
+                                <td width="50%" style="vertical-align:top; padding:10px; border-right:1px solid #000;">
+
+                                    <table width="100%" style="border-collapse:collapse; font-size:12px;">
+                                        <tr>
+                                            <td colspan="4" style="text-align:center; font-weight:bold;">
+                                                Schedule - E - PAYMENT PLAN
+                                            </td>
+                                        </tr>
+
+                                        <tr style="font-weight:bold;">
+                                            <td style="border:1px solid #000;text-align:center;">AED</td>
+                                            <td style="border:1px solid #000;text-align:center;">Payment Schedule</td>
+                                            <td style="border:1px solid #000;text-align:center;">(%)</td>
+                                            <td style="border:1px solid #000;text-align:center;">No</td>
+                                        </tr>
+
+                                        <t t-set="seq" t-value="1"/>
+                                        <t t-foreach="docs.payment_plan_ids" t-as="line">
+                                            <tr>
+                                                <td style="border:1px solid #000;text-align:center;">
+                                                    <t t-esc="line.rounded_amount"/>
+                                                </td>
+                                                <td style="border:1px solid #000;text-align:center;">
+                                                    <t t-esc="line.plan_date.strftime('%-d %B %Y')"/>
+                                                    <t t-if="line.name and 'book' in line.name.lower()">
+                                                        (Booking)
+                                                    </t>
+                                                </td>
+                                                <td style="border:1px solid #000;text-align:center;">
+                                                        <t t-esc="'%.2f' % line.percentage"/>
+                                                </td>
+                                                <td style="border:1px solid #000;text-align:center;">
+                                                    <t t-esc="seq"/>
+                                                    <t t-set="seq" t-value="seq+1"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+
+                                </td>
+
+                                <!-- ARABIC PAYMENT PLAN -->
+                                <td width="50%" style="vertical-align:top; padding:10px; direction:rtl; text-align:right;">
+
+                                    <table width="100%" style="border-collapse:collapse; font-size:12px;">
+                                        <tr>
+                                            <td colspan="4" style="text-align:center; font-weight:bold;">
+                                                الجدول هـ - مخطط الدفع
+                                            </td>
+                                        </tr>
+
+                                        <tr style="font-weight:bold;">
+                                            <td style="border:1px solid #000;text-align:center;">الرقم</td>
+                                            <td style="border:1px solid #000;text-align:center;">(%)</td>
+                                            <td style="border:1px solid #000;text-align:center;">جدول الدفعات</td>
+                                            <td style="border:1px solid #000;text-align:center;">درهم</td>
+                                        </tr>
+
+                                        <t t-set="seq" t-value="1"/>
+                                        <t t-foreach="docs.payment_plan_ids" t-as="line">
+                                            <tr>
+                                                <td style="border:1px solid #000;text-align:center;">
+                                                    <t t-esc="str(seq).translate(str.maketrans(
+                                                        '0123456789',
+                                                        '٠١٢٣٤٥٦٧٨٩'
+                                                    ))"/>
+                                                    <t t-set="seq" t-value="seq+1"/>
+                                                </td>
+                                                <td style="border:1px solid #000;text-align:center;">
+                                                    <t t-esc="
+                                                            ('%.2f' % line.percentage).translate(
+                                                                str.maketrans('0123456789', '٠١٢٣٤٥٦٧٨٩')
+                                                            )
+                                                        "/>
+                                                </td>
+                                                <td style="border:1px solid #000;text-align:center;">
+                                                    <t t-set="arabic_months" t-value="{
+                                                        1: 'يناير',
+                                                        2: 'فبراير',
+                                                        3: 'مارس',
+                                                        4: 'أبريل',
+                                                        5: 'مايو',
+                                                        6: 'يونيو',
+                                                        7: 'يوليو',
+                                                        8: 'أغسطس',
+                                                        9: 'سبتمبر',
+                                                        10: 'أكتوبر',
+                                                        11: 'نوفمبر',
+                                                        12: 'ديسمبر'
+                                                    }"/>
+                                                    <t t-esc="line.plan_date.day"/>
+                                                    <t> </t>
+                                                    <t t-esc="arabic_months[line.plan_date.month]"/>
+                                                    <t> </t>
+                                                    <t t-esc="line.plan_date.year"/>
+                                                    <t t-if="line.name and 'book' in line.name.lower()">
+                                                        (دفعة الحجز)
+                                                    </t>
+                                                </td>
+                                                <td style="border:1px solid #000;text-align:center;">
+                                                    <t t-esc="str(line.rounded_amount).translate(str.maketrans(
+                                                        '0123456789',
+                                                        '٠١٢٣٤٥٦٧٨٩'
+                                                    ))"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+
+                                </td>
+                            </tr>
+
+                        </table>
+
+                        <div style="page-break-before: always;"></div>
+                        <t t-esc="docs.terms_description_second_section"/>
+                        <div style="page-break-before: always;"></div>
+
+                        <table width="100%" style="border-collapse:collapse; border:1px solid #000; font-size:14px;">
+                            <tr>
+                                <!-- ENGLISH COLUMN -->
+                                <td width="50%" style="vertical-align:top; padding:15px; border-right:1px solid #000;">
+
+                                    <p style="text-align:center; font-weight:bold;">Schedule – H</p>
+                                    <p style="text-align:center; font-weight:bold; text-decoration:underline;">
+                                        DECLARATION OF ADHERENCE
+                                    </p>
+
+                                    <p>
+                                        This Declaration is made on the _______ day of ______,
+                                        20---- by <br/>
+                                        __________________________ <br/>
+                                        [Name of the Buyer].
+                                    </p>
+
+                                    <p style="font-weight:bold;">WHEREAS:</p>
+
+                                    <p>
+                                        1.__________I/We as the Buyer, propose to take title of the
+                                        ___________ [Apartments and parking bays No.] hereinafter
+                                        referred to as the ‘property’ located at the <t t-esc="docs.property_project_id.name"/> ,
+                                        <t t-esc="docs.property_project_id.street2"/> .
+                                    </p>
+
+                                    <p>
+                                        2.__________ I/We have read and understood the Master Community
+                                        Declaration issued by the Master Developer (“Declaration”)
+                                        and agree to be bound by its terms.
+                                    </p>
+
+                                    <p style="font-weight:bold; margin-top:20px;">
+                                        NOW THEREFORE, I/We hereby agree as follows:
+                                    </p>
+
+                                    <p>
+                                        1._________ Expressions defined in the Declaration shall (unless
+                                        the context otherwise requires) have the same meaning when
+                                        used herein.
+                                    </p>
+
+                                </td>
+
+                                <!-- ARABIC COLUMN -->
+                                <td width="50%" style="vertical-align:top; padding:15px; direction:rtl; text-align:right;">
+
+                                    <p style="text-align:center; font-weight:bold;">الجدول "ح"</p>
+                                    <p style="text-align:center; font-weight:bold; text-decoration:underline;">
+                                        إقرار بالالتزام
+                                    </p>
+
+                                    <p>
+                                        حرر هذا الإقرار في اليوم ________________ من ________________ 20
+                                        من قبل <br/>
+                                        __________________________ <br/>
+                                        [اسم المشتري].
+                                    </p>
+
+                                    <p style="font-weight:bold;">وحيث أن:</p>
+                                    <p>
+                                        1. يقرّ / يقرّ المشتري بأنه ينوي الحصول على ملكية
+                                        ___________ [رقم الشقق ومواقف السيارات] المشار إليها فيما يلي
+                                        باسم "العقار"، والكائن في سولانكي ون، دبي.
+                                    </p>
+
+                                    <p>
+                                        2. أقرّ / نقرّ بأننا قد قرأنا وفهمنا إعلان المجتمع
+                                        الرئيسي الصادر عن المطور الرئيسي ("الإعلان")، ونوافق على
+                                        الالتزام بجميع شروطه.
+                                    </p>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <!-- ENGLISH COLUMN -->
+                                <td width="50%" style="vertical-align:top; padding:15px; border-right:1px solid #000;">
+
+                                    <p>
+                                        2.____________ I/We hereby undertake to and covenant with the
+                                        Master Developer, all Owners and Multi-Owned Building
+                                        Associations, to comply with the provisions of and to
+                                        perform all the obligations in the Declaration in respect
+                                        of the above-mentioned property and the ownership thereof
+                                        so far as they shall become due to be observed and
+                                        performed on or after the date hereof.
+                                    </p>
+
+                                    <br/><br/>
+
+                                    <p><strong>Signature:</strong> __________________________</p>
+                                    <br/>
+                                    <p><strong>Name:</strong> __________________________</p>
+                                    <br/>
+                                    <p><strong>Date:</strong> __________________________</p>
+
+                                </td>
+
+                                <!-- ARABIC COLUMN -->
+                                <td width="50%" style="vertical-align:top; padding:15px; direction:rtl; text-align:right;">
+                                    <p>
+                                        والآن، وعليه أوافق / نوافق بموجبه على ما يلي:
+                                    </p>
+                                    <p>
+                                        1. التعابير المحددة في هذا الإقرار (ما لم يقتضِ سياق النص خلاف ذلك)
+                                        تحمل ذات المعاني عند استخدامها في إقرار الالتزام هذا.
+                                    </p>
+                                    <p>
+                                        2. أتعهد / نتعهد بموجب هذا، وأتعاقد مع المطور وجميع الملاك
+                                        وجمعية المباني متعددة الملكية، بالالتزام بأحكام وأداء
+                                        كافة الالتزامات المنصوص عليها في هذا الإقرار، فيما يتعلق
+                                        بالعقارات المذكورة أعلاه وملكيتها، وذلك بقدر ما تصبح واجبة
+                                        الأداء والمراعاة في أو بعد تاريخ هذا العقد.
+                                    </p>
+
+                                    <br/><br/>
+
+                                    <p><strong>التوقيع:</strong> __________________________</p>
+                                    <br/>
+                                    <p><strong>الاسم:</strong> __________________________</p>
+                                    <br/>
+                                    <p><strong>التاريخ:</strong> __________________________</p>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- FOOTER -->
+                        <div t-attf-class="footer o_standard_footer">
+                            <!-- Page number (centered) -->
+                            <div t-if="report_type == 'pdf'"
+                                 class="text-muted"
+                                 style="text-align:center; font-size:11px; margin-bottom:6px; padding-top:40px;">
+                                Page:
+                                <span class="page"/> of <span class="topage"/>
+                            </div>
+
+                            <!-- Initials table -->
+                            <table width="100%" style="font-size:13px;">
+                                <tr>
+                                    <td width="50%" class="fw-bold" style="text-align:left;">
+                                        Initial of Seller: ____________________
+                                    </td>
+                                    <td width="50%" class="fw-bold" style="text-align:right;">
+                                        Initial of Buyer(s): ____________________
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

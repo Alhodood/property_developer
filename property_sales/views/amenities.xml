@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id='project_amenity_tree_view' model='ir.ui.view'>
+        <field name="name">project.amenity.document.view.tree</field>
+        <field name="model">project.amenity</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="arabic_name"/>
+            </list>
+        </field>
+    </record>
+
+
+    <!--    Configures an action window for HR Employee Documents.-->
+    <record id="project_amenity_action" model="ir.actions.act_window">
+        <field name="name">Property Amenities</field>
+        <field name="res_model">project.amenity</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="project_amenity_tree_view"/>
+    </record>
+
+
+    <!--    Creates a menu item for HR Employee Documents.-->
+    <menuitem id="property_amenity_menu"
+              name="Property Amenities"
+               sequence="7"
+              parent="property_sales.menu_properties_sales_configuration"
+              action="project_amenity_action"
+             />
+
+
+    <record id='project_unit_amenity_tree_view' model='ir.ui.view'>
+        <field name="name">project.unit.amenity.document.view.tree</field>
+        <field name="model">project.unit.amenity</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="arabic_name"/>
+            </list>
+        </field>
+    </record>
+
+
+    <!--    Configures an action window for HR Employee Documents.-->
+    <record id="project_unit_amenity_action" model="ir.actions.act_window">
+        <field name="name">Unit Amenities</field>
+        <field name="res_model">project.unit.amenity</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="project_unit_amenity_tree_view"/>
+    </record>
+
+
+    <!--    Creates a menu item for HR Employee Documents.-->
+    <menuitem id="piperty_unity_amenity_menu"
+              name="Unit Amenities"
+               sequence="7"
+              parent="property_sales.menu_properties_sales_configuration"
+              action="project_unit_amenity_action"
+             />
+</odoo>

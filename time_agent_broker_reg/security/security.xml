@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="res.groups" id="group_agent_reg">
+        <field name="name">Agent Registration</field>
+    </record>
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+       <record id="agent_doc_rejection_wizard_form_view" model="ir.ui.view">
+        <field name="name">agent.document.reject.wizard.view</field>
+        <field name="model">agent.document.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Agent Document Reject Wizard">
+               <group>
+                     <field name="reason" required="1"/>
+               </group>
+                <footer>
+                    <button name="confirm_reject" type="object"
+                            string="Done" class="btn-primary"/>
+                    <button special="cancel" data-hotkey="z" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+            <record id="view_sale_commission_to_be_paid_form" model="ir.ui.view">
+            <field name="name">sale.commission.to.be.paid.form</field>
+            <field name="model">sale.commission.to.be.paid</field>
+            <field name="arch" type="xml">
+                <form string="Sales Commission To Be Paid">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="sequence_code" readonly="1"/>
+                                <field name="spa_id" readonly="1"/>
+                                <field name="date_created" readonly="1"/>
+                                <field name="sales_person_id" readonly="1"/>
+                                <field name="created_by" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="commission_amount" readonly="1"/>
+                                <field name="final_total_property_value" readonly="1"/>
+                                <field name="property_project_id" readonly="1"/>
+                                <field name="property_unit_id" readonly="1"/>
+                                <field name="company_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                             <page string="Bill" name="bill_ids">
+                            <field name="bill_ids" readonly="1">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="partner_id" string="Vendor"/>
+                                    <field name="invoice_date" string="Bill Date"/>
+                                    <field name="invoice_date_due"/>
+                                    <field name="amount_total"/>
+                                    <field name="amount_residual"/>
+                                </list>
+                            </field>
+                        </page>
+                        </notebook>
+                    </sheet>
+                      <chatter/>
+                </form>
+            </field>
+            </record>
+
+            <record id="view_sale_commission_to_be_paid_tree" model="ir.ui.view">
+            <field name="name">sale.commission.to.be.paid.tree</field>
+            <field name="model">sale.commission.to.be.paid</field>
+            <field name="arch" type="xml">
+                <list string="Sales Commission To Be Paid">
+                    <field name="sequence_code"/>
+                    <field name="date_created"/>
+                    <field name="sales_person_id"/>
+                    <field name="commission_amount"/>
+                    <field name="property_project_id"/>
+                    <field name="property_unit_id"/>
+                        <field name="company_id" readonly="1"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_sale_commission_to_be_paid_search" model="ir.ui.view">
+        <field name="name">sale.commission.to.be.paid.search</field>
+        <field name="model">sale.commission.to.be.paid</field>
+        <field name="arch" type="xml">
+            <search string="Search Sales Commission">
+                <field name="sequence_code"/>
+                <field name="sales_person_id"/>
+                <field name="property_project_id"/>
+                <group>
+                    <filter string="Sales Person" context="{'group_by':'sales_person_id'}" name="group_by_user"/>
+                    <filter string="Project" context="{'group_by':'property_project_id'}" name="group_by_project"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+     <record id="action_sale_commission_to_be_paid" model="ir.actions.act_window">
+        <field name="name">Sales Commission</field>
+        <field name="res_model">sale.commission.to.be.paid</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_sale_commission_to_be_paid_tree"/>
+        <field name="search_view_id" ref="view_sale_commission_to_be_paid_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{'create': False,'delete':False}</field>
+        <field name="help" type="html">
+            <p>
+                Create and manage your Sales Commission
+            </p>
+        </field>
+    </record>
+
+        <record id="view_agent_commission_to_be_paid_form" model="ir.ui.view">
+        <field name="name">agent.commission.to.be.paid.form</field>
+        <field name="model">agent.commission.to.be.paid</field>
+        <field name="arch" type="xml">
+            <form string="Agent Commission To Be Paid">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="sequence_code" readonly="1"/>
+                            <field name="spa_id" readonly="1"/>
+                            <field name="date_created" readonly="1"/>
+                            <field name="agent" readonly="1"/>
+                            <field name="property_project_id" readonly="1"/>
+                            <field name="property_unit_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="commission_amount" readonly="1"/>
+                            <field name="created_by" readonly="1"/>
+                                <field name="company_id" readonly="1"/>
+                        </group>
+                    </group>
+                     <notebook>
+                             <page string="Bill" name="bill_ids">
+                            <field name="bill_ids" readonly="1">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="partner_id" string="Vendor"/>
+                                    <field name="invoice_date" string="Bill Date"/>
+                                    <field name="invoice_date_due"/>
+                                    <field name="amount_total"/>
+                                    <field name="amount_residual"/>
+                                </list>
+                            </field>
+                        </page>
+                        </notebook>
+                </sheet>
+                 <chatter/>
+            </form>
+        </field>
+    </record>
+
+        <record id="view_agent_commission_to_be_paid_tree" model="ir.ui.view">
+        <field name="name">agent.commission.to.be.paid.tree</field>
+        <field name="model">agent.commission.to.be.paid</field>
+        <field name="arch" type="xml">
+            <list string="Agent Commission To Be Paid">
+                <field name="sequence_code"/>
+                <field name="date_created"/>
+                <field name="agent"/>
+                <field name="commission_amount"/>
+                <field name="created_by"/>
+                <field name="property_project_id"/>
+                <field name="property_unit_id"/>
+                    <field name="company_id" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_agent_commission_to_be_paid_search" model="ir.ui.view">
+    <field name="name">agent.commission.to.be.paid.search</field>
+    <field name="model">agent.commission.to.be.paid</field>
+    <field name="arch" type="xml">
+        <search string="Search Agent Commission">
+            <field name="sequence_code"/>
+            <field name="agent"/>
+               <field name="property_project_id"/>
+            <group>
+                <filter string="Agent" context="{'group_by':'agent'}" name="group_by_agnet"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+
+       <record id="action_agnet_commission_to_be_paid" model="ir.actions.act_window">
+        <field name="name">Agent Commission</field>
+        <field name="res_model">agent.commission.to.be.paid</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_agent_commission_to_be_paid_tree"/>
+        <field name="search_view_id" ref="view_agent_commission_to_be_paid_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{'create': False,'delete':False}</field>
+        <field name="help" type="html">
+            <p>
+                Create and manage your Agent Commission
+            </p>
+        </field>
+    </record>
+
+     <menuitem id="commission_menu_view_sales"
+              name="Commission"
+              groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_manager"
+              parent="sale.sale_menu_root"
+              sequence="26">
+
+    <menuitem id="commission_menu_vie_sales_commisionw"
+              name="Sales Commission"
+              action="action_sale_commission_to_be_paid"
+              groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_manager"
+              sequence="26"/>
+
+     <menuitem id="commission_menu_view_agent_commission"
+              name="Agent Commission"
+              action="action_agnet_commission_to_be_paid"
+               active="False"
+              groups="sales_team.group_sale_salesman,sales_team.group_sale_salesman_all_leads,sales_team.group_sale_manager"
+              sequence="26"/>
+     </menuitem>
+
+
+     <menuitem id="commission_menu_view_accounts"
+              name="Commission"
+              groups="account.group_account_user,account.group_account_manager"
+              parent="accountant.menu_accounting"
+              sequence="5">
+
+    <menuitem id="commission_menu_view_sales_acc_commisiion"
+              name="Sales Commission"
+              action="action_sale_commission_to_be_paid"
+              sequence="26"/>
+
+     <menuitem id="commission_menu_view_agebt_acc_commission"
+              name="Agent Commission"
+              action="action_agnet_commission_to_be_paid"
+              sequence="26"/>
+     </menuitem>
+
+
+
+
+</odoo>

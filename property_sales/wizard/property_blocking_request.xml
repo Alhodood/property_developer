@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_property_blocking_request_wizard" model="ir.ui.view">
+        <field name="name">property.blocking.request.form.view</field>
+        <field name="model">property.blocking.request</field>
+        <field name="arch" type="xml">
+            <form string="Property Blocking">
+                <group string="Request Information">
+                    <group>
+                        <field name="property_project_id" required="1"/>
+                        <field name="crm_id" invisible="1"/>
+                        <field name="sale_order" invisible="1"/>
+                        <field name="partner_id" required="1"/>
+                        <field name="created_by" readonly="1" />
+                    </group>
+                    <group>
+                         <field name="property_unit_id" required="1"/>
+                         <field name="user_id" required="1"/>
+                         <field name="request" required="1"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_add_done" type="object"
+                            string="Done" class="btn-primary"/>
+                    <button special="cancel" data-hotkey="z" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_property_blocking_request_wizard" model="ir.actions.act_window">
+        <field name="name">Property Blocking</field>
+        <field name="res_model">property.blocking.request</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_property_blocking_request_wizard"/>
+    </record>
+</odoo>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+           <record id="view_spa_payment_update_wizard" model="ir.ui.view">
+            <field name="name">spa.payment.update.wizard.form</field>
+            <field name="model">spa.payment.update.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Update Payment Schedule">
+                    <group>
+                        <field name="spa_id"/>
+                        <field name="final_total_property_value"/>
+                    </group>
+
+                      <notebook>
+                        <page string="Payment Lines" name="payment_lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="name" readonly="inv_created ==True"/>
+                                    <field name="plan_date"  readonly="inv_created ==True"/>
+                                    <field name="percentage"  readonly="inv_created ==True" sum="Total Percentage"/>
+                                    <field name="amount" readonly="1" sum="Total Amount"/>
+                                    <field name="rounded_amount" readonly="1" sum="Total Rounded Amount" column_invisible="1"/>
+                                    <field name="inv_created" readonly="1" column_invisible="1"/>
+                                </list>
+                            </field>
+                            </page>
+                      </notebook>
+                    <footer>
+                        <button string="Confirm"
+                                name="action_confirm_update"
+                                type="object"
+                                class="btn btn-primary"/>
+                        <button string="Cancel"
+                                class="btn-secondary"
+                                special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+     <record id="action_update_payment_line_upload" model="ir.actions.act_window">
+        <field name="name">Payment Update</field>
+        <field name="res_model">spa.payment.update.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_spa_payment_update_wizard"/>
+    </record>
+
+    <record id="view_snagging_reject_wizard_form" model="ir.ui.view">
+    <field name="name">snagging.reject.wizard.form</field>
+    <field name="model">snagging.reject.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Reject Snagging Line">
+            <sheet>
+                <group>
+                    <field name="reject_reason" placeholder="Enter reason for rejection..." />
+                </group>
+                <footer>
+                    <button string="Done" type="object" name="action_confirm" class="btn-primary"/>
+                     <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+    <record id="action_snagging_reject_wizard_upload" model="ir.actions.act_window">
+        <field name="name">Snagging Reject Reason</field>
+        <field name="res_model">snagging.reject.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_snagging_reject_wizard_form"/>
+    </record>
+
+
+</odoo>

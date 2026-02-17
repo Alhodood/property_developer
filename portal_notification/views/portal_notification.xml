@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ================================================= -->
+    <!-- Portal Notification Bell -->
+    <!-- ================================================= -->
+    <template id="portal_notification_menu"
+          inherit_id="portal.frontend_layout">
+
+        <xpath expr="//header//ul[contains(@class,'navbar-nav')]" position="inside">
+            <li class="nav-item ms-2">
+                <a class="nav-link position-relative"
+                   href="/my/notifications"
+                   style="font-size: 1.5rem; color: #333;">
+                    🔔
+
+                    <!-- Notification badge -->
+                    <span id="notif-count"
+                          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                          style="font-size: 0.75rem; min-width: 1.2rem; height: 1.2rem;
+                                 display: none; align-items: center; justify-content: center;">
+                    </span>
+                </a>
+            </li>
+        </xpath>
+
+    </template>
+
+    <!-- ================================================= -->
+    <!-- 2️⃣ Notifications Page -->
+    <!-- ================================================= -->
+    <template id="portal_notifications_page">
+        <t t-call="portal.portal_layout">
+
+            <t t-set="breadcrumbs">
+                <li class="breadcrumb-item">
+                    <a href="/my/home">My Account</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    Notifications
+                </li>
+            </t>
+
+            <h2 class="mb-4">Notifications</h2>
+
+            <t t-if="notifications">
+                <t t-foreach="notifications" t-as="n">
+                    <div class="d-flex align-items-start mb-3 p-3 rounded shadow-sm border rounded-3"
+                         t-att-class="n['is_read'] and 'bg-light border-secondary mb-3' or 'border border-primary shadow-sm bg-white mb-3'">
+
+
+                        <!-- Notification content -->
+                        <div class="flex-grow-1 p-4">
+                            <strong class="d-block mb-1" t-att-class="not n['is_read'] and 'fw-bold' or ''">
+                                <t t-esc="n['name']"/>
+                                <t t-if="not n['is_read']">
+                                    <span class="rounded-circle"
+                                          style="display:inline-block; width:12px; height:12px; background-color:#0d6efd; margin-left:5px;"></span>
+                                </t>
+                            </strong>
+                            <p class="mb-1 text-truncate"><t t-esc="n['message']"/></p>
+                            <small class="text-muted"><t t-esc="n['create_date']"/></small>
+                        </div>
+
+                        <!-- Optional icon badge on the right -->
+                        <div class="ms-3 align-self-center">
+                            <t t-if="not n['is_read']">
+                                <i class="bi bi-envelope-fill text-primary fs-5"></i>
+                            </t>
+                            <t t-else="">
+                                <i class="bi bi-envelope-open-fill text-secondary fs-5"></i>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+            <t t-if="not notifications">
+                <div class="alert alert-info">
+                    No notifications found.
+                </div>
+            </t>
+
+        </t>
+    </template>
+
+</odoo>

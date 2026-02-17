@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_key_handover_noc_template">
+            <t t-call="web.basic_layout">
+                <div t-attf-class="header">
+                    <div class="row">
+                        <div class="col-5" style="text-align: left;">
+                            <div class="company-logo" style="text-align: left;">
+                                <img t-if="env.company.logo" t-att-src="image_data_uri(env.company.logo)"
+                                     style="max-height: 99px;align-content:center !important;width:180px;"
+                                     alt="Logo"/>
+                            </div>
+                        </div>
+                        <div class="col-7" style="text-align: right;">
+                            <div class="company-info">
+                                <ul class="list-unstyled" style="font-size:14px;">
+                                    <li>
+                                        <span t-esc="env.company.partner_id.name"/>
+                                    </li>
+                                    <li>
+                                        <span t-esc="env.company.partner_id.street"/>
+                                    </li>
+                                    <li>
+                                        <span t-esc="env.company.partner_id.state_id.name"/>,
+                                        <span t-esc="env.company.partner_id.country_id.name"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="border-top: 1px solid lightgray; margin-bottom: 10px;"></div>
+                </div>
+                <div class="mt-0">
+                    <div class="page">
+                        <h2 style="text-align: center;"> <strong>NO OBJECTION TO HAND-OVER KEY</strong>
+                        </h2>
+                         <br/>
+                         <br/>
+
+                        <table class="table table-sm" style="width:100%; font-size:14px;border:1px solid #dcdcdc; border-collapse:collapse;">
+                            <tr style="border:1px solid #dcdcdc;">
+                                <td style="border:1px solid #dcdcdc;">Buyer Name</td>
+                                 <td style="border:1px solid #dcdcdc;text-align:center;" width="1%">:</td>
+                                <td style="border:1px solid #dcdcdc;">
+                                    <strong><span t-esc="o.offer_booking.partner_id.name"/></strong>
+                                </td>
+                            </tr>
+                            <tr style="border:1px solid #dcdcdc;">
+                                <td style="border:1px solid #dcdcdc;">Unit Number</td>
+                                   <td style="border:1px solid #dcdcdc;text-align:center;"  width="1%">:</td>
+                                <td style="border:1px solid #dcdcdc;">
+                                    <strong> <span t-esc="o.property_unit_id.name"/></strong>
+                                </td>
+                            </tr>
+                            <tr style="border:1px solid #dcdcdc;">
+                                <td style="border:1px solid #dcdcdc;">Project</td>
+                                   <td style="border:1px solid #dcdcdc;text-align:center;"  width="1%">:</td>
+                                <td style="border:1px solid #dcdcdc;">
+                                    <strong> <span t-esc="o.property_project_id.name"/></strong>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <p>
+                            This is to confirm that we have received _______   payment against sale of above mentioned unit in <t t-esc="o.property_project_id.name"/> building in Dubai Land and Balance amount to be received  AED _______ as of 28th November, 2023 from the Buyer (end user) to complete 100% We have also received the other charges and fees as detailed hereunder.
+                        </p>
+
+                        <h4><strong style="text-decoration: underline;">Details of the Unit <t t-esc="o.property_unit_id.name"/> </strong></h4>
+
+                <table class="table table-bordered" style="font-size:13px;border:1px solid black;">
+                        <tr style="border:1px solid black;">
+                            <td style="border:1px solid black;"><strong>Sl #</strong></td>
+                            <td style="border:1px solid black;"><strong>Description</strong></td>
+                            <td style="border:1px solid black;text-align:end;"><strong>Amount (<span t-esc="o.currency_id.name"/>)</strong></td>
+                        </tr>
+                    <tbody style="border:1px solid black;">
+                        <tr style="border:1px solid black;">
+                            <td style="border:1px solid black;">1</td>
+                            <td style="border:1px solid black;">Unit Price</td>
+                            <td style="border:1px solid black;text-align:end;"><t t-esc="o.spa_id.final_total_property_value"/></td>
+                        </tr>
+                        <tr style="border:1px solid black;">
+                            <td style="border:1px solid black;">2</td>
+                            <td style="border:1px solid black;">DSR &amp; Admin Charges</td>
+                            <td style="border:1px solid black;text-align:end;"></td>
+                        </tr>
+                        <tr style="border:1px solid black;">
+                            <td style="border:1px solid black;">3</td>
+                            <td style="border:1px solid black;">Registration Fee</td>
+                            <td style="border:1px solid black;text-align:end;"></td>
+                        </tr>
+                        <tr style="border:1px solid black;">
+                            <td style="border:1px solid black;">4</td>
+                            <td style="border:1px solid black;">Land Department Fee</td>
+                            <td style="border:1px solid black;text-align:end;"></td>
+                        </tr>
+                        <tr style="border:1px solid black;">
+                            <td style="border:1px solid black;">5</td>
+                            <td style="border:1px solid black;">DSR System Charges</td>
+                            <td style="border:1px solid black;text-align:end;"></td>
+                        </tr>
+                        <tr style="border:1px solid black;">
+                            <td style="border:1px solid black;">6</td>
+                            <td style="border:1px solid black;">Escrow Account Fee</td>
+                            <td style="border:1px solid black;text-align:end;"></td>
+                        </tr>
+                        <tr style="border:1px solid black;">
+                            <td style="border:1px solid black;">7</td>
+                            <td style="border:1px solid black;">Key NOC</td>
+                            <td style="border:1px solid black;text-align:end;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                        <h4><strong style="text-decoration: underline;">Payment Plan As per SPA</strong></h4>
+
+                <table class="table table-bordered" style="font-size:13px;border:1px solid black">
+                        <tr style="border:1px solid black">
+                            <td style="border:1px solid black;text-align:center;"><strong>SL</strong></td>
+                            <td style="border:1px solid black;text-align:center;"><strong>Receivable Payment Schedule</strong></td>
+                            <td style="border:1px solid black;text-align:center;"><strong>Amount</strong></td>
+                        </tr>
+                    <tbody style="border:1px solid black">
+                        <t t-set="i" t-value="1"/>
+                        <t t-foreach="o.spa_id.payment_plan_ids" t-as="line">
+                            <tr style="border:1px solid black">
+                                <td style="border:1px solid black;text-align:center;"><span t-esc="i"/></td>
+                                <td style="border:1px solid black;text-align:center;">
+                                    <span t-esc="line.plan_date.strftime('%-d -%B - %Y')"/>
+                                </td>
+                                <td style="border:1px solid black;text-align:end;">
+                                    <span t-esc="line.rounded_amount"/>
+                                </td>
+                            </tr>
+                            <t t-set="i" t-value="i + 1"/>
+                        </t>
+                        <tr style="border:1px solid black">
+                                <td style="border:1px solid black;text-align:center;"></td>
+                                <td style="border:1px solid black;text-align:center;">
+                                   <strong>Total</strong>
+                                </td>
+                                <td style="border:1px solid black;text-align:end;">
+                                    <span t-esc="o.spa_id.final_total_property_value"/>
+                                </td>
+                            </tr>
+                    </tbody>
+                 </table>
+                        <br></br>
+                        <p>
+                            The Buyer has to transfer the payment as mentioned in the above <strong>Payment Plan as per SPA</strong> in Time Properties bank account. If the Buyer fails to settle the amount, then the Time Property has full right to take litigation and legal action against the Buyer and all related legal or other expense will be borne by the Buyer itself.  In case of Non clearance / Non-Payment of above mentioned payment in this letter, Time Properties reserves the right to take action in accordance with Dubai law..<br/>
+                            We do not have any objection to handing over the keys of the particular unit to the Buyer on condition that he/she agrees to pay any difference that may occur later in the above mentioned fees amount as may be revised by the authorities concerned and also any other charges / fees that may be introduced by Real Estate Regulatory Authority (RERA), Dubai Land Department (DLD), Dubai Land or any other government bodies from time to time. The Buyer should not rent out this unit until they transfer the DEWA under their name, Electrical Cooker and LPG Gas Cylinder are not allowed in the building.<br/>
+                           <br/> The signature of the Buyer below is a confirmation that he/she agrees to the above figures and the above conditions and “By signing this document, I (Buyer) acknowledge and admit that I have no past or will have no future claims whatsoever against the developer Time Properties LLC”
+                        </p>
+                        <br/><br/>
+
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width:50%; text-align:left;">
+                                ______________________________________<br/>
+                                <strong>General Manager</strong>
+                            </td>
+                        </tr>
+                    </table>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                         <table style="width:100%;">
+                        <tr>
+                            <td style="width:50%; text-align:left;">
+                                 ______________________________________<br/>
+                                <strong> for Time Properties LLC</strong>
+                            </td>
+                            <td style="width:50%; text-align:left;">
+                                ______________________________________<br/>
+                                <strong>Buyer Signature</strong>
+                            </td>
+                        </tr>
+                    </table>
+                    </div>
+                </div>
+                <div t-attf-class="footer o_standard_footer">
+                    <div class="text-center">
+                        <div style="border-top: 2px solid black; margin-bottom: 10px;"></div>
+                        <div t-if="report_type == 'pdf'" class="text-muted">
+                            Page:
+                            <span class="page"/>
+                            of
+                            <span class="topage"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_key_handover_noc">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                        <t t-call="property_sales.report_key_handover_noc_template"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

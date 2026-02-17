@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="paperformat_avalable_unit_report" model="report.paperformat">
+        <field name="name">Available Unit Paper Format</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">230</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">20</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">10</field>
+        <field name="margin_right">10</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">40</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_property_unit" model="ir.actions.report">
+        <field name="name">Available Unit Report</field>
+        <field name="model">property.unit</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">property_sales.report_available_property_unit</field>
+        <field name="report_file">property_sales.report_available_property_unit</field>
+        <field name="print_report_name">'Available Property Unit Report'</field>
+        <field name="binding_model_id" ref="property_sales.model_property_unit"/>
+        <field name="binding_type">report</field>
+           <field name="paperformat_id" ref="property_sales.paperformat_avalable_unit_report"/>
+    </record>
+
+     <record id="action_report_property_project_unit" model="ir.actions.report">
+        <field name="name">Available Unit</field>
+        <field name="model">property.project</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">property_sales.report_available_property_project_unit</field>
+        <field name="report_file">property_sales.report_available_property_project_unit</field>
+        <field name="print_report_name">'Available Property Unit Report'</field>
+        <field name="binding_model_id" ref="property_sales.model_property_project"/>
+        <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="property_sales.paperformat_avalable_unit_report"/>
+    </record>
+
+
+       <record id="action_report_boking_form_print" model="ir.actions.report">
+        <field name="name">Booking Form</field>
+        <field name="model">offer.booking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">property_sales.report_offer_booking_report_template</field>
+        <field name="report_file">property_sales.report_offer_booking_report_template</field>
+        <field name="print_report_name">'Booking Form'</field>
+        <field name="binding_model_id" ref="property_sales.model_offer_booking"/>
+        <field name="binding_type">report</field>
+    </record>
+
+      <record id="action_report_snagging_unit" model="ir.actions.report">
+        <field name="name">Snagging Report</field>
+        <field name="model">snagging.unit</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">property_sales.report_snagging_unit</field>
+        <field name="report_file">property_sales.report_snagging_unit</field>
+        <field name="print_report_name">'Snagging Report - %s' % (object.sequence)</field>
+        <field name="binding_model_id" ref="property_sales.model_snagging_unit"/>
+        <field name="binding_type">report</field>
+    </record>
+
+     <record id="action_report_key_noc_handover" model="ir.actions.report">
+        <field name="name">Payment Plan Noc</field>
+        <field name="model">key.handover</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">property_sales.report_key_handover_noc</field>
+        <field name="report_file">property_sales.report_key_handover_noc</field>
+        <field name="print_report_name">'Payment Plan Noc - %s' % (object.sequence)</field>
+        <field name="binding_model_id" ref="property_sales.model_key_handover"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

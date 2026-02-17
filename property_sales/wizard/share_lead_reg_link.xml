@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_share_lead_link_wizard" model="ir.ui.view">
+        <field name="name">share.lead.reg.wizard.form</field>
+        <field name="model">share.lead.reg.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Lead Share Link">
+                <group>
+                    <group>
+                        <field name="partner_ids" widget="many2many_tags" required="1"/>
+                    </group>
+                    <group>
+                        <field name="record_url_html" nolabel="1"/><br/>
+                    </group>
+                </group>
+
+                <footer>
+                    <button string="Send Link"
+                            type="object"
+                            name="action_send_link"
+                            class="btn-primary"/>
+
+                    <button string="Close"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_share_lead_link" model="ir.actions.act_window">
+        <field name="name">Lead Share Link</field>
+        <field name="res_model">share.lead.reg.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

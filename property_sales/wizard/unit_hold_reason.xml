@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_property_unit_hold_wizard" model="ir.ui.view">
+        <field name="name">property.unit.hold.wizard.form.view</field>
+        <field name="model">property.unit.hold.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="reason" required="1"/>
+                        <field name="unit_ids" invisible="1"/>
+                    </group>
+                    <group>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_add_done" type="object"
+                            string="Submit" class="btn-primary"/>
+                    <button special="cancel" data-hotkey="z" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_property_unit_hold_wizard" model="ir.actions.act_window">
+        <field name="name">Units On Hold Reason</field>
+        <field name="res_model">property.unit.hold.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_property_unit_hold_wizard"/>
+    </record>
+</odoo>
