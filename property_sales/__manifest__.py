@@ -21,7 +21,7 @@
 #############################################################################
 {
     'name': 'Property Sales Management',
-    'version': '19.0.0.5.5',
+    'version': '19.0.0.5.6',
     'category': 'Property Management',
     'sequence': 1,
     'website': 'https://www.alhodood.com/',
